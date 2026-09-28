@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revision Kubernetes - R5A-09</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #111827;
+      --border: #1f2937;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --primary: #38bdf8;
+      --primary-hover: #0284c7;
+      --success: #10b981;
+      --error: #ef4444;
+      --code-bg: #030712;
+      --tag-bg: #1e293b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 16px;
+    }
+
+    .wrapper {
+      max-width: 950px;
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    p.desc {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 4px;
+    }
+
+    nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    nav button {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px 14px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    nav button.active {
+      color: var(--text);
+      border-color: var(--primary);
+      background: #0f172a;
+    }
+
+    .badge-counter {
+      background: var(--error);
+      color: white;
+      padding: 1px 6px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      margin-left: 4px;
+      display: none;
+    }
+
+    .tab {
+      display: none;
+    }
+
+    .tab.active {
+      display: block;
+    }
+
+    .panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .btn-small {
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 4px 8px;
+      border-radius: 3px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    .btn-small.active {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .stats-card {
+      display: flex;
+      gap: 20px;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
+
+    .question {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .q-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .q-tag {
+      background: var(--tag-bg);
+      color: var(--primary);
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    .q-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      white-space: pre-wrap;
+    }
+
+    .options {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .opt {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    .opt:hover {
+      border-color: #374151;
+    }
+
+    .opt.checked {
+      border-color: var(--primary);
+      background: rgba(56, 189, 248, 0.05);
+    }
+
+    .opt.correct-ans {
+      border-color: var(--success) !important;
+      background: rgba(16, 185, 129, 0.1) !important;
+    }
+
+    .opt.wrong-ans {
+      border-color: var(--error) !important;
+      background: rgba(239, 68, 68, 0.1) !important;
+    }
+
+    .btn-act {
+      background: var(--primary);
+      color: #030712;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 3px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn-act:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-act:disabled {
+      background: var(--border);
+      color: var(--text-muted);
+      cursor: not-allowed;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .btn-outline:hover {
+      color: var(--text);
+      border-color: #4b5563;
+    }
+
+    .explanation {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      display: none;
+      border-left: 3px solid transparent;
+    }
+
+    .explanation.ok {
+      display: block;
+      background: rgba(16, 185, 129, 0.08);
+      border-color: var(--success);
+      color: #a7f3d0;
+    }
+
+    .explanation.bad {
+      display: block;
+      background: rgba(239, 68, 68, 0.08);
+      border-color: var(--error);
+      color: #fca5a5;
+    }
+
+    pre, code {
+      color: #e0e7ff;
+      background: var(--code-bg);
+    }
+
+    pre {
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow-x: auto;
+      margin: 8px 0;
+      font-size: 0.8rem;
+    }
+
+    code {
+      padding: 1px 4px;
+      border-radius: 2px;
+      font-size: 0.8rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      margin: 10px 0;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      text-align: left;
+    }
+
+    th {
+      background: var(--code-bg);
+      color: var(--primary);
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      color: var(--primary);
+      margin: 16px 0 8px 0;
+    }
+
+    h3 {
+      font-size: 0.95rem;
+      margin: 12px 0 6px 0;
+      color: #e2e8f0;
+    }
+
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 8px;
+      font-size: 0.85rem;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    #exam-timer {
+      font-weight: 700;
+      color: #f59e0b;
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+  <header>
+    <h1>Kubernetes - R5A-09 Virtualisation Avancee</h1>
+    <p class="desc">Entrainement avance, pieges de syntaxe, examen chronometre et analyse des lacunes.</p>
+  </header>
+
+  <nav>
+    <button class="active" onclick="showTab('entrainement')">Entrainement libre</button>
+    <button onclick="showTab('examen')">Mode Examen</button>
+    <button onclick="showTab('lacunes')">Bac a lacunes <span id="lacunes-badge" class="badge-counter">0</span></button>
+    <button onclick="showTab('cours')">Aide-memoire &amp; Cours</button>
+  </nav>
+
+  <!-- ONGLET 1: ENTRAINEMENT -->
+  <div id="tab-entrainement" class="tab active">
+    <div class="toolbar">
+      <div class="filter-group">
+        <button class="btn-small active" onclick="setFilter('all', this)">Tous (<span id="count-all">0</span>)</button>
+        <button class="btn-small" onclick="setFilter('env', this)">Env &amp; Reseau</button>
+        <button class="btn-small" onclick="setFilter('pod', this)">Pods</button>
+        <button class="btn-small" onclick="setFilter('rs', this)">ReplicaSet</button>
+        <button class="btn-small" onclick="setFilter('deploy', this)">Deployment</button>
+      </div>
+      <div class="stats-card">
+        <span>Validees : <strong id="stat-done">0</strong></span>
+        <span>Reussite : <strong id="stat-score">0%</strong></span>
+        <button class="btn-outline" style="padding: 2px 6px; font-size: 0.75rem;" onclick="resetProgress()">Reinitialiser</button>
+      </div>
+    </div>
+    <div id="questions-box"></div>
+  </div>
+
+  <!-- ONGLET 2: EXAMEN -->
+  <div id="tab-examen" class="tab">
+    <div class="panel">
+      <h2>Simulation Examen</h2>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+        20 questions tirees aleatoirement. Chronometre actif (20 minutes). 
+        Aucune correction immediate : note calculee et lacunes enregistrees a la soumission.
+      </p>
+      <div style="display:flex; gap:12px; align-items:center;">
+        <button class="btn-act" id="btn-start-exam" onclick="startExam()">Lancer l'epreuve</button>
+        <span id="exam-timer" style="display:none;">Temps restant : 20:00</span>
+        <button class="btn-act" id="btn-submit-exam" style="display:none; background: var(--success);" onclick="submitExam()">Terminer et noter</button>
+      </div>
+    </div>
+    <div id="exam-score-panel" style="display:none;" class="panel"></div>
+    <div id="exam-questions-box"></div>
+  </div>
+
+  <!-- ONGLET 3: LACUNES -->
+  <div id="tab-lacunes" class="tab">
+    <div class="panel">
+      <h2>Questions non maitrisees</h2>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px;">
+        Chaque erreur commise en entrainement ou examen atterrit ici. Revalider une question sans faute la supprime de la pile.
+      </p>
+      <button class="btn-outline" onclick="clearAllLacunes()">Purger toutes les lacunes</button>
+    </div>
+    <div id="lacunes-box"></div>
+  </div>
+
+  <!-- ONGLET 4: COURS SYNTHETIQUE -->
+  <div id="tab-cours" class="tab">
+    <div class="panel">
+      <h2>1. Environnement Labs et Variables</h2>
+      <table>
+        <tr><th>Composant</th><th>Chemin / Commande</th><th>Description</th></tr>
+        <tr><td>Script d'activation</td><td><code>source labs-config.sh</code></td><td>Exporte les variables <code>KUBECONFIG</code>. A executer dans chaque terminal.</td></tr>
+        <tr><td>Certificats du cluster</td><td><code>labs-config.conf</code></td><td>Stocke les tokens et certificats d'acces TLS.</td></tr>
+        <tr><td>Autorisations IP</td><td>10.2 / Eduroam / View-linux</td><td>Le cluster labs rejette les IP publiques directes sans rebond.</td></tr>
+        <tr><td>Outil d'observation</td><td><code>k9s</code></td><td>Interface terminal (TUI) open-source sous licence Apache v2.0.</td></tr>
+      </table>
+
+      <h2>2. Pods : Syntax &amp; Comportement</h2>
+      <pre><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+  namespace: ns-llaula
+  labels:
+    app: nginx
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx</code></pre>
+      <ul>
+        <li><strong>Cycle de vie :</strong> <code>Pending</code> (attente de placement node/recuperation image) &rarr; <code>Running</code> (au moins un conteneur tourne) &rarr; <code>Succeeded</code> / <code>Failed</code>.</li>
+        <li><strong>Conteneurs multiples :</strong> Partagent l'IP, le localhost (conflit si meme port) et les volumes.</li>
+        <li><strong>Commandes cles :</strong>
+          <ul>
+            <li>Extraire un champ specifique : <code>kubectl get pod &lt;nom&gt; -o jsonpath='{.spec.containers[*].name}'</code></li>
+            <li>Executer sans shell externe : <code>kubectl exec -it &lt;nom&gt; -n &lt;ns&gt; -- hostname</code></li>
+            <li>Lister tous les namespaces : <code>kubectl get pods -A</code> (syntaxe <code>-ALL</code> ou <code>-n all</code> invalide).</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h2>3. ReplicaSet : Reconciliation &amp; Selecteurs</h2>
+      <pre><code>apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: rs-nginx
+  namespace: ns-llaula
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx</code></pre>
+      <ul>
+        <li><strong>Decouplage strict :</strong> Le ReplicaSet ne sait pas d'ou vient un pod. Il match uniquement via <code>matchLabels</code>.</li>
+        <li><strong>Excedent de pods :</strong> Si 3 sont demandes et qu'un pod orphelin avec les memes labels est cree, le total passe a 4. Le controlleur passe un pod en <code>Terminating</code> immediatement.</li>
+        <li><strong>Pod tue manuellement :</strong> Le controlleur observe l'ecart (2 presents vs 3 requis) et planifie un nouveau pod (<code>Pending</code> &rarr; <code>ContainerCreating</code> &rarr; <code>Running</code>).</li>
+        <li><strong>Echelle dynamique :</strong> <code>kubectl scale rs rs-nginx --replicas=4 -n ns-llaula</code>.</li>
+      </ul>
+
+      <h2>4. Deployments : Gestion des Versions</h2>
+      <pre><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dep-nginx
+  namespace: ns-llaula
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80</code></pre>
+      <ul>
+        <li><strong>Hierarchie :</strong> <code>Deployment</code> &rarr; cree et controle des <code>ReplicaSets</code> &rarr; creent et controlent des <code>Pods</code>.</li>
+        <li><strong>Mise a jour d'image :</strong> <code>kubectl set image deployment/dep-nginx nginx=nginx:1.16.1 -n ns-llaula</code>.</li>
+        <li><strong>Erreur d'image (ex: <code>nginx:1.161</code>) :</strong> Le nouveau ReplicaSet cree un pod qui passe en erreur (<code>ImagePullBackOff</code>). L'ancien ReplicaSet n'est pas supprime et conserve ses pods actifs pour eviter toute coupure.</li>
+        <li><strong>Historique et Rollback :</strong>
+          <ul>
+            <li>Voir les revisions : <code>kubectl rollout history deployment/dep-nginx -n ns-llaula</code></li>
+            <li>Retour arriere : <code>kubectl rollout undo deployment/dep-nginx --to-revision=1 -n ns-llaula</code></li>
+            <li>Statut en temps reel : <code>kubectl rollout status deployment/dep-nginx -n ns-llaula</code></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const DB = [
+  {
+    id: 1,
+    cat: "env",
+    type: "single",
+    q: "Dans l'environnement de TP, a quoi sert exactement le fichier labs-config.sh ?",
+    opts: [
+      "A installer les binaires kubectl et k9s dans /usr/local/bin",
+      "A initialiser la base de donnees etcd locale",
+      "A exporter les variables d'environnement, notamment KUBECONFIG, pour cibler le cluster",
+      "A compiler le noyau Linux pour autoriser la virtualisation imbriquee"
+    ],
+    ans: [2],
+    exp: "labs-config.sh declare la variable KUBECONFIG pointant sur labs-config.conf. Sans lui, kubectl cherche par defaut ~/.kube/config."
+  },
+  {
+    id: 2,
+    cat: "env",
+    type: "single",
+    q: "Ou le binaire kubectl va-t-il chercher sa configuration d'authentification s'il n'y a aucun argument en ligne de commande ni variable specifique ?",
+    opts: [
+      "/etc/kubernetes/admin.conf",
+      "$HOME/.kube/config",
+      "/var/run/secrets/kubernetes.io/serviceaccount",
+      "./labs-config.conf"
+    ],
+    ans: [1],
+    exp: "Par defaut, kubectl charge le fichier de configuration situe dans $HOME/.kube/config."
+  },
+  {
+    id: 3,
+    cat: "env",
+    type: "multiple",
+    q: "Quels reseaux autorisent l'acces au plan de controle du cluster Kubernetes de l'IUT ? (Plusieurs reponses)",
+    opts: [
+      "Le reseau etudiant local (10.2.x.x)",
+      "Le reseau Wi-Fi eduroam",
+      "N'importe quelle adresse IPv4 externe sans authentification",
+      "Une machine virtuelle view-linux fournie par le departement"
+    ],
+    ans: [0, 1, 3],
+    exp: "L'acces direct sans VPN depuis l'exterieur est refuse. Seuls le reseau etudiant, eduroam et view-linux sont autorises."
+  },
+  {
+    id: 4,
+    cat: "env",
+    type: "single",
+    q: "Qu'est-ce que l'utilitaire k9s mis a disposition dans le dossier labs-config ?",
+    opts: [
+      "Un plugin kubectl permettant de convertir du docker-compose en manifestes Kubernetes",
+      "Une interface terminal (TUI) facilitant l'observation et la gestion en temps reel du cluster",
+      "Un serveur DNS embarque servant a resoudre les pods en interne",
+      "Un outil de scanning statique de failles dans les images Docker"
+    ],
+    ans: [1],
+    exp: "k9s est un outil open-source sous licence Apache v2.0 fournissant une interface TUI textuelle pour interagir avec le cluster."
+  },
+  {
+    id: 5,
+    cat: "env",
+    type: "single",
+    q: "Quelle commande permet de diagnostiquer et d'extraire l'integralite des informations de debug du cluster ?",
+    opts: [
+      "kubectl cluster-info dump",
+      "kubectl debug cluster --all",
+      "kubectl get events --system",
+      "kubectl logs -n kube-system control-plane"
+    ],
+    ans: [0],
+    exp: "Le retour direct de 'kubectl cluster-info' indique explicitement : To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'."
+  },
+  {
+    id: 6,
+    cat: "pod",
+    type: "single",
+    q: "Quelle version d'API doit obligatoirement figurer dans un manifeste de Pod brut ?",
+    opts: [
+      "apiVersion: apps/v1",
+      "apiVersion: v1",
+      "apiVersion: core/v1",
+      "apiVersion: pods/v1"
+    ],
+    ans: [1],
+    exp: "Les Pods appartiennent au groupe de base (core), note directement 'apiVersion: v1'. 'apps/v1' concerne ReplicaSets et Deployments."
+  },
+  {
+    id: 7,
+    cat: "pod",
+    type: "multiple",
+    q: "Dans un Pod contenant deux conteneurs distincts, que partagent-ils systematiquement ? (Plusieurs reponses)",
+    opts: [
+      "La meme adresse IP et le reseau localhost",
+      "L'espace de stockage racine (root filesystem)",
+      "Les volumes de stockage explicitement montes",
+      "Les variables d'environnement systeme"
+    ],
+    ans: [0, 2],
+    exp: "Ils partagent le namespace reseau (IP commune, communication via localhost) et les volumes montes. Le filesystem racine reste separe."
+  },
+  {
+    id: 8,
+    cat: "pod",
+    type: "single",
+    q: "Deux conteneurs places dans le meme Pod tentent d'ecouter tous les deux sur le port 8080. Que se produit-il ?",
+    opts: [
+      "Kubernetes effectue automatiquement un load-balancing entre les deux",
+      "Le premier demarre, le second echoue par conflit de port reseau (Address already in use)",
+      "Kubernetes assigne une seconde IP interne au deuxieme conteneur",
+      "Les deux conteneurs fusionnent leurs flux stdout"
+    ],
+    ans: [1],
+    exp: "Partageant l'interface localhost, un conflit de port est analogue a deux processus ecoutant sur le meme port sur une meme machine."
+  },
+  {
+    id: 9,
+    cat: "pod",
+    type: "single",
+    q: "Comment deux conteneurs d'un MEME Pod communiquent-ils entre eux au niveau reseau ?",
+    opts: [
+      "En requetant le CoreDNS via le nom du service",
+      "En utilisant l'adresse IP externe du Node",
+      "En utilisant directement l'adresse 127.0.0.1 (localhost)",
+      "Ce type de communication est bloque par le NetworkPolicy par defaut"
+    ],
+    ans: [2],
+    exp: "L'intra-pod communication se fait directement sur localhost via les ports respectifs des conteneurs."
+  },
+  {
+    id: 10,
+    cat: "pod",
+    type: "single",
+    q: "Quelle commande permet d'obtenir uniquement les noms de tous les conteneurs d'un Pod donne sans afficher le reste ?",
+    opts: [
+      "kubectl get pod mon-pod -o jsonpath='{.spec.containers[*].name}'",
+      "kubectl get pod mon-pod --containers",
+      "kubectl describe pod mon-pod | grep 'Containers:'",
+      "kubectl extract mon-pod --field=container.name"
+    ],
+    ans: [0],
+    exp: "jsonpath='{.spec.containers[*].name}' permet de boucler sur le tableau 'containers' de la spec et de retourner le champ 'name'."
+  },
+  {
+    id: 11,
+    cat: "pod",
+    type: "single",
+    q: "Quelle commande permet d'obtenir le hostname assigne a l'interieur du conteneur sans entrer dans un shell interactif ?",
+    opts: [
+      "kubectl get hostname mon-pod",
+      "kubectl exec -it mon-pod -n mon-ns -- hostname",
+      "kubectl describe mon-pod | grep Hostname",
+      "kubectl run hostname --attach mon-pod"
+    ],
+    ans: [1],
+    exp: "Le separateur '--' permet de passer une commande a executer directement dans le conteneur du Pod."
+  },
+  {
+    id: 12,
+    cat: "pod",
+    type: "single",
+    q: "Que renvoie la commande 'kubectl get pods -l app=nginx -n all' ?",
+    opts: [
+      "La liste des pods nginx presents dans l'integralite du cluster",
+      "Une erreur indiquant que le namespace 'all' n'a pas ete trouve",
+      "Uniquement les pods presents dans default",
+      "Tous les pods dont le label est different de app=nginx"
+    ],
+    ans: [1],
+    exp: "Le TP montre precisement : 'No resources found in all namespace'. Le parametre '-n all' recherche un namespace litteralement nomme 'all'."
+  },
+  {
+    id: 13,
+    cat: "pod",
+    type: "multiple",
+    q: "Quelles sont les syntaxes valides pour lister les pods sur TOUS les namespaces ? (Plusieurs reponses)",
+    opts: [
+      "kubectl get pods -A",
+      "kubectl get pods --all-namespaces",
+      "kubectl get pods -n *",
+      "kubectl get pods -ALL"
+    ],
+    ans: [0, 1],
+    exp: "Seuls '-A' et '--all-namespaces' sont normalises dans kubectl. Les options '-ALL' ou '-n *' sont invalides."
+  },
+  {
+    id: 14,
+    cat: "pod",
+    type: "multiple",
+    q: "Quels sont les statuts valides d'un Pod dans son cycle de vie (Pod Phase) ? (Plusieurs reponses)",
+    opts: [
+      "Pending",
+      "Running",
+      "Succeeded",
+      "Failed",
+      "Terminated"
+    ],
+    ans: [0, 1, 2, 3],
+    exp: "Les phases officielles d'un Pod sont Pending, Running, Succeeded, Failed, Unknown. Terminated est un etat de conteneur, pas une phase de Pod."
+  },
+  {
+    id: 15,
+    cat: "pod",
+    type: "single",
+    q: "Quel type de conteneur special peut etre execute a l'initialisation du Pod avant le demarrage des conteneurs applicatifs ?",
+    opts: [
+      "Pre-Container",
+      "Bootstrap Container",
+      "Init Container",
+      "Static Container"
+    ],
+    ans: [2],
+    exp: "Le cours precise : 'As well as application containers, a Pod can contain init containers that run during Pod startup'."
+  },
+  {
+    id: 16,
+    cat: "rs",
+    type: "single",
+    q: "Quelle est l'apiVersion utilisee pour declarer un ReplicaSet ?",
+    opts: [
+      "v1",
+      "core/v1",
+      "apps/v1",
+      "extensions/v1beta1"
+    ],
+    ans: [2],
+    exp: "Le ReplicaSet est gere par le groupe d'API 'apps/v1'."
+  },
+  {
+    id: 17,
+    cat: "rs",
+    type: "single",
+    q: "Sur quel critere exclusif le ReplicaSet associe-t-il les pods qu'il supervise ?",
+    opts: [
+      "Le prefixe du nom du Pod dans metadata.name",
+      "Les labels declares dans son spec.selector.matchLabels",
+      "L'adresse IP et le Node sur lequel le pod est instancie",
+      "L'UID du compte de service createur"
+    ],
+    ans: [1],
+    exp: "Le ReplicaSet identifie ses pods uniquement par leurs labels. Il ignore qui les a crees ou leur nom individuel."
+  },
+  {
+    id: 18,
+    cat: "rs",
+    type: "single",
+    q: "Un ReplicaSet possede replicas: 3 avec selector app=nginx. Vous creez independamment un Pod isole avec label app=nginx. Que se passe-t-il ?",
+    opts: [
+      "Le pod est rejete avec le statut AlreadyOwnedException",
+      "Le ReplicaSet scale automatiquement son spec.replicas a 4",
+      "Le ReplicaSet detecte 4 pods eligibles, considere l'excedent et supprime un pod",
+      "Le nouveau pod reste actif sans controleur"
+    ],
+    ans: [2],
+    exp: "Le controleur surveille la consigne (3). Detectant 4 pods possedant l'etiquette, il supprime un pod pour retablir la cible."
+  },
+  {
+    id: 19,
+    cat: "rs",
+    type: "single",
+    q: "Dans un terminal surveille par 'kubectl get pods -w', que constate-t-on a la suppression manuelle d'un pod gere par un ReplicaSet ?",
+    opts: [
+      "Le pod passe en Terminating, puis un nouveau pod apparait en Pending -> ContainerCreating -> Running",
+      "Le statut passe definitivement a Completed sans nouvel arrivant",
+      "Le ReplicaSet s'arrete et le terminal ne recoit plus d'evenement",
+      "Le pod supprimé redémarre instantanement sans changer d'identifiant"
+    ],
+    ans: [0],
+    exp: "Le pod detruit passe en Terminating. Pour compenser, le controleur genere un nouveau pod avec un identifiant neuf (Pending -> Running)."
+  },
+  {
+    id: 20,
+    cat: "rs",
+    type: "single",
+    q: "Quelle commande permet de porter le nombre de repliques d'un ReplicaSet 'rs-nginx' de 3 a 4 sans modifier le fichier YAML ?",
+    opts: [
+      "kubectl update rs rs-nginx --set-replicas=4",
+      "kubectl scale rs rs-nginx --replicas=4 -n ns-llaula",
+      "kubectl modify rs rs-nginx -count 4",
+      "kubectl patch rs-nginx --target 4"
+    ],
+    ans: [1],
+    exp: "La syntaxe kubectl officielle pour reajuster a chaud est : kubectl scale rs <nom> --replicas=N."
+  },
+  {
+    id: 21,
+    cat: "rs",
+    type: "single",
+    q: "Que se produit-il sur les Pods associes lorsque vous executez 'kubectl delete rs rs-nginx -n ns-llaula' ?",
+    opts: [
+      "Les Pods deviennent des pods orphelins autonomes et continuent de tourner",
+      "Le ReplicaSet et l'integralite des pods sous sa gestion sont supprimes en cascade",
+      "La commande echoue car des pods sont encore actifs",
+      "Les pods sont convertis automatiquement en Deployment"
+    ],
+    ans: [1],
+    exp: "Par defaut, Kubernetes effectue une suppression en cascade : supprimer l'objet controleur supprime les pods gerés."
+  },
+  {
+    id: 22,
+    cat: "rs",
+    type: "single",
+    q: "Si un ReplicaSet est defini avec replicas: 1, quelle garantie technique apporte-t-il ?",
+    opts: [
+      "Il empeche le conteneur de depasser 1 CPU",
+      "Il garantit qu'un pod reste disponible en permanence en cas de defaillance ou suppression",
+      "Il interdit le deploiement d'autres pods dans le meme namespace",
+      "Il n'apporte aucune valeur ajoutee par rapport a un Pod brut"
+    ],
+    ans: [1],
+    exp: "Le support du cours specifie : 'Creating a ReplicaSet with count of 1 ensure that a pod is always available'."
+  },
+  {
+    id: 23,
+    cat: "deploy",
+    type: "single",
+    q: "Quelle est la hierarchie d'orchestration exacte dans Kubernetes ?",
+    opts: [
+      "Pod -> ReplicaSet -> Deployment",
+      "ReplicaSet -> Deployment -> Pod",
+      "Deployment -> ReplicaSet -> Pod",
+      "Deployment -> Pod -> ReplicaSet"
+    ],
+    ans: [2],
+    exp: "Le Deployment gere la mise a jour declarative des ReplicaSets, qui a leur tour instancient et maintiennent les Pods."
+  },
+  {
+    id: 24,
+    cat: "deploy",
+    type: "single",
+    q: "A la creation d'un Deployment nomme 'dep-nginx', quel nom prend le ReplicaSet cree par ce Deployment ?",
+    opts: [
+      "rs-nginx",
+      "dep-nginx-<hash>",
+      "replica-dep-nginx-01",
+      "dep-nginx-default"
+    ],
+    ans: [1],
+    exp: "Kubernetes assigne au ReplicaSet le nom du Deployment suivi du hash de la specification du pod template (ex: dep-nginx-6c5f67b5f7)."
+  },
+  {
+    id: 25,
+    cat: "deploy",
+    type: "single",
+    q: "Quelle commande est appliquee pour changer l'image du conteneur 'nginx' vers la version '1.16.1' dans un deploiement ?",
+    opts: [
+      "kubectl upgrade deployment dep-nginx --image=nginx:1.16.1",
+      "kubectl set image deployment/dep-nginx nginx=nginx:1.16.1 -n ns-llaula",
+      "kubectl change image dep-nginx to nginx:1.16.1",
+      "kubectl set container dep-nginx image=nginx:1.16.1"
+    ],
+    ans: [1],
+    exp: "La syntaxe rigoureuse est : kubectl set image deployment/<nom-deploy> <nom-conteneur>=<image:tag>."
+  },
+  {
+    id: 26,
+    cat: "deploy",
+    type: "single",
+    q: "Une mise a jour indique une image inexistante (ex: nginx:1.161). Que se passe-t-il pour le trafic de l'application ?",
+    opts: [
+      "Tous les pods sont detruits aussitot, le service est coupe",
+      "L'ancien ReplicaSet maintient ses pods actifs : le service n'est pas interrompu tant que les nouveaux pods ne sont pas 'Ready'",
+      "Kubernetes annule automatiquement la requete et repasse sur l'image 1.14.2",
+      "Le cluster s'eteint par securite"
+    ],
+    ans: [1],
+    exp: "Dans un RollingUpdate, un ancien pod n'est supprime que lorsque le pod de remplacement passe au statut pret. Il n'y a donc pas coupure."
+  },
+  {
+    id: 27,
+    cat: "deploy",
+    type: "single",
+    q: "Quelle commande permet de suivre en direct l'avancement d'un deploiement apres un changement d'image ?",
+    opts: [
+      "kubectl rollout status deployment/dep-nginx -n ns-llaula",
+      "kubectl deploy check dep-nginx",
+      "kubectl watch deployment dep-nginx",
+      "kubectl trace deployment dep-nginx"
+    ],
+    ans: [0],
+    exp: "'kubectl rollout status' bloque le shell et affiche la progression de transition des pods jusqu'au statut complet."
+  },
+  {
+    id: 28,
+    cat: "deploy",
+    type: "single",
+    q: "Quelle commande permet d'annuler une mise a jour defaillante et revenir explicitement a la revision 2 ?",
+    opts: [
+      "kubectl rollout undo deployment/dep-nginx --to-revision=2 -n ns-llaula",
+      "kubectl rollback deployment dep-nginx -v 2",
+      "kubectl revert deployment dep-nginx --target=2",
+      "kubectl deployment restore 2 -n ns-llaula"
+    ],
+    ans: [0],
+    exp: "La commande de rollback de Kubernetes s'articule via 'kubectl rollout undo' avec le flag '--to-revision'."
+  },
+  {
+    id: 29,
+    cat: "deploy",
+    type: "multiple",
+    q: "Quelles fonctionnalites sont apportees par un Deployment par rapport a un ReplicaSet nu ? (Plusieurs reponses)",
+    opts: [
+      "Mises a jour declaratives progressives (Rolling Update)",
+      "Possibilite de retour arriere (Rollback) via historique des revisions",
+      "Mise en pause et reprise du deploiement (Pause and Resume)",
+      "Creation d'adresses IP publiques automatiques sans passerelle"
+    ],
+    ans: [0, 1, 2],
+    exp: "Le support TP liste specifiquement : Multiple Replicas, Upgrade, Rollback, Scale up or down, Pause and Resume."
+  },
+  {
+    id: 30,
+    cat: "deploy",
+    type: "single",
+    q: "Lors de l'application d'un fichier avec kubectl apply -f dep-nginx.yaml --record=true, quel avertissement renvoie Kubernetes ?",
+    opts: [
+      "Warning: Deployment is using deprecated ports",
+      "Flag --record has been deprecated, --record will be removed in the future",
+      "Warning: Replica count cannot be defined in v1",
+      "Alert: Namespace should be explicit in CLI"
+    ],
+    ans: [1],
+    exp: "Visible directement dans les traces fournies : 'Flag --record has been deprecated, --record will be removed in the future'."
+  },
+  {
+    id: 31,
+    cat: "pod",
+    type: "single",
+    q: "Quelle commande fournit le statut des conteneurs, les adresses IP internes et la liste chronologique des Events recents d'un Pod ?",
+    opts: [
+      "kubectl get pod <nom> -o summary",
+      "kubectl describe pod <nom> -n <ns>",
+      "kubectl log pod <nom> --all",
+      "kubectl inspect <nom>"
+    ],
+    ans: [1],
+    exp: "'kubectl describe' agrege les informations structurelles de l'objet et ses evenements (Pulling, Pulled, Created, Started, Failed)."
+  },
+  {
+    id: 32,
+    cat: "rs",
+    type: "single",
+    q: "Que se passe-t-il si le 'selector.matchLabels' d'un ReplicaSet ne correspond pas aux labels definis dans son 'template.metadata.labels' ?",
+    opts: [
+      "Le ReplicaSet selectionnera les pods d'un autre namespace",
+      "La creation du ReplicaSet est rejetee avec une erreur de validation",
+      "Le ReplicaSet tourne mais n'aura aucun replica cree",
+      "Le template prend automatiquement les labels du selector"
+    ],
+    ans: [1],
+    exp: "Kubernetes refuse la validation : les labels du template de pod doivent obligatoirement satisfaire le selecteur du controleur."
+  }
+];
+
+let activeFilter = 'all';
+let userProgress = JSON.parse(localStorage.getItem('k8s_user_progress') || '{}');
+let lacunes = JSON.parse(localStorage.getItem('k8s_lacunes') || '[]');
+
+let examActive = false;
+let examTimerInterval = null;
+let examTimeLeft = 20 * 60;
+let examQuestions = [];
+let examAnswers = {};
+
+function saveStorage() {
+  localStorage.setItem('k8s_user_progress', JSON.stringify(userProgress));
+  localStorage.setItem('k8s_lacunes', JSON.stringify(lacunes));
+  updateBadgesAndCounters();
+}
+
+function updateBadgesAndCounters() {
+  document.getElementById('count-all').textContent = DB.length;
+  const lBadge = document.getElementById('lacunes-badge');
+  if (lacunes.length > 0) {
+    lBadge.style.display = 'inline-block';
+    lBadge.textContent = lacunes.length;
+  } else {
+    lBadge.style.display = 'none';
+  }
+
+  let done = 0;
+  let correct = 0;
+  Object.keys(userProgress).forEach(id => {
+    const item = userProgress[id];
+    if (item.validated) {
+      done++;
+      if (item.isCorrect) correct++;
+    }
+  });
+
+  document.getElementById('stat-done').textContent = `${done} / ${DB.length}`;
+  const rate = done > 0 ? Math.round((correct / done) * 100) : 0;
+  document.getElementById('stat-score').textContent = `${rate}%`;
+}
+
+function showTab(tabId) {
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+
+  if (tabId === 'entrainement') {
+    document.querySelector('nav button:nth-child(1)').classList.add('active');
+    document.getElementById('tab-entrainement').classList.add('active');
+    renderQuestions();
+  } else if (tabId === 'examen') {
+    document.querySelector('nav button:nth-child(2)').classList.add('active');
+    document.getElementById('tab-examen').classList.add('active');
+  } else if (tabId === 'lacunes') {
+    document.querySelector('nav button:nth-child(3)').classList.add('active');
+    document.getElementById('tab-lacunes').classList.add('active');
+    renderLacunes();
+  } else if (tabId === 'cours') {
+    document.querySelector('nav button:nth-child(4)').classList.add('active');
+    document.getElementById('tab-cours').classList.add('active');
+  }
+}
+
+function setFilter(cat, btn) {
+  activeFilter = cat;
+  document.querySelectorAll('.filter-group .btn-small').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderQuestions();
+}
+
+function buildQuestionDOM(q, state, onToggle, onValidate, isExam = false) {
+  const qDiv = document.createElement('div');
+  qDiv.className = 'question';
+  qDiv.id = `q-${q.id}`;
+
+  const meta = document.createElement('div');
+  meta.className = 'q-meta';
+  meta.innerHTML = `
+    <span class="q-tag">${q.cat.toUpperCase()}</span>
+    <span>Question #${q.id} &bull; ${q.type === 'multiple' ? 'Choix multiples' : 'Choix unique'}</span>
+  `;
+  qDiv.appendChild(meta);
+
+  const title = document.createElement('div');
+  title.className = 'q-title';
+  title.textContent = q.q;
+  qDiv.appendChild(title);
+
+  const ul = document.createElement('ul');
+  ul.className = 'options';
+
+  const userSelected = state.selected || [];
+  const isValidated = !isExam && state.validated;
+
+  q.opts.forEach((optText, idx) => {
+    const li = document.createElement('li');
+    li.className = 'opt';
+    const isChecked = userSelected.includes(idx);
+    if (isChecked) li.classList.add('checked');
+
+    if (isValidated) {
+      if (q.ans.includes(idx)) {
+        li.classList.add('correct-ans');
+      } else if (isChecked && !q.ans.includes(idx)) {
+        li.classList.add('wrong-ans');
+      }
+    }
+
+    const input = document.createElement('input');
+    input.type = q.type === 'multiple' ? 'checkbox' : 'radio';
+    input.name = `opt_${q.id}_${isExam ? 'exam' : 'drill'}`;
+    input.checked = isChecked;
+    input.disabled = isValidated;
+
+    const span = document.createElement('span');
+    span.textContent = optText;
+
+    li.appendChild(input);
+    li.appendChild(span);
+
+    li.onclick = (e) => {
+      if (isValidated) return;
+      onToggle(q.id, idx, q.type === 'multiple');
+    };
+
+    ul.appendChild(li);
+  });
+  qDiv.appendChild(ul);
+
+  if (!isExam) {
+    const btnVal = document.createElement('button');
+    btnVal.className = 'btn-act';
+    btnVal.textContent = isValidated ? 'Valide' : 'Valider la reponse';
+    btnVal.disabled = isValidated || userSelected.length === 0;
+    btnVal.onclick = () => onValidate(q.id);
+    qDiv.appendChild(btnVal);
+
+    if (isValidated) {
+      const exp = document.createElement('div');
+      exp.className = `explanation ${state.isCorrect ? 'ok' : 'bad'}`;
+      exp.innerHTML = `<strong>${state.isCorrect ? '[Exact]' : '[Faux]'}</strong> ${q.exp}`;
+      qDiv.appendChild(exp);
+    }
+  }
+
+  return qDiv;
+}
+
+function handleToggle(qId, optIdx, isMultiple) {
+  if (!userProgress[qId]) {
+    userProgress[qId] = { selected: [], validated: false, isCorrect: false };
+  }
+  const item = userProgress[qId];
+  if (item.validated) return;
+
+  if (isMultiple) {
+    const pos = item.selected.indexOf(optIdx);
+    if (pos > -1) {
+      item.selected.splice(pos, 1);
+    } else {
+      item.selected.push(optIdx);
+    }
+  } else {
+    item.selected = [optIdx];
+  }
+  saveStorage();
+  refreshSingleQuestion(qId);
+}
+
+function handleValidate(qId) {
+  const item = userProgress[qId];
+  if (!item || item.selected.length === 0) return;
+
+  const q = DB.find(x => x.id === qId);
+  const user = [...item.selected].sort();
+  const correct = [...q.ans].sort();
+
+  const isOk = JSON.stringify(user) === JSON.stringify(correct);
+  item.validated = true;
+  item.isCorrect = isOk;
+
+  if (!isOk) {
+    if (!lacunes.includes(qId)) lacunes.push(qId);
+  } else {
+    const lIdx = lacunes.indexOf(qId);
+    if (lIdx > -1) lacunes.splice(lIdx, 1);
+  }
+
+  saveStorage();
+  refreshSingleQuestion(qId);
+  if (document.getElementById('tab-lacunes').classList.contains('active')) {
+    renderLacunes();
+  }
+}
+
+function refreshSingleQuestion(qId) {
+  const oldNode = document.getElementById(`q-${qId}`);
+  if (!oldNode) return;
+  const q = DB.find(x => x.id === qId);
+  const state = userProgress[qId] || { selected: [], validated: false, isCorrect: false };
+  const newNode = buildQuestionDOM(q, state, handleToggle, handleValidate, false);
+  oldNode.replaceWith(newNode);
+}
+
+function renderQuestions() {
+  const box = document.getElementById('questions-box');
+  box.innerHTML = '';
+
+  const list = DB.filter(item => {
+    if (activeFilter === 'all') return true;
+    return item.cat === activeFilter;
+  });
+
+  list.forEach(q => {
+    const state = userProgress[q.id] || { selected: [], validated: false, isCorrect: false };
+    box.appendChild(buildQuestionDOM(q, state, handleToggle, handleValidate, false));
+  });
+}
+
+function renderLacunes() {
+  const box = document.getElementById('lacunes-box');
+  box.innerHTML = '';
+
+  if (lacunes.length === 0) {
+    box.innerHTML = '<div class="panel" style="color: var(--success);">Aucune lacune enregistree. Toutes les questions tentees sont validees.</div>';
+    return;
+  }
+
+  lacunes.forEach(qId => {
+    const q = DB.find(x => x.id === qId);
+    if (!q) return;
+    const state = userProgress[qId] || { selected: [], validated: false, isCorrect: false };
+    box.appendChild(buildQuestionDOM(q, state, handleToggle, handleValidate, false));
+  });
+}
+
+function clearAllLacunes() {
+  lacunes = [];
+  saveStorage();
+  renderLacunes();
+}
+
+function resetProgress() {
+  userProgress = {};
+  saveStorage();
+  renderQuestions();
+}
+
+/* GESTION MODE EXAMEN */
+function startExam() {
+  examActive = true;
+  examAnswers = {};
+  examTimeLeft = 20 * 60;
+
+  // Tirage de 20 questions aleatoires
+  const shuffled = [...DB].sort(() => 0.5 - Math.random());
+  examQuestions = shuffled.slice(0, 20);
+
+  document.getElementById('btn-start-exam').style.display = 'none';
+  document.getElementById('btn-submit-exam').style.display = 'inline-block';
+  document.getElementById('exam-timer').style.display = 'inline-block';
+  document.getElementById('exam-score-panel').style.display = 'none';
+
+  clearInterval(examTimerInterval);
+  updateTimerDisplay();
+  examTimerInterval = setInterval(() => {
+    examTimeLeft--;
+    updateTimerDisplay();
+    if (examTimeLeft <= 0) {
+      clearInterval(examTimerInterval);
+      submitExam();
+    }
+  }, 1000);
+
+  renderExamQuestions();
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(examTimeLeft / 60);
+  const s = examTimeLeft % 60;
+  document.getElementById('exam-timer').textContent = `Temps restant : ${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+}
+
+function renderExamQuestions() {
+  const box = document.getElementById('exam-questions-box');
+  box.innerHTML = '';
+
+  examQuestions.forEach(q => {
+    const state = { selected: examAnswers[q.id] || [], validated: false };
+    box.appendChild(buildQuestionDOM(q, state, handleExamToggle, null, true));
+  });
+}
+
+function handleExamToggle(qId, optIdx, isMultiple) {
+  if (!examActive) return;
+  if (!examAnswers[qId]) examAnswers[qId] = [];
+
+  if (isMultiple) {
+    const pos = examAnswers[qId].indexOf(optIdx);
+    if (pos > -1) examAnswers[qId].splice(pos, 1);
+    else examAnswers[qId].push(optIdx);
+  } else {
+    examAnswers[qId] = [optIdx];
+  }
+
+  // Refresh simple dom
+  const oldNode = document.getElementById(`q-${qId}`);
+  if (oldNode) {
+    const q = DB.find(x => x.id === qId);
+    const state = { selected: examAnswers[qId] || [], validated: false };
+    oldNode.replaceWith(buildQuestionDOM(q, state, handleExamToggle, null, true));
+  }
+}
+
+function submitExam() {
+  examActive = false;
+  clearInterval(examTimerInterval);
+
+  document.getElementById('btn-start-exam').style.display = 'inline-block';
+  document.getElementById('btn-start-exam').textContent = 'Relancer un examen';
+  document.getElementById('btn-submit-exam').style.display = 'none';
+  document.getElementById('exam-timer').style.display = 'none';
+
+  let totalScore = 0;
+  const reviewBox = document.getElementById('exam-questions-box');
+  reviewBox.innerHTML = '';
+
+  examQuestions.forEach(q => {
+    const user = (examAnswers[q.id] || []).sort();
+    const correct = [...q.ans].sort();
+    const isOk = JSON.stringify(user) === JSON.stringify(correct);
+
+    if (isOk) {
+      totalScore++;
+    } else {
+      if (!lacunes.includes(q.id)) lacunes.push(q.id);
+    }
+
+    const state = { selected: user, validated: true, isCorrect: isOk };
+    reviewBox.appendChild(buildQuestionDOM(q, state, () => {}, () => {}, false));
+  });
+
+  saveStorage();
+
+  const scorePanel = document.getElementById('exam-score-panel');
+  scorePanel.style.display = 'block';
+  scorePanel.innerHTML = `
+    <h2>Resultat : ${totalScore} / 20 (${Math.round((totalScore / 20) * 100)}%)</h2>
+    <p style="font-size:0.85rem; color: var(--text-muted); margin-top: 4px;">
+      ${totalScore >= 10 ? 'Validation acquise.' : 'Echec sur cette serie.'} 
+      Les questions echouees ont ete injectees dans l'onglet <strong>Bac a lacunes</strong> pour revision ciblee.
+    </p>
+  `;
+}
+
+// Initialisation
+updateBadgesAndCounters();
+renderQuestions();
+</script>
+</body>
+</html>
