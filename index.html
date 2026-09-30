@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>K8s Exam Trainer Pro - R5A-09 VIRT5</title>
+  <title>K8s Exam Trainer Integrale - R5A-09 VIRT5</title>
   <style>
     :root {
       --bg: #090d16;
@@ -115,10 +115,9 @@
       display: block;
     }
 
-    /* Grids & Cards */
     .grid-cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
       gap: 16px;
     }
 
@@ -166,12 +165,12 @@
       font-size: 0.88rem;
     }
     ul.clean-list li::before {
-      content: "▪";
+      content: "-";
       color: var(--primary);
       position: absolute;
       left: 0;
       top: -2px;
-      font-size: 1.1rem;
+      font-weight: bold;
     }
 
     .hl {
@@ -195,7 +194,6 @@
       margin: 6px 0;
     }
 
-    /* QCM Styles */
     .quiz-layout {
       max-width: 800px;
       margin: 0 auto;
@@ -294,7 +292,6 @@
       color: #fca5a5;
     }
 
-    /* Confidence Selector */
     .conf-panel {
       background: rgba(5, 8, 15, 0.6);
       border: 1px dashed var(--surface-border);
@@ -364,7 +361,6 @@
       margin-bottom: 6px;
     }
 
-    /* Terminal Simulator */
     .terminal-window {
       background: var(--code-bg);
       border: 1px solid var(--surface-border);
@@ -372,15 +368,6 @@
       padding: 16px;
       margin-top: 12px;
     }
-    .term-header {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 12px;
-    }
-    .term-dot { width: 10px; height: 10px; border-radius: 50%; }
-    .term-dot.r { background: #ef4444; }
-    .term-dot.y { background: #f59e0b; }
-    .term-dot.g { background: #10b981; }
     .term-desc {
       font-size: 0.9rem;
       color: #e2e8f0;
@@ -423,15 +410,15 @@
   <header>
     <div class="header-container">
       <div class="title-group">
-        <h1>☸️ K8s Trainer Pro <span>R5A-09</span></h1>
-        <p>IUT La Rochelle • Préparation Évaluation Virt5</p>
+        <h1>K8s Exam Trainer Integrale <span>R5A-09</span></h1>
+        <p>IUT La Rochelle - Preparation Complete Virt5 (Cours 1, Cours 2, TP1, TP2)</p>
       </div>
       <nav>
-        <button class="nav-btn active" onclick="showTab('cours', this)">📖 Synthèse Cours</button>
-        <button class="nav-btn" onclick="showTab('terminal', this)">⌨️ Terminal Drill (12)</button>
-        <button class="nav-btn" onclick="showTab('quiz', this)">🎯 QCM Anti-Hasard (30)</button>
+        <button class="nav-btn active" onclick="showTab('cours', this)">Synthese Cours</button>
+        <button class="nav-btn" onclick="showTab('terminal', this)">Terminal Drill (14)</button>
+        <button class="nav-btn" onclick="showTab('quiz', this)">QCM Anti-Hasard (40)</button>
         <button class="nav-btn" onclick="showTab('lacunes', this)">
-          🛡️ Mes Lacunes <span id="lacunes-badge" class="badge-count">0</span>
+          Mes Lacunes <span id="lacunes-badge" class="badge-count">0</span>
         </button>
       </nav>
     </div>
@@ -439,107 +426,157 @@
 
   <main>
 
-    <!-- SECTION 1 : SYNTHÈSE COURS VISUELLE (TDAH-FRIENDLY) -->
+    <!-- SECTION 1 : SYNTHESE COURS (COMPLETE, SANS ANGLE MORT) -->
     <section id="tab-cours" class="tab-content active">
       <div class="grid-cards">
         
         <div class="card">
           <div class="card-header">
-            <span class="card-title">Linux & Conteneurs Bas Niveau</span>
-            <span class="tag tag-tp1">Fondamental</span>
+            <span class="card-title">Linux, Conteneurs & OCI</span>
+            <span class="tag tag-tp1">Cours 1</span>
           </div>
           <ul class="clean-list">
-            <li><strong>Namespaces (Isolation) :</strong>
-              <br>• <span class="hl">UTS</span> : nodename / hostname indépendant.
-              <br>• <span class="hl">PID</span> : PID 1 propre à chaque conteneur.
-              <br>• <span class="hl">Mount</span> : vue hiérarchique racine isolée.
-              <br>• <span class="hl">IPC</span> : mémoire partagée et sémaphores isolés.
+            <li><strong>Namespaces (Isolation logique) :</strong>
+              <br>- <span class="hl">UTS</span> : nodename et nom d'hôte isolés (uname/hostname).
+              <br>- <span class="hl">PID</span> : permet d'avoir un processus init propre (PID 1).
+              <br>- <span class="hl">Mount</span> : vue distincte de la hiérarchie du système de fichiers.
+              <br>- <span class="hl">IPC</span> : mémoire partagée et sémaphores isolés.
             </li>
-            <li><strong>Cgroups :</strong> Limitation matérielle stricte (CPU, RAM, I/O disque, bande passante réseau).</li>
-            <li><strong>Sécurité :</strong> SELinux (Mandatory Access Control) + Seccomp (filtre et bloque les appels système risqués).</li>
-            <li><strong>Podman vs Docker :</strong> Podman est <strong>daemonless</strong> (pas de processus centralisé `dockerd`), exécute directement via <strong>runC</strong> et supporte le mode rootless.</li>
+            <li><strong>Cgroups (Groupes de contrôle) :</strong> allocation et bridage matériel (CPU, RAM, bande passante réseau, I/O disque).</li>
+            <li><strong>Securite :</strong>
+              <br>- <strong>SELinux</strong> : contrôle d'accès obligatoire (MAC).
+              <br>- <strong>Seccomp</strong> : restriction des appels système noyau (le profil Docker désactive environ 44 appels système sur plus de 300).
+            </li>
+            <li><strong>Docker vs Podman :</strong> Podman est <strong>daemonless</strong> (sans démon résident, lancé directement par runC) et supporte le mode rootless. Docker dépend du démon central `dockerd`.</li>
           </ul>
         </div>
 
         <div class="card">
           <div class="card-header">
-            <span class="card-title">Architecture du Control Plane</span>
-            <span class="tag tag-tp1">Cœur K8s</span>
+            <span class="card-title">Control Plane & Kubeconfig</span>
+            <span class="tag tag-tp1">Cours 1</span>
           </div>
           <ul class="clean-list">
-            <li><strong>etcd :</strong> Magasin clé-valeur distribué, unique source de vérité. Algorithme de consensus <strong>RAFT</strong> (Leader, Follower, Candidat).</li>
-            <li><strong>API Server (kube-apiserver) :</strong> Point central d'accès REST (CRUD). <strong>Seul composant à communiquer avec etcd</strong>. Pipeline : Authentification ➔ Autorisation ➔ Contrôle d'admission.</li>
-            <li><strong>Scheduler :</strong> Associe les pods « non liés » aux worker nodes selon les ressources demandées, affinités et contraintes.</li>
-            <li><strong>Controller Manager :</strong> Boucle infinie de réconciliation : compare en continu <em>l'état réel</em> à <em>l'état désiré</em> et émet des ordres à l'API Server.</li>
-            <li><strong>Kubelet :</strong> Tourne sur chaque <strong>Worker Node</strong>, reçoit les instructions de l'API Server et pilote le runtime (CRI / runC).</li>
+            <li><strong>etcd & Consensus RAFT :</strong> magasin clé-valeur distribué, unique source de vérité. Trois rôles de nœud possibles : <span class="hl">Leader</span> (unique dans un cluster sain), <span class="hl">Follower</span>, et <span class="hl">Candidat</span> (état transitoire lors d'une élection).</li>
+            <li><strong>API Server (kube-apiserver) :</strong> point d'entrée unique REST (CRUD). <strong>Seul composant dialoguant directement avec etcd</strong>. Pipeline d'exécution : Authentification -> Autorisation -> Contrôle d'admission -> Validation.</li>
+            <li><strong>Scheduler :</strong> détecte les pods sans nœud et décide où les affecter selon les ressources, contraintes et affinités.</li>
+            <li><strong>Controller Manager :</strong> boucle continue de réconciliation (état réel = état désiré). Il délègue l'action à l'API Server sans toucher lui-même aux machines.</li>
+            <li><strong>Composants du Worker Node :</strong>
+              <br>- <span class="hl">Kubelet</span> : agent du nœud, reçoit les ordres de l'API Server et pilote le runtime local.
+              <br>- <span class="hl">cAdvisor</span> : collecte et agrège les métriques de consommation (CPU, RAM) des conteneurs.
+              <br>- <span class="hl">Kube-proxy</span> : configure les règles réseau locales pour les Services.
+            </li>
+            <li><strong>Fichier Kubeconfig :</strong> cherché par défaut dans <span class="hl">$HOME/.kube/config</span>. Modifiable via la variable d'environnement <span class="hl">KUBECONFIG</span> ou le drapeau <span class="hl">--kubeconfig</span>.</li>
           </ul>
         </div>
 
         <div class="card">
           <div class="card-header">
-            <span class="card-title">Pods & ReplicaSets (TP1)</span>
-            <span class="tag tag-trap">Pièges Examen</span>
+            <span class="card-title">Pods & Types de Workloads</span>
+            <span class="tag tag-tp1">Cours 2</span>
           </div>
           <ul class="clean-list">
             <li><strong>Cycle de vie du Pod :</strong>
-              <br>• <span class="hl">Pending</span> : pod accepté mais image en cours de pull ou en attente d'assignation nœud.
-              <br>• <span class="hl">Running</span> : assigné à un nœud et au moins un conteneur tourne.
-              <br>• <span class="hl">Succeeded</span> / <span class="hl">Failed</span> : terminé avec code 0 ou erreur/kill.
+              <br>- <span class="hl">Pending</span> : accepté par K8s, inclut le temps d'assignation et le téléchargement des images conteneur.
+              <br>- <span class="hl">Running</span> : assigné à un nœud et au moins un conteneur tourne ou démarre.
+              <br>- <span class="hl">Succeeded</span> : conteneurs terminés avec succès (code retour 0), aucun redémarrage.
+              <br>- <span class="hl">Failed</span> : au moins un conteneur a terminé avec un code non nul ou a été stoppé.
+              <br>- <span class="hl">Unknown</span> : communication rompue avec l'hôte du pod.
             </li>
-            <li><strong>Éphémérité :</strong> Un pod mort <strong>n'est jamais re-ordonnancé</strong> avec le même UID. Il est remplacé par un nouveau pod doté d'un UID neuf.</li>
-            <li><strong>ReplicaSet & Sélecteurs :</strong> Le RS compte les pods UNIQUEMENT par leurs <strong>labels</strong> (`matchLabels`). Si un pod tiers a le même label, le RS détecte un surplus et tue un pod !</li>
+            <li><strong>Nature du Pod :</strong> entité éphémère dotée d'un UID unique. Un pod mort n'est jamais réordonnancé ; il est remplacé avec un nouvel UID.</li>
+            <li><strong>Les 5 types de Workloads :</strong>
+              <br>- <span class="hl">Deployment</span> : applications sans état (stateless), gère les ReplicaSets.
+              <br>- <span class="hl">StatefulSet</span> : applications avec état (bases de données nécessitant des identifiants stables et du stockage persistant).
+              <br>- <span class="hl">DaemonSet</span> : assure qu'une copie du pod s'exécute sur <strong>chaque nœud</strong> du cluster (collecte de logs, agents réseau).
+              <br>- <span class="hl">Job</span> : exécute des pods jusqu'à terminaison complète avec succès (batch processing, migrations).
+              <br>- <span class="hl">CronJob</span> : exécute un Job de manière périodique selon un planning cron.
+            </li>
           </ul>
         </div>
 
         <div class="card">
           <div class="card-header">
-            <span class="card-title">Deployments & Stratégies (TP1)</span>
+            <span class="card-title">ReplicaSets & Deployments</span>
             <span class="tag tag-tp1">TP1 Majeur</span>
           </div>
           <ul class="clean-list">
-            <li><strong>Deployment :</strong> Pilote déclarativement les ReplicaSets pour gérer l'historique et les révisions.</li>
-            <li><strong>RollingUpdate (défaut) :</strong> Remplacement progressif sans rupture de service.
-              <br>• <span class="hl">maxSurge</span> (défaut 25%) : pods tolérés au-dessus du quota.
-              <br>• <span class="hl">maxUnavailable</span> (défaut 25%) : pods tolérés indisponibles.
+            <li><strong>ReplicaSet :</strong> maintient un compte stable de pods identiques.
+              <br>- Piège : le filtrage s'opère <strong>uniquement via les labels</strong> (`matchLabels`). Si un pod tiers a le même label, le ReplicaSet détruit l'excédent.
             </li>
-            <li><strong>Recreate :</strong> Tue brutalement l'ensemble des anciens pods avant de lancer les nouveaux (coupure de service).</li>
-            <li><strong>Blue/Green :</strong> 2 environnements complets en parallèle. Bascule instantanée du trafic mais double le coût matériel.</li>
-            <li><strong>Canary :</strong> Route un pourcentage minime d'utilisateurs réels sur la nouvelle version avant d'étendre le déploiement.</li>
+            <li><strong>Stratégies de mise à jour natives :</strong>
+              <br>- <span class="hl">RollingUpdate</span> (défaut) : remplacement progressif sans coupure. Paramétré par <span class="hl">maxSurge</span> (dépassement autorisé au-dessus du quota, défaut 25%) et <span class="hl">maxUnavailable</span> (indisponibilité temporaire tolérée, défaut 25%).
+              <br>- <span class="hl">Recreate</span> : stoppe simultanément l'ensemble des anciens pods avant de lancer les nouveaux (provoque une coupure de service).
+            </li>
+            <li><strong>Rollback :</strong> commande `kubectl rollout undo deployment/<nom> --to-revision=<N>`. En cas d'image erronée (`ImagePullBackOff`), les anciens pods restent actifs pour garantir la disponibilité.</li>
           </ul>
         </div>
 
         <div class="card">
           <div class="card-header">
-            <span class="card-title">Services Réseau (TP2)</span>
-            <span class="tag tag-tp2">Concepts Clés</span>
+            <span class="card-title">Stratégies Avancées (Canary vs A/B)</span>
+            <span class="tag tag-tp1">Cours 2</span>
           </div>
           <ul class="clean-list">
-            <li><strong>Les 3 Ports d'un Service :</strong>
-              <br>• <span class="hl">port</span> : port d'écoute interne du service.
-              <br>• <span class="hl">targetPort</span> : port cible sur le conteneur du Pod.
-              <br>• <span class="hl">nodePort</span> : port externe ouvert sur TOUS les nœuds (plage <strong>30000-32767</strong>).
-            </li>
-            <li><strong>ClusterIP (Défaut) :</strong> IP virtuelle interne au cluster. Inaccessible de l'extérieur. Indispensable pour sécuriser le backend (Redis).</li>
-            <li><strong>Endpoints :</strong> Objet auto-généré listant les adresses IP réelles des pods correspondant aux labels du sélecteur.</li>
+            <li><strong>Blue/Green :</strong> deux déploiements complets tournent en parallèle (Blue en production, Green en test). La bascule de trafic est instantanée mais <strong>coûte le double de ressources</strong>.</li>
+            <li><strong>Canary (Technique) :</strong> envoi progressif d'un faible pourcentage de trafic réel sur la nouvelle version. On observe les métriques techniques (taux de codes HTTP 200 vs 5xx) avant d'étendre la diffusion.</li>
+            <li><strong>Tests A/B (Métier / Produit) :</strong> division des utilisateurs en deux groupes distincts (groupe témoin A vs groupe de traitement B) selon des critères précis (en-têtes HTTP, cookies, localisation). Nécessite un proxy de niveau 7 (L7).</li>
           </ul>
         </div>
 
         <div class="card">
           <div class="card-header">
-            <span class="card-title">Gateway API & HTTPRoute (TP2)</span>
-            <span class="tag tag-tp2">Focus TP2</span>
+            <span class="card-title">Services Réseau & Limitations</span>
+            <span class="tag tag-tp2">Cours 2 & TP2</span>
           </div>
           <ul class="clean-list">
-            <li><strong>Architecture par Rôles :</strong>
-              <br>• <span class="hl">GatewayClass</span> (Infra/kgateway) ➔ <span class="hl">Gateway</span> (Admin/infra-gateway) ➔ <span class="hl">HTTPRoute</span> (Toi/ns-llaula).
+            <li><strong>Les 4 types de Services :</strong>
+              <br>- <span class="hl">ClusterIP</span> (défaut) : IP interne non accessible hors du cluster. Idéal pour sécuriser les bases de données (Redis backend).
+              <br>- <span class="hl">NodePort</span> : ouvre un port statique sur chaque nœud (plage <strong>30000-32767</strong>). Crée un ClusterIP sous-jacent.
+              <br>- <span class="hl">LoadBalancer</span> : provisionne un répartiteur chez un fournisseur Cloud (L4 ou L7).
+              <br>- <span class="hl">ExternalName</span> : mappe le service sur un enregistrement DNS externe (CNAME). <strong>Ne configure aucun proxy ni IP</strong>.
             </li>
-            <li><strong>Composants kgateway :</strong>
-              <br>• Control Plane : déploiement `kgateway` dans `kgateway-system`.
-              <br>• Data Plane : proxy <strong>Envoy</strong> déployé dans `infra-gateway`.
+            <li><strong>Limitations du LoadBalancer natif :</strong>
+              <br>- Ne gère que des adresses IP, pas des noms de domaine.
+              <br>- Exige un équilibreur payant par service exposé, ce qui devient coûteux et complexe à maintenir.
             </li>
-            <li><strong>Diagnostic HTTPRoute :</strong>
-              <br>• `Accepted: True` : route acceptée par la Gateway parente.
-              <br>• `ResolvedRefs: False` (Reason: `BackendNotFound`) : le service pointé dans `backendRefs` est introuvable ➔ Envoy retourne une erreur 500/503.
+            <li><strong>Endpoints :</strong> ressource interne listant les couples IP:Port des pods sains correspondant aux labels du sélecteur.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Ingress & Gateway API</span>
+            <span class="tag tag-tp2">Cours 2 & TP2</span>
+          </div>
+          <ul class="clean-list">
+            <li><strong>Ingress classique :</strong> point d'entrée HTTP/HTTPS unique gérant l'hébergement virtuel basé sur le nom et la terminaison TLS. Supporte le <strong>Fanout</strong> (routage par chemin d'URL vers différents services, ex: `/foo` vers service1, `/bar` vers service2).</li>
+            <li><strong>Gateway API (Modèle orienté rôles) :</strong>
+              <br>- <span class="hl">GatewayClass</span> : géré par l'infrastructure (ex: `kgateway.dev/kgateway`).
+              <br>- <span class="hl">Gateway</span> : géré par les administrateurs du cluster (ex: `main-gateway` dans `infra-gateway`).
+              <br>- <span class="hl">HTTPRoute</span> : géré par le <strong>développeur</strong> dans son namespace personnel.
+            </li>
+            <li><strong>Implémentation kgateway :</strong>
+              <br>- Control Plane : déploiement `kgateway` dans `kgateway-system`.
+              <br>- Data Plane : proxy <strong>Envoy</strong> déployé dans `infra-gateway`.
+            </li>
+            <li><strong>Diagnostic d'une HTTPRoute :</strong>
+              <br>- `Accepted: True` : la route est validée par la Gateway parente.
+              <br>- `ResolvedRefs: False` (Reason: `BackendNotFound`) : le service cible dans `backendRefs` est introuvable. Envoy renvoie un code HTTP 500 ou 503.
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Structure Fichier YAML K8s</span>
+            <span class="tag tag-tp1">Syntaxe DS</span>
+          </div>
+          <ul class="clean-list">
+            <li><strong>4 Clés Obligatoires de 1er niveau :</strong>
+              <br>- <span class="hl">apiVersion</span> : version de l'API (ex: `v1` pour Pod/Service/Namespace, `apps/v1` pour Deployment/ReplicaSet, `gateway.networking.k8s.io/v1` pour HTTPRoute).
+              <br>- <span class="hl">kind</span> : type d'objet instancié (ex: Pod, Deployment, Service).
+              <br>- <span class="hl">metadata</span> : description de l'objet (name, namespace, labels, annotations).
+              <br>- <span class="hl">spec</span> : spécification technique détaillée de l'état souhaité (replicas, selector, template, ports).
             </li>
           </ul>
         </div>
@@ -547,40 +584,37 @@
       </div>
     </section>
 
-    <!-- SECTION 2 : TERMINAL DRILL (12 COMMANDES OBLIGATOIRES) -->
+    <!-- SECTION 2 : TERMINAL DRILL (14 COMMANDES EXACTES) -->
     <section id="tab-terminal" class="tab-content">
-      <div style="max-width: 800px; margin: 0 auto;">
+      <div style="max-width: 820px; margin: 0 auto;">
         <div class="card">
           <div class="card-header">
-            <span class="card-title">⌨️ Entraînement de saisie : Commandes de TP</span>
-            <span id="term-counter" style="font-size: 0.85rem; color: var(--primary);">Épreuve 1 / 12</span>
+            <span class="card-title">Entraînement de saisie : Commandes de TP (14 épreuves)</span>
+            <span id="term-counter" style="font-size: 0.85rem; color: var(--primary);">Épreuve 1 / 14</span>
           </div>
           <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
-            Tape la commande exacte attendue pour réussir l'examen pratique sans hésitation :
+            Tape la commande exacte attendue pour consolider les réflexes d'écriture demandés en DS :
           </p>
 
           <div class="terminal-window">
-            <div class="term-header">
-              <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
-            </div>
-            <div id="term-instruction" class="term-desc">Instruction ici...</div>
+            <div id="term-instruction" class="term-desc">Instruction...</div>
             <div class="term-input-group">
               <span class="term-prefix">llaula01@radar21:~$</span>
-              <input type="text" id="terminal-cli" class="term-input" placeholder="Tape ici et appuie sur Entrée..." autocomplete="off" spellcheck="false">
+              <input type="text" id="terminal-cli" class="term-input" placeholder="Tape la commande et valide avec Entrée..." autocomplete="off" spellcheck="false">
             </div>
             <div id="term-feedback" class="term-status"></div>
           </div>
-          <button class="btn-main" style="margin-top: 14px;" onclick="skipTerminalStep()">Passer cette commande ➔</button>
+          <button class="btn-main" style="margin-top: 14px;" onclick="skipTerminalStep()">Passer cette commande -></button>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 3 : QCM INTELLIGENT ANTI-HASARD (30 QUESTIONS) -->
+    <!-- SECTION 3 : QCM INTELLIGENT (40 QUESTIONS COMPLETES) -->
     <section id="tab-quiz" class="tab-content">
       <div class="quiz-layout">
         
         <div class="quiz-status-bar">
-          <div>Question : <strong id="quiz-idx">1 / 30</strong></div>
+          <div>Question : <strong id="quiz-idx">1 / 40</strong></div>
           <div>Score Réel : <strong id="quiz-score" style="color: var(--primary);">0 pts</strong></div>
         </div>
         <div class="progress-bar-bg">
@@ -594,11 +628,11 @@
           <div id="q-options" class="options-list"></div>
 
           <div class="conf-panel">
-            <div class="conf-label">Ton niveau d'assurance sur cette réponse :</div>
+            <div class="conf-label">Niveau d'assurance sur ta réponse :</div>
             <div class="conf-options">
-              <button class="conf-btn active" data-lvl="sure" onclick="setConfidence('sure')">🟢 Sûr (Maîtrisé)</button>
-              <button class="conf-btn" data-lvl="hesitant" onclick="setConfidence('hesitant')">🟡 Hésitant (50/50)</button>
-              <button class="conf-btn" data-lvl="luck" onclick="setConfidence('luck')">🎲 Au pif (Hasard)</button>
+              <button class="conf-btn active" data-lvl="sure" onclick="setConfidence('sure')">[Sur] Maîtrisé</button>
+              <button class="conf-btn" data-lvl="hesitant" onclick="setConfidence('hesitant')">[Hésitant] 50/50</button>
+              <button class="conf-btn" data-lvl="luck" onclick="setConfidence('luck')">[Hasard] Au pif</button>
             </div>
           </div>
 
@@ -607,33 +641,33 @@
           <div id="q-feedback" class="feedback-box">
             <div id="q-diag" class="diag-tag"></div>
             <div id="q-explanation">Explication...</div>
-            <button class="btn-main" style="margin-top: 12px;" onclick="nextQuestion()">Question suivante ➔</button>
+            <button class="btn-main" style="margin-top: 12px;" onclick="nextQuestion()">Question suivante -></button>
           </div>
         </div>
 
         <div id="quiz-summary" class="question-panel" style="display: none; text-align: center;">
-          <h2 style="color: var(--primary); margin-bottom: 10px;">Évaluation Terminée !</h2>
+          <h2 style="color: var(--primary); margin-bottom: 10px;">Session d'évaluation terminée</h2>
           <p id="quiz-final-stats" style="font-size: 1.05rem; margin-bottom: 20px;"></p>
           <div style="display: flex; gap: 10px; justify-content: center;">
-            <button class="btn-main" style="max-width: 220px;" onclick="resetQuiz(false)">Recommencer tout le QCM</button>
-            <button class="btn-main" style="max-width: 220px; background: var(--purple);" onclick="showTab('lacunes', null)">Examiner mes faiblesses</button>
+            <button class="btn-main" style="max-width: 240px;" onclick="resetQuiz(false)">Recommencer l'ensemble</button>
+            <button class="btn-main" style="max-width: 240px; background: var(--purple);" onclick="showTab('lacunes', null)">Travailler mes lacunes</button>
           </div>
         </div>
 
       </div>
     </section>
 
-    <!-- SECTION 4 : BOUCLIER ANTI-LACUNES & TRAVAIL CIBLÉ -->
+    <!-- SECTION 4 : BOUCLIER ANTI-LACUNES -->
     <section id="tab-lacunes" class="tab-content">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
         <div>
           <h2>Bouclier Anti-Lacunes & Coups de Chance</h2>
           <p style="font-size: 0.85rem; color: var(--text-muted);">
-            Questions ratées ou réussies au hasard. Tu dois les valider avec l'assurance « 🟢 Sûr » pour les éliminer.
+            Cette liste rassemble les erreurs ainsi que les questions réussies au hasard. Tu dois les valider avec l'option "[Sur]" pour les éliminer définitivement.
           </p>
         </div>
-        <button id="btn-drill-lacunes" class="btn-main" style="max-width: 240px;" onclick="startLacunesDrill()" disabled>
-          Lancer le Quiz des Lacunes
+        <button id="btn-drill-lacunes" class="btn-main" style="max-width: 260px;" onclick="startLacunesDrill()" disabled>
+          Lancer l'entraînement sur ces lacunes
         </button>
       </div>
 
@@ -644,7 +678,7 @@
 
   <script>
     /* =========================================================================
-       1. BANQUE DE 30 QUESTIONS (DISTRACTEURS RÉALISTES & PIÈGES D'EXAMEN)
+       1. BANQUE DE 40 QUESTIONS COMPLETES (COURS 1, COURS 2, TP1, TP2)
        ========================================================================= */
     const masterQuestions = [
       {
@@ -658,7 +692,7 @@
           "systemctl restart kubelet"
         ],
         answer: 1,
-        exp: "L'instruction 'source' (ou '.') exécute le script dans le shell courant pour charger les variables d'environnement (KUBECONFIG). Lancer './labs-config.sh' créerait un sous-shell dont les variables disparaissent à la fin."
+        exp: "L'instruction 'source' (ou '.') charge les variables d'environnement dans le shell actif. Lancer './labs-config.sh' crée un sous-shell dont les variables sont perdues à la fin."
       },
       {
         id: 2,
@@ -671,77 +705,116 @@
           "Le namespace IPC"
         ],
         answer: 2,
-        exp: "Le namespace UTS (UNIX Timesharing System) isole les identifiants système nodename et domainname. C'est grâce à lui que le pod a son propre hostname sans modifier celui de la machine hôte."
+        exp: "Le namespace UTS isole les identifiants nodename et domainname issus de l'appel uname()."
       },
       {
         id: 3,
         cat: "Linux & Conteneurs",
-        q: "Quelle est la différence fondamentale d'architecture entre Podman et Docker ?",
+        q: "Quelle est la caractéristique architecturale principale de Podman par rapport à Docker ?",
         options: [
           "Podman ne gère pas les formats d'images OCI",
           "Podman est daemonless et lance directement les conteneurs via runC sans dépendre d'un démon unique",
-          "Docker utilise les cgroups alors que Podman utilise uniquement SELinux",
-          "Podman requiert obligatoirement des privilèges root pour exécuter des conteneurs"
+          "Docker n'utilise ni namespaces ni cgroups",
+          "Podman requiert impérativement les privilèges root"
         ],
         answer: 1,
-        exp: "Docker repose sur un démon centralisé tournant en tâche de fond (dockerd). Podman n'a aucun démon (daemonless) : il dialogue directement avec le runtime OCI runC."
+        exp: "Podman ne dépend d'aucun processus permanent en tâche de fond (contrairement à dockerd) et pilote directement runC."
       },
       {
         id: 4,
-        cat: "Architecture K8s",
-        q: "Dans le Control Plane, quel composant est le SEUL autorisé à communiquer directement en lecture/écriture avec etcd ?",
+        cat: "Linux & Conteneurs",
+        q: "À quoi sert la fonctionnalité de sécurité Seccomp utilisée dans l'écosystème des conteneurs Linux ?",
+        options: [
+          "À chiffrer les disques durs virtuels",
+          "À restreindre les appels système noyau qu'un conteneur est autorisé à exécuter",
+          "À limiter la consommation maximale de mémoire RAM",
+          "À empêcher la modification du fichier /etc/hosts"
+        ],
+        answer: 1,
+        exp: "Seccomp filtre les appels système. Le profil par défaut de Docker désactive environ 44 appels système sur plus de 300."
+      },
+      {
+        id: 5,
+        cat: "Control Plane",
+        q: "Dans le Control Plane, quel composant est le SEUL autorisé à communiquer en lecture/écriture avec la base etcd ?",
         options: [
           "Kube-Controller-Manager",
           "Kube-Scheduler",
           "Kube-apiserver (API Server)",
-          "Le Kubelet du nœud Master"
+          "Le Kubelet"
         ],
         answer: 2,
-        exp: "Tous les composants sans exception passent par l'API Server en REST. Aucun composant ni client ne discute directement avec etcd."
-      },
-      {
-        id: 5,
-        cat: "Architecture K8s",
-        q: "Sur quel algorithme de consensus repose la base de données distribuée etcd pour assurer la cohérence de l'état du cluster ?",
-        options: [
-          "Paxos",
-          "RAFT",
-          "Gossip protocol",
-          "Round-Robin"
-        ],
-        answer: 1,
-        exp: "etcd implémente l'algorithme RAFT pour élire un nœud Leader et garantir une cohérence stricte des données entre réplicas."
+        exp: "Tous les composants passent par l'API Server en REST. Aucun composant ni client ne discute directement avec etcd."
       },
       {
         id: 6,
-        cat: "Architecture K8s",
-        q: "Quel composant du Control Plane surveille en permanence la différence entre l'état actuel et l'état souhaité décrit dans le cluster ?",
+        cat: "Control Plane",
+        q: "Quels sont les trois rôles possibles pour un nœud dans l'algorithme de consensus RAFT utilisé par etcd ?",
         options: [
-          "Kube-Scheduler",
-          "Kube-proxy",
-          "Kubelet",
-          "Kube-Controller-Manager"
+          "Master, Worker, Proxy",
+          "Leader, Follower, Candidat",
+          "Active, Passive, Standby",
+          "Primary, Secondary, Arbiter"
         ],
-        answer: 3,
-        exp: "Le Controller Manager exécute des boucles de réconciliation continues (Deployment controller, ReplicaSet controller...) pour réajuster l'état réel sur l'état désiré."
+        answer: 1,
+        exp: "Dans RAFT, un nœud est soit Leader (unique dans un cluster sain), soit Follower, soit Candidat (lors d'une élection)."
       },
       {
         id: 7,
-        cat: "Architecture K8s",
-        q: "Où s'exécute l'agent 'Kubelet' et quelle est sa fonction essentielle ?",
+        cat: "Control Plane",
+        q: "Où l'outil 'kubectl' recherche-t-il par défaut son fichier de configuration d'accès au cluster ?",
         options: [
-          "Sur le Master : il calcule le placement optimal des pods",
-          "Sur chaque Worker Node : il écoute l'API Server et ordonne au container runtime de démarrer les conteneurs",
-          "Dans etcd : il gère le stockage des secrets",
-          "Sur le poste client : il convertit le YAML en JSON"
+          "/etc/kubernetes/admin.conf",
+          "$HOME/.kube/config",
+          "/var/run/secrets/kubernetes.io",
+          "/usr/local/bin/kubeconfig"
         ],
         answer: 1,
-        exp: "Kubelet s'exécute sur chaque nœud de travail. Il reçoit les PodSpecs assignés par le Scheduler et pilote le runtime local (ex. containerd/runC)."
+        exp: "Par défaut, kubectl recherche le fichier nommé config dans le répertoire $HOME/.kube/config."
       },
       {
         id: 8,
-        cat: "Pods & Cycle de vie",
-        q: "Dans quel état précis se trouve un Pod lorsqu'il a été assigné à un nœud mais que son conteneur télécharge encore l'image Docker sur le réseau ?",
+        cat: "Worker Nodes",
+        q: "Quel composant exécuté sur les worker nodes est chargé de collecter et d'agréger les métriques d'utilisation des conteneurs (CPU, RAM) ?",
+        options: [
+          "Kube-proxy",
+          "cAdvisor",
+          "Kubelet",
+          "CoreDNS"
+        ],
+        answer: 1,
+        exp: "cAdvisor (Container Advisor) surveille l'utilisation des ressources et transmet ces métriques à Kubelet."
+      },
+      {
+        id: 9,
+        cat: "Control Plane",
+        q: "Quel composant du Control Plane surveille en continu la différence entre l'état actuel et l'état souhaité décrit dans la configuration déclarative ?",
+        options: [
+          "Kube-Scheduler",
+          "Kube-Controller-Manager",
+          "Kube-proxy",
+          "Kubelet"
+        ],
+        answer: 1,
+        exp: "Le Controller Manager exécute des boucles continues de réconciliation pour ajuster l'état réel sur l'état désiré."
+      },
+      {
+        id: 10,
+        cat: "Control Plane",
+        q: "Quel rôle précis est attribué au Kube-Scheduler ?",
+        options: [
+          "Gérer les certificats TLS de la Gateway",
+          "Affecter un nœud d'exécution aux pods non encore assignés",
+          "Redémarrer les conteneurs défaillants",
+          "Écrire la configuration réseau dans iptables"
+        ],
+        answer: 1,
+        exp: "Le Scheduler prend les pods sans nœud et décide où les placer en tenant compte des ressources, contraintes et affinités."
+      },
+      {
+        id: 11,
+        cat: "Cycle de vie des Pods",
+        q: "Dans quel état se trouve un Pod lorsqu'il est accepté par le cluster mais que ses images conteneurs sont en cours de téléchargement sur le réseau ?",
         options: [
           "ContainerCreating",
           "Running",
@@ -749,155 +822,194 @@
           "Unknown"
         ],
         answer: 2,
-        exp: "Selon la documentation officielle du cours, la phase 'Pending' englobe le temps avant l'assignation ainsi que le téléchargement des images des conteneurs."
-      },
-      {
-        id: 9,
-        cat: "Pods & Cycle de vie",
-        q: "Si un nœud worker subit un crash matériel irréversible, que deviennent les Pods qui y tournaient ?",
-        options: [
-          "Ils sont re-ordonnancés sur un autre nœud en conservant strictement leur UID",
-          "Ils sont déclarés terminés ; un contrôleur de niveau supérieur instanciera de nouveaux pods identiques avec de nouveaux UID",
-          "Ils restent actifs en mémoire tampon dans etcd jusqu'au redémarrage du nœud",
-          "Leur statut passe immédiatement à Succeeded"
-        ],
-        answer: 1,
-        exp: "Un pod est une entité éphémère. Il n'est JAMAIS ressuscité ou re-ordonnancé avec le même UID. Le Deployment ou ReplicaSet en recrée un neuf avec un nouvel UID."
-      },
-      {
-        id: 10,
-        cat: "Pods & Cycle de vie",
-        q: "Deux conteneurs distincts s'exécutent au sein d'un MÊME Pod. Comment peuvent-ils communiquer entre eux sur le réseau ?",
-        options: [
-          "En utilisant leurs adresses IP respectives différentes",
-          "En utilisant localhost et en partageant le même espace de ports",
-          "Uniquement via des fichiers montés sur /tmp",
-          "Ils ne peuvent pas communiquer sans service NodePort"
-        ],
-        answer: 1,
-        exp: "Tous les conteneurs d'un même pod partagent le même Network Namespace : ils ont la même adresse IP et communiquent entre eux via localhost."
-      },
-      {
-        id: 11,
-        cat: "ReplicaSet (TP1)",
-        q: "Un ReplicaSet est configuré avec 'replicas: 3' et 'matchLabels: { app: nginx }'. Vous appliquez le fichier d'un pod isolé portant 'app: nginx'. Que se passe-t-il ?",
-        options: [
-          "Le pod est rejeté par l'API Server pour doublon de label",
-          "Le ReplicaSet adopte le pod et augmente automatiquement sa consigne à 4 réplicas",
-          "Le pod passe en Running, mais le ReplicaSet détecte 4 pods pour une consigne de 3 et supprime l'excédent immédiatement",
-          "Le ReplicaSet est mis en pause de sécurité"
-        ],
-        answer: 2,
-        exp: "Le ReplicaSet surveille uniquement les labels. Constatant que 4 pods répondent à sa consigne alors que 3 sont demandés, il envoie un signal Terminating à un pod pour respecter l'état désiré."
+        exp: "Selon le cours, l'état Pending couvre le temps avant assignation et le téléchargement des images conteneur."
       },
       {
         id: 12,
-        cat: "Deployments (TP1)",
-        q: "Quelle relation déclarative exacte existe-t-il entre un Deployment et un ReplicaSet ?",
+        cat: "Cycle de vie des Pods",
+        q: "Si un nœud worker subit un crash matériel complet, que deviennent les Pods qui y tournaient ?",
         options: [
-          "Le ReplicaSet pilote et met à jour le Deployment",
-          "Le Deployment possède et orchestre un ou plusieurs ReplicaSets sous-jacents",
-          "Le Deployment et le ReplicaSet sont des synonymes stricts",
-          "Le ReplicaSet ne peut contenir qu'un seul Pod tandis que le Deployment en gère plusieurs"
+          "Ils sont re-ordonnancés sur un autre nœud en conservant leur UID",
+          "Ils sont programmés pour être terminés ; un contrôleur en recréera de nouveaux identiques avec un nouvel UID",
+          "Ils passent en état Succeeded",
+          "Ils continuent de tourner en cache mémoire dans etcd"
         ],
         answer: 1,
-        exp: "Le Deployment est un objet de niveau d'abstraction supérieur. Pour chaque mise à jour ou version, il crée un nouveau ReplicaSet et gère la transition des pods."
+        exp: "Un pod est une entité éphémère. Il n'est jamais réordonnancé avec son UID. Le contrôleur en instancie un neuf."
       },
       {
         id: 13,
-        cat: "Deployments (TP1)",
-        q: "Quelle stratégie de déploiement native à Kubernetes coupe d'abord TOUS les anciens pods avant de démarrer les nouveaux pods ?",
+        cat: "Cycle de vie des Pods",
+        q: "Comment deux conteneurs s'exécutant au sein d'un MÊME Pod peuvent-ils communiquer entre eux ?",
         options: [
-          "RollingUpdate",
-          "Canary",
-          "Recreate",
-          "Blue/Green"
+          "Via localhost et en partageant le même espace de ports",
+          "Chacun a une adresse IP différente et passe par un service NodePort",
+          "Uniquement via des volumes NFS externes",
+          "La communication entre deux conteneurs d'un même pod est impossible"
         ],
-        answer: 2,
-        exp: "La stratégie 'Recreate' termine simultanément tous les pods existants avant d'instancier la nouvelle version, provoquant une interruption de service."
+        answer: 0,
+        exp: "Les conteneurs d'un même pod partagent le même réseau et la même adresse IP : ils se joignent sur localhost."
       },
       {
         id: 14,
-        cat: "Deployments (TP1)",
-        q: "Dans la stratégie 'RollingUpdate', que signifie le paramètre 'maxSurge: 2' ?",
+        cat: "Types de Workloads",
+        q: "Quel type de charge de travail (Workload) garantit qu'une copie d'un pod tourne sur CHACUN des nœuds du cluster ?",
         options: [
-          "Qu'au maximum 2 pods peuvent être indisponibles pendant la mise à jour",
-          "Que 2 pods au-dessus du nombre de réplicas souhaité peuvent être créés pendant la mise à jour",
-          "Que la mise à jour échoue au bout de 2 minutes",
-          "Que le déploiement sera testé par 2 utilisateurs externes"
+          "StatefulSet",
+          "DaemonSet",
+          "Deployment",
+          "Job"
         ],
         answer: 1,
-        exp: "maxSurge définit le nombre maximal de pods autorisés au-delà de la consigne nominale (ex. consigne à 3 + maxSurge 2 = pic temporaire à 5 pods possibles)."
+        exp: "Un DaemonSet assure qu'une instance du pod est présente sur chaque worker node (utilisé pour les logs,监控, agents réseau)."
       },
       {
         id: 15,
-        cat: "Deployments (TP1)",
-        q: "Lors d'une mise à jour vers une image dont le nom est mal orthographié (ex: 'nginx:1.161'), quel état prennent les nouveaux pods ?",
+        cat: "Types de Workloads",
+        q: "Quel type de charge de travail est conçu pour exécuter un ou plusieurs pods jusqu'à leur terminaison avec succès puis s'arrêter (batch, migration) ?",
         options: [
-          "CrashLoopBackOff",
-          "ImagePullBackOff (ou ErrImagePull)",
-          "Terminating",
-          "Unknown"
+          "StatefulSet",
+          "Deployment",
+          "Job",
+          "ReplicaSet"
         ],
-        answer: 1,
-        exp: "L'image n'existant pas sur le registre, le runtime échoue à la récupérer (ErrImagePull puis ImagePullBackOff avec attente exponentielle)."
+        answer: 2,
+        exp: "Contrairement aux Deployments qui maintiennent des processus permanents, un Job tourne jusqu'à terminaison (code 0)."
       },
       {
         id: 16,
-        cat: "Deployments (TP1)",
-        q: "Face à une mise à jour bloquée par une image erronée, pourquoi l'application des utilisateurs continue-t-elle généralement de fonctionner ?",
+        cat: "Types de Workloads",
+        q: "Quel type de charge de travail est indispensable pour gérer des applications avec état nécessitant des identifiants réseau stables et du stockage persistant (ex: cluster de base de données) ?",
         options: [
-          "Kubernetes télécharge automatiquement la version précédente depuis etcd",
-          "Le Deployment ne détruit les anciens pods qu'au fur et à mesure que les nouveaux passent à l'état Ready (RollingUpdate)",
-          "Le service NodePort met les requêtes en file d'attente indéfiniment",
-          "L'API Server applique automatiquement un rollback au bout de 30 secondes"
+          "Deployment",
+          "StatefulSet",
+          "DaemonSet",
+          "CronJob"
         ],
         answer: 1,
-        exp: "En RollingUpdate, un ancien pod n'est supprimé que si un nouveau pod a validé son démarrage et son état Ready. L'ancien ReplicaSet reste donc actif."
+        exp: "Le StatefulSet fournit des identifiants séquentiels stables (pod-0, pod-1) et préserve l'attachement aux volumes persistants."
       },
       {
         id: 17,
-        cat: "Deployments (TP1)",
-        q: "Quelle commande permet d'annuler un déploiement défectueux pour revenir précisément à la révision 2 ?",
+        cat: "ReplicaSet (TP1)",
+        q: "Un ReplicaSet est configuré avec 'replicas: 3' et 'matchLabels: { app: nginx }'. Vous appliquez le YAML d'un pod isolé portant 'app: nginx'. Que se passe-t-il ?",
         options: [
-          "kubectl rollback deployment dep-nginx --revision=2 -n ns-llaula",
+          "Le pod est rejeté par l'API Server",
+          "Le ReplicaSet augmente sa consigne à 4 réplicas",
+          "Le nombre total passe à 4, le ReplicaSet supprime immédiatement l'un des pods pour revenir à 3",
+          "Le pod reste en Pending sans être affecté"
+        ],
+        answer: 2,
+        exp: "Le ReplicaSet ne regarde que les labels. Voyant 4 pods avec son label alors que la consigne est 3, il détruit l'excédent."
+      },
+      {
+        id: 18,
+        cat: "Deployments (TP1)",
+        q: "Quelle stratégie de mise à jour native stoppe l'ensemble des anciens pods avant de lancer les nouveaux ?",
+        options: [
+          "RollingUpdate",
+          "Recreate",
+          "Canary",
+          "Blue/Green"
+        ],
+        answer: 1,
+        exp: "La stratégie Recreate termine brutalement tous les anciens pods avant de démarrer les nouveaux, coupant le service."
+      },
+      {
+        id: 19,
+        cat: "Deployments (TP1)",
+        q: "Dans la stratégie RollingUpdate, que signifie le paramètre 'maxUnavailable: 1' ?",
+        options: [
+          "Qu'au maximum 1 pod peut être indisponible pendant le processus de mise à jour",
+          "Qu'un seul pod sera mis à jour au total",
+          "Que le déploiement sera annulé après une seule erreur",
+          "Qu'un pod supplémentaire sera créé au-dessus du quota"
+        ],
+        answer: 0,
+        exp: "maxUnavailable borne le nombre de pods qui peuvent être indisponibles en cours de mise à jour par rapport à la cible."
+      },
+      {
+        id: 20,
+        cat: "Deployments (TP1)",
+        q: "Lors d'une mise à jour vers une image mal orthographiée (ex: 'nginx:1.161'), quel état prennent les nouveaux pods ?",
+        options: [
+          "CrashLoopBackOff",
+          "Terminating",
+          "ImagePullBackOff (ou ErrImagePull)",
+          "Completed"
+        ],
+        answer: 2,
+        exp: "L'image étant introuvable dans le registre, le conteneur passe en ErrImagePull puis ImagePullBackOff."
+      },
+      {
+        id: 21,
+        cat: "Deployments (TP1)",
+        q: "Pourquoi l'application continue-t-elle de répondre aux requêtes des utilisateurs lors d'un déploiement bloqué en ImagePullBackOff sous RollingUpdate ?",
+        options: [
+          "Kubernetes bascule automatiquement vers une image de secours",
+          "Les anciens pods ne sont supprimés que si les nouveaux sont déclarés Ready",
+          "Le service NodePort met les paquets en cache indéfiniment",
+          "L'API Server applique un rollback automatique immédiat"
+        ],
+        answer: 1,
+        exp: "En RollingUpdate, les anciens pods restent actifs tant que les nouveaux n'ont pas validé leur démarrage avec succès."
+      },
+      {
+        id: 22,
+        cat: "Deployments (TP1)",
+        q: "Quelle commande kubectl permet de revenir à la révision 2 d'un déploiement nommé 'dep-nginx' ?",
+        options: [
+          "kubectl rollback deployment dep-nginx -v 2 -n ns-llaula",
           "kubectl rollout undo deployment/dep-nginx --to-revision=2 -n ns-llaula",
-          "kubectl delete rs dep-nginx-revision-2 -n ns-llaula",
-          "kubectl set image deployment/dep-nginx --undo=2 -n ns-llaula"
+          "kubectl delete rs dep-nginx --revision=2 -n ns-llaula",
+          "kubectl scale deployment dep-nginx --undo=2 -n ns-llaula"
         ],
         answer: 1,
         exp: "La syntaxe officielle est 'kubectl rollout undo deployment/<nom> --to-revision=<N>'."
       },
       {
-        id: 18,
+        id: 23,
         cat: "Stratégies Avancées",
-        q: "Quel est le principe d'un déploiement 'Canary' ?",
+        q: "Quel est l'inconvénient principal de la stratégie de déploiement Blue/Green ?",
         options: [
-          "Déployer deux infrastructures complètes et basculer 100% du trafic d'un coup",
-          "Arrêter le cluster la nuit pour déployer sans utilisateurs",
-          "Acheminer une petite fraction du trafic réel vers la nouvelle version pour évaluer sa stabilité avant déploiement généralisé",
-          "Dupliquer la base de données sur chaque nœud du cluster"
+          "Elle provoque obligatoirement une coupure de service prolongée",
+          "Elle est coûteuse car elle exige de doubler temporairement l'ensemble des ressources matérielles",
+          "Elle ne fonctionne pas avec le protocole HTTP",
+          "Elle supprime automatiquement les bases de données associées"
         ],
-        answer: 2,
-        exp: "Le déploiement Canary teste la nouvelle version sur un échantillon réel d'utilisateurs tout en conservant la majorité sur la version stable."
+        answer: 1,
+        exp: "Blue/Green nécessite deux déploiements et deux environnements complets en parallèle, doublant le coût en ressources."
       },
       {
-        id: 19,
-        cat: "Services Réseau (TP2)",
-        q: "Dans la définition d'un Service Kubernetes, à quoi correspond le champ 'targetPort' ?",
+        id: 24,
+        cat: "Stratégies Avancées",
+        q: "Quelle différence distingue un déploiement Canary d'un test A/B ?",
         options: [
-          "Au port exposé sur l'IP publique de chaque worker node",
-          "Au port d'écoute interne virtuel attribué au Service",
-          "Au port d'écoute sur lequel l'application s'exécute dans le conteneur du Pod",
-          "Au port de management de l'API Server"
+          "Canary est une démarche de validation technique du trafic, tandis que le test A/B est une comparaison métier/produit basée sur des critères applicatifs (cookies, headers L7)",
+          "Canary ne fonctionne qu'avec Docker, le test A/B avec Podman",
+          "Le test A/B coupe le service, pas Canary",
+          "Il n'y a aucune différence, ce sont deux termes synonymes"
         ],
-        answer: 2,
-        exp: "'port' est le port du service, tandis que 'targetPort' est le port réel sur lequel écoute le conteneur dans le Pod."
+        answer: 0,
+        exp: "Canary vise la sûreté technique (codes HTTP 200 vs 5xx). Le test A/B compare les performances métier entre deux groupes d'utilisateurs ciblés par L7."
       },
       {
-        id: 20,
+        id: 25,
         cat: "Services Réseau (TP2)",
-        q: "Quelle est la plage standard de ports allouée pour les services de type 'NodePort' dans Kubernetes ?",
+        q: "Dans un fichier de Service Kubernetes, à quoi correspond le champ 'targetPort' ?",
+        options: [
+          "Au port d'écoute ouvert sur l'IP physique des nœuds du cluster",
+          "Au port virtuel interne sur lequel le Service répond",
+          "Au port d'écoute réel du conteneur dans le Pod ciblé",
+          "Au port du proxy Envoy"
+        ],
+        answer: 2,
+        exp: "'port' est le port exposé par le Service Kubernetes, 'targetPort' est le port interne du conteneur dans le Pod."
+      },
+      {
+        id: 26,
+        cat: "Services Réseau (TP2)",
+        q: "Quelle est la plage de ports réservée par défaut pour un service de type NodePort ?",
         options: [
           "1024 à 49151",
           "80 à 8080",
@@ -905,150 +1017,202 @@
           "40000 à 45000"
         ],
         answer: 2,
-        exp: "Kubernetes réserve nativement la plage 30000-32767 pour l'exposition NodePort sur chaque nœud du cluster."
-      },
-      {
-        id: 21,
-        cat: "Services Réseau (TP2)",
-        q: "Dans l'architecture Guestbook du TP2, quel type de service associe-t-on au déploiement de la base Redis (backend) ?",
-        options: [
-          "NodePort (port 31111)",
-          "LoadBalancer",
-          "ClusterIP",
-          "ExternalName"
-        ],
-        answer: 2,
-        exp: "Redis ne doit jamais être exposé hors du cluster : le type ClusterIP lui fournit une IP interne et un nom DNS joignable uniquement par le frontend."
-      },
-      {
-        id: 22,
-        cat: "Services Réseau (TP2)",
-        q: "Qu'affiche la commande 'kubectl get endpoints <nom-service>' ?",
-        options: [
-          "La liste des routes HTTP configurées dans Envoy",
-          "Les adresses IP et ports réels des pods sains actuellement ciblés par le sélecteur du service",
-          "L'adresse MAC de la carte réseau du nœud Master",
-          "Le certificat SSL du service"
-        ],
-        answer: 1,
-        exp: "L'objet Endpoints associe dynamiquement le Service aux adresses IP directes des pods validés par les labels."
-      },
-      {
-        id: 23,
-        cat: "Services Réseau (TP2)",
-        q: "Pourquoi la commande 'kubectl get nodes -o wide' dans le cluster labs de l'IUT montre-t-elle l'impossibilité d'accéder directement au NodePort depuis Internet ?",
-        options: [
-          "Les nœuds sont éteints",
-          "La colonne EXTERNAL-IP indique '<none>' et les INTERNAL-IP sont des adresses privées non routables",
-          "Le port 80 est saturé par le master",
-          "Le protocole TCP est interdit par l'IUT"
-        ],
-        answer: 1,
-        exp: "Les nœuds du cluster ne disposent pas d'IP publiques externes. Pour tester depuis un navigateur distant, on passe par 'kubectl port-forward' ou par la Gateway partagée."
-      },
-      {
-        id: 24,
-        cat: "Gateway API (TP2)",
-        q: "Dans le modèle de responsabilités Gateway API, qui gère la ressource 'Gateway' (ex: main-gateway dans infra-gateway) ?",
-        options: [
-          "Le développeur de l'application dans son propre namespace",
-          "L'opérateur / administrateur du cluster",
-          "Le projet de standardisation Kubernetes SIG Network",
-          "Le conteneur Redis en tâche de fond"
-        ],
-        answer: 1,
-        exp: "Le modèle sépare les rôles : Fournisseur = GatewayClass, Opérateur de cluster = Gateway, Développeur applicatif = HTTPRoute."
-      },
-      {
-        id: 25,
-        cat: "Gateway API (TP2)",
-        q: "Quelle implémentation logicielle de Gateway API est installée sur le cluster labs de l'IUT et quel proxy réseau fait office de Data Plane ?",
-        options: [
-          "Istio avec HAProxy",
-          "Traefik avec NGINX",
-          "kgateway avec Envoy",
-          "MetalLB avec Apache"
-        ],
-        answer: 2,
-        exp: "Le cluster utilise kgateway (control plane dans kgateway-system) qui configure dynamiquement le proxy Envoy (data plane dans infra-gateway)."
-      },
-      {
-        id: 26,
-        cat: "Gateway API (TP2)",
-        q: "Dans le fichier 'hr-app-guestbook.yaml', pourquoi doit-on obligatoirement spécifier 'namespace: infra-gateway' dans la section 'parentRefs' ?",
-        options: [
-          "Car le proxy Envoy refuse les routes locales",
-          "Parce que la ressource Gateway ciblée ('main-gateway') réside dans un namespace différent de la route",
-          "Pour forcer le trafic en mode HTTP non sécurisé",
-          "C'est une obligation imposée par le format YAML"
-        ],
-        answer: 1,
-        exp: "Si on omet 'namespace: infra-gateway', Kubernetes cherche la passerelle dans le namespace local de l'étudiant (ns-llaula) où elle n'existe pas."
+        exp: "Les ports NodePort sont obligatoirement attribués dans la plage 30000-32767 sur l'ensemble des nœuds."
       },
       {
         id: 27,
-        cat: "Gateway API (TP2)",
-        q: "Pourquoi le service frontend Guestbook n'a-t-il plus besoin d'être un 'NodePort' lorsqu'on utilise une HTTPRoute ?",
+        cat: "Services Réseau (TP2)",
+        q: "Quel type de Service Kubernetes mappe un service interne vers un nom DNS externe en retournant un enregistrement CNAME sans configurer aucun proxy ?",
         options: [
-          "Parce qu'Envoy ne sait pas communiquer avec les services NodePort",
-          "Parce que le proxy Envoy est déjà dans le réseau du cluster et joint directement le frontend via son service ClusterIP",
-          "Parce que le port 80 est réservé au Master",
-          "Parce que les NodePorts sont incompatibles avec Linux"
+          "ClusterIP",
+          "LoadBalancer",
+          "ExternalName",
+          "NodePort"
         ],
-        answer: 1,
-        exp: "Envoy reçoit le trafic externe sur la Gateway et achemine la requête en interne vers le ClusterIP du service frontend, rendant le NodePort obsolète."
+        answer: 2,
+        exp: "ExternalName renvoie simplement un enregistrement CNAME DNS vers le nom distant configuré, sans proxy interne."
       },
       {
         id: 28,
-        cat: "Gateway API (TP2)",
-        q: "Vous déclarez une HTTPRoute pointant vers 'name: svc-inexistant'. Dans 'kubectl describe httproute', quel statut observez-vous ?",
+        cat: "Services Réseau (TP2)",
+        q: "Quelles sont les limitations du service natif de type 'LoadBalancer' indiquées dans le cours ?",
         options: [
-          "Accepted: False et ResolvedRefs: False",
-          "Accepted: True, mais ResolvedRefs: False avec Reason: BackendNotFound",
-          "La route est automatiquement supprimée par kgateway",
-          "Le statut reste vide car l'API Server plante"
+          "Il ne fonctionne qu'avec UDP",
+          "Il ne gère que des adresses IP (pas des noms de domaine) et nécessite un équilibreur payant par service",
+          "Il ne peut pas router vers plus de 2 pods",
+          "Il est incompatible avec les conteneurs Linux"
         ],
         answer: 1,
-        exp: "La syntaxe et l'attachement à la Gateway sont valides (Accepted: True), mais la référence vers le service n'est pas résolue (ResolvedRefs: False, BackendNotFound). Envoy répond 500 ou 503."
+        exp: "Le LoadBalancer K8s gère des IP et non des domaines, et impose un composant d'équilibrage par service exposé."
       },
       {
         id: 29,
-        cat: "Format YAML",
-        q: "Quelle version d'API ('apiVersion') doit obligatoirement figurer en en-tête d'un fichier déclarant un Deployment Kubernetes standard ?",
+        cat: "Services Réseau (TP2)",
+        q: "Dans l'architecture Guestbook du TP2, quel type de service associe-t-on au déploiement de Redis (backend) ?",
         options: [
-          "apiVersion: v1",
-          "apiVersion: apps/v1",
-          "apiVersion: extensions/v2",
-          "apiVersion: gateway.networking.k8s.io/v1"
+          "NodePort",
+          "ClusterIP",
+          "LoadBalancer",
+          "ExternalName"
         ],
         answer: 1,
-        exp: "Les Deployments et ReplicaSets sont sous le groupe 'apps/v1'. Les Pods et Services fondamentaux sont en 'v1'."
+        exp: "Redis est isolé à l'intérieur du cluster avec une IP et un DNS interne fournis par ClusterIP."
       },
       {
         id: 30,
-        cat: "Format YAML",
-        q: "Quelles sont les 4 clés fondamentales de premier niveau obligatoires dans la description d'une ressource Kubernetes (Pod, Deployment, Service) ?",
+        cat: "Services Réseau (TP2)",
+        q: "Qu'affiche la commande 'kubectl get endpoints <nom-service>' ?",
         options: [
-          "apiVersion, kind, metadata, spec",
-          "name, type, containers, network",
-          "version, header, config, status",
-          "group, class, selector, template"
+          "Les routes DNS configurées dans CoreDNS",
+          "La liste des adresses IP et ports des pods sains ciblés par le sélecteur du service",
+          "Le certificat SSL du service",
+          "L'historique des requêtes HTTP"
+        ],
+        answer: 1,
+        exp: "L'objet Endpoints recense les adresses IP internes des pods actifs qui correspondent aux labels du sélecteur."
+      },
+      {
+        id: 31,
+        cat: "Services Réseau (TP2)",
+        q: "Pourquoi les commandes du TP2 révèlent-elles qu'on ne peut pas joindre directement l'adresse 'IP-noeud:31002' depuis un navigateur extérieur ?",
+        options: [
+          "Les nœuds ont la colonne EXTERNAL-IP à '<none>' et leurs adresses internes sont des IP privées non routables",
+          "Le binaire kubectl bloque les connexions HTTP",
+          "Le port 31002 est réservé par etcd",
+          "Les services NodePort ne fonctionnent pas sur Debian"
         ],
         answer: 0,
-        exp: "Tout manifeste déclaratif standard comprend : apiVersion (version d'API), kind (type d'objet), metadata (nom, namespace, labels) et spec (spécification technique)."
+        exp: "Les machines du cluster de TP n'ont pas d'adresses IP publiques routables depuis l'extérieur."
+      },
+      {
+        id: 32,
+        cat: "Ingress",
+        q: "En quoi consiste la fonctionnalité de 'Fanout' dans une ressource Ingress ?",
+        options: [
+          "À dupliquer le trafic réseau sur tous les nœuds",
+          "À router les requêtes vers différents services backend en fonction du chemin de l'URL (ex: /foo et /bar)",
+          "À redémarrer les pods en cas de pic de charge",
+          "À répartir la charge sur plusieurs cartes réseau"
+        ],
+        answer: 1,
+        exp: "Le Fanout route le trafic arrivant sur un même nom d'hôte vers différents services selon le préfixe de chemin d'URL."
+      },
+      {
+        id: 33,
+        cat: "Gateway API (TP2)",
+        q: "Dans le modèle de responsabilités Gateway API, quel rôle et quelle ressource sont sous la responsabilité de l'étudiant / développeur ?",
+        options: [
+          "Fournisseur d'infrastructure / GatewayClass",
+          "Opérateur du cluster / Gateway",
+          "Développeur d'application / HTTPRoute",
+          "Administrateur système / Envoy"
+        ],
+        answer: 2,
+        exp: "L'étudiant ne touche ni à la GatewayClass ni à la Gateway : il déclare uniquement ses HTTPRoute dans son namespace."
+      },
+      {
+        id: 34,
+        cat: "Gateway API (TP2)",
+        q: "Quelle implémentation logicielle de Gateway API est déployée sur le cluster labs et quel proxy assure le Data Plane ?",
+        options: [
+          "Istio avec HAProxy",
+          "kgateway avec le proxy réseau Envoy",
+          "Traefik avec NGINX",
+          "MetalLB avec Apache"
+        ],
+        answer: 1,
+        exp: "Le cluster utilise kgateway (control plane dans kgateway-system) qui pilote les instances du proxy Envoy (data plane)."
+      },
+      {
+        id: 35,
+        cat: "Gateway API (TP2)",
+        q: "Dans 'hr-app-guestbook.yaml', pourquoi doit-on indiquer 'namespace: infra-gateway' sous 'parentRefs' ?",
+        options: [
+          "Pour activer le protocole HTTPS",
+          "Parce que la Gateway partagée ('main-gateway') réside dans un namespace différent de la route",
+          "Pour empêcher les autres étudiants de voir la route",
+          "C'est une option inutile par défaut"
+        ],
+        answer: 1,
+        exp: "Sans préciser le namespace, Kubernetes chercherait la Gateway parente dans le namespace local de l'étudiant."
+      },
+      {
+        id: 36,
+        cat: "Gateway API (TP2)",
+        q: "Pourquoi le service frontend Guestbook n'a-t-il plus besoin d'être configuré en 'NodePort' lorsqu'il est exposé par une HTTPRoute ?",
+        options: [
+          "Parce qu'Envoy se trouve dans le réseau du cluster et contacte directement le service en ClusterIP",
+          "Parce qu'Envoy ne supporte pas le TCP",
+          "Parce que le port 80 est réservé au Kubelet",
+          "Parce que la Gateway remplace les conteneurs"
+        ],
+        answer: 0,
+        exp: "Le proxy Envoy reçoit le trafic externe et achemine les requêtes en interne vers le ClusterIP du frontend."
+      },
+      {
+        id: 37,
+        cat: "Gateway API (TP2)",
+        q: "Vous déclarez une HTTPRoute pointant vers un service inexistant. Dans 'kubectl describe httproute', quel statut observez-vous ?",
+        options: [
+          "Accepted: False et ResolvedRefs: False",
+          "Accepted: True, mais ResolvedRefs: False avec Reason: BackendNotFound",
+          "La ressource est refusée dès l'exécution de kubectl apply",
+          "Status: CrashLoopBackOff"
+        ],
+        answer: 1,
+        exp: "L'attachement à la Gateway est accepté, mais la référence vers le service échoue (BackendNotFound). Envoy retourne 500/503."
+      },
+      {
+        id: 38,
+        cat: "Format YAML",
+        q: "Quelle version d'API ('apiVersion') doit figurer en en-tête d'un fichier déclarant un Deployment standard ?",
+        options: [
+          "apiVersion: v1",
+          "apiVersion: apps/v1",
+          "apiVersion: batch/v1",
+          "apiVersion: networking.k8s.io/v1"
+        ],
+        answer: 1,
+        exp: "Les Deployments et ReplicaSets relèvent du groupe d'API 'apps/v1'. Les Pods et Services simples sont en 'v1'."
+      },
+      {
+        id: 39,
+        cat: "Format YAML",
+        q: "Quelles sont les 4 clés fondamentales de premier niveau obligatoires dans la description d'une ressource Kubernetes ?",
+        options: [
+          "apiVersion, kind, metadata, spec",
+          "name, type, containers, selector",
+          "version, header, config, status",
+          "group, target, replicas, template"
+        ],
+        answer: 0,
+        exp: "Tout fichier déclaratif Kubernetes standard contient : apiVersion, kind, metadata et spec."
+      },
+      {
+        id: 40,
+        cat: "Commandes de TP",
+        q: "Quelle commande permet d'ouvrir un shell interactif dans le conteneur du pod 'dep-redis-mn8tz' situé dans 'ns-llaula' ?",
+        options: [
+          "kubectl connect dep-redis-mn8tz -n ns-llaula",
+          "kubectl exec -it dep-redis-mn8tz -n ns-llaula -- sh",
+          "kubectl ssh dep-redis-mn8tz -n ns-llaula",
+          "kubectl attach dep-redis-mn8tz -n ns-llaula --shell"
+        ],
+        answer: 1,
+        exp: "La commande officielle pour exécuter un shell interactif est 'kubectl exec -it <pod> -n <ns> -- sh'."
       }
     ];
 
     /* =========================================================================
-       2. DRILL DE COMMANDES TP (12 COMMANDES EXACTES À TAPER)
+       2. DRILL DE COMMANDES TP (14 COMMANDES EXACTES)
        ========================================================================= */
     const terminalDrillSteps = [
       {
-        desc: "1. Charge le script d'environnement 'labs-config.sh' dans ton shell courant :",
+        desc: "1. Charge le script de configuration 'labs-config.sh' dans ton shell courant :",
         valid: ["source labs-config.sh", ". labs-config.sh"]
       },
       {
-        desc: "2. Donne les droits d'exécution au binaire 'kubectl' :",
+        desc: "2. Attribue les droits d'exécution au fichier binaire 'kubectl' :",
         valid: ["chmod u+x kubectl", "chmod +x kubectl"]
       },
       {
@@ -1056,21 +1220,21 @@
         valid: ["kubectl cluster-info"]
       },
       {
-        desc: "4. Applique le fichier 'dep-nginx.yaml' dans le namespace 'ns-llaula' :",
+        desc: "4. Applique le fichier 'dep-nginx.yaml' dans ton namespace 'ns-llaula' :",
         valid: [
           "kubectl apply -f dep-nginx.yaml -n ns-llaula",
           "kubectl apply -n ns-llaula -f dep-nginx.yaml"
         ]
       },
       {
-        desc: "5. Surveille en continu (-w) l'état des pods dans le namespace 'ns-llaula' :",
+        desc: "5. Surveille en direct (-w) l'état des pods de ton namespace 'ns-llaula' :",
         valid: [
           "kubectl get pods -n ns-llaula -w",
           "kubectl get pods -w -n ns-llaula"
         ]
       },
       {
-        desc: "6. Affiche la description complète du ReplicaSet 'rs-nginx' dans 'ns-llaula' :",
+        desc: "6. Affiche la description détaillée du ReplicaSet 'rs-nginx' dans 'ns-llaula' :",
         valid: [
           "kubectl describe rs rs-nginx -n ns-llaula",
           "kubectl describe replicaset rs-nginx -n ns-llaula"
@@ -1093,28 +1257,43 @@
         ]
       },
       {
-        desc: "9. Effectue un rollback du déploiement 'dep-nginx' vers la révision 2 dans 'ns-llaula' :",
+        desc: "9. Consulte l'historique des révisions du déploiement 'dep-nginx' dans 'ns-llaula' :",
+        valid: [
+          "kubectl rollout history deployment/dep-nginx -n ns-llaula",
+          "kubectl rollout history deploy/dep-nginx -n ns-llaula",
+          "kubectl rollout history deployment dep-nginx -n ns-llaula"
+        ]
+      },
+      {
+        desc: "10. Effectue un retour arrière (rollback) vers la révision 2 pour 'dep-nginx' :",
         valid: [
           "kubectl rollout undo deployment/dep-nginx --to-revision=2 -n ns-llaula",
           "kubectl rollout undo deploy/dep-nginx --to-revision=2 -n ns-llaula"
         ]
       },
       {
-        desc: "10. Crée une redirection de port du port local 9999 vers le port 80 du service 'svc-nodeport-dep-app-guestbook' dans 'ns-llaula' :",
+        desc: "11. Affiche les Endpoints associés au service 'svc-clusterip-dep-redis' dans 'ns-llaula' :",
+        valid: [
+          "kubectl get endpoints svc-clusterip-dep-redis -n ns-llaula",
+          "kubectl get ep svc-clusterip-dep-redis -n ns-llaula"
+        ]
+      },
+      {
+        desc: "12. Établis un port-forward de localhost:9999 vers le port 80 du service 'svc-nodeport-dep-app-guestbook' :",
         valid: [
           "kubectl port-forward svc/svc-nodeport-dep-app-guestbook 9999:80 -n ns-llaula",
           "kubectl port-forward service/svc-nodeport-dep-app-guestbook 9999:80 -n ns-llaula"
         ]
       },
       {
-        desc: "11. Ouvre un shell interactif ('sh') dans le pod 'dep-redis-mn8tz' du namespace 'ns-llaula' :",
+        desc: "13. Ouvre un terminal interactif (sh) dans le pod 'dep-redis-mn8tz' situé dans 'ns-llaula' :",
         valid: [
           "kubectl exec -it dep-redis-mn8tz -n ns-llaula -- sh",
           "kubectl exec -it dep-redis-mn8tz -n ns-llaula -- /bin/sh"
         ]
       },
       {
-        desc: "12. Affiche la description détaillée de la route 'hr-app-guestbook' dans 'ns-llaula' :",
+        desc: "14. Affiche la description détaillée de la route 'hr-app-guestbook' dans 'ns-llaula' :",
         valid: [
           "kubectl describe httproute hr-app-guestbook -n ns-llaula"
         ]
@@ -1122,7 +1301,7 @@
     ];
 
     /* =========================================================================
-       3. LOGIQUE GLOBALE DE L'APPLICATION
+       3. LOGIQUE JAVASCRIPT DU TRAINER
        ========================================================================= */
     let currentQuizPool = [...masterQuestions];
     let qIndex = 0;
@@ -1153,7 +1332,6 @@
       if (tabName === 'lacunes') renderLacunes();
     }
 
-    /* Gestion QCM */
     function setConfidence(lvl) {
       confidenceLvl = lvl;
       document.querySelectorAll('.conf-btn').forEach(b => {
@@ -1208,22 +1386,22 @@
       const diag = document.getElementById('q-diag');
       if (!isCorrect) {
         diag.className = 'diag-tag tag-trap';
-        diag.textContent = '❌ Erreur de concept';
-        addWeakness(q, 'Erreur de réponse');
+        diag.textContent = '[Erreur] Notion non acquise';
+        addWeakness(q, 'Erreur de reponse');
       } else {
         if (confidenceLvl === 'luck') {
           diag.className = 'diag-tag tag-tp2';
-          diag.textContent = '🎲 Coup de chance détecté ! (À retravailler)';
+          diag.textContent = '[Hasard] Coup de chance detecte (A retravailler)';
           realScore += 0.2;
-          addWeakness(q, 'Réussi par hasard ou élimination');
+          addWeakness(q, 'Reussi par hasard ou elimination');
         } else if (confidenceLvl === 'hesitant') {
           diag.className = 'diag-tag tag-tp1';
-          diag.textContent = '🟡 Bonne réponse mais hésitation (50/50)';
+          diag.textContent = '[Hesitant] Reponse correcte mais fragile (50/50)';
           realScore += 0.7;
-          addWeakness(q, 'Hésitation lors du choix');
+          addWeakness(q, 'Hesitation lors du choix');
         } else {
           diag.className = 'diag-tag tag-tp1';
-          diag.textContent = '✅ Validé & Maîtrisé !';
+          diag.textContent = '[OK] Valide et maitrise';
           realScore += 1;
           removeWeakness(q.id);
         }
@@ -1245,8 +1423,8 @@
         document.getElementById('quiz-summary').style.display = 'block';
         document.getElementById('quiz-pbar').style.width = '100%';
         document.getElementById('quiz-final-stats').innerHTML = `
-          Score final réel : <strong>${Math.round(realScore * 10) / 10} / ${currentQuizPool.length} pts</strong><br>
-          Points à consolider : <strong>${weaknessList.length}</strong>
+          Score reel obtenu : <strong>${Math.round(realScore * 10) / 10} / ${currentQuizPool.length} pts</strong><br>
+          Points restants a consolider : <strong>${weaknessList.length}</strong>
         `;
       }
     }
@@ -1286,8 +1464,8 @@
       if (weaknessList.length === 0) {
         container.innerHTML = `
           <div class="card" style="grid-column: 1/-1; text-align: center; padding: 40px;">
-            <h3 style="color: var(--success); margin-bottom: 6px;">🎉 Aucune lacune active !</h3>
-            <p style="color: var(--text-muted); font-size: 0.85rem;">Toutes les questions passées ont été validées avec l'option "🟢 Sûr".</p>
+            <h3 style="color: var(--success); margin-bottom: 6px;">Aucune lacune enregistree</h3>
+            <p style="color: var(--text-muted); font-size: 0.85rem;">Toutes les questions traitees ont ete reussies avec l'assurance [Sur].</p>
           </div>
         `;
         return;
@@ -1299,19 +1477,19 @@
         c.innerHTML = `
           <div class="card-header">
             <span class="card-title">${item.cat}</span>
-            <span class="tag tag-trap">À réviser</span>
+            <span class="tag tag-trap">A reviser</span>
           </div>
           <p style="font-weight: 700; margin-bottom: 8px; font-size: 0.9rem;">${item.q}</p>
           <div style="background: rgba(5,8,15,0.7); padding: 8px; border-radius: 6px; font-size: 0.8rem; margin-bottom: 8px;">
-            <strong>Cause :</strong> ${item.reason}
+            <strong>Statut :</strong> ${item.reason}
           </div>
-          <p style="font-size: 0.8rem; color: var(--primary);">💡 ${item.exp}</p>
+          <p style="font-size: 0.8rem; color: var(--primary);">${item.exp}</p>
         `;
         container.appendChild(c);
       });
     }
 
-    /* Terminal Simulator Engine */
+    /* Simulateur de commandes CLI */
     let termIndex = 0;
     const termInput = document.getElementById('terminal-cli');
     const termInstruction = document.getElementById('term-instruction');
@@ -1333,7 +1511,7 @@
       if (termIndex < terminalDrillSteps.length) {
         loadTermStep();
       } else {
-        termInstruction.textContent = "🏆 Drill terminé avec succès ! Tu as la syntaxe en main.";
+        termInstruction.textContent = "Drill termine. Toutes les commandes cles ont ete passees.";
         termInput.disabled = true;
       }
     }
@@ -1345,25 +1523,25 @@
 
         if (step.valid.some(cmd => cmd === val)) {
           termFeedback.style.color = '#34d399';
-          termFeedback.textContent = "✔ Commande exacte !";
+          termFeedback.textContent = "Correct. Syntaxe exacte.";
           setTimeout(() => {
             termIndex++;
             if (termIndex < terminalDrillSteps.length) {
               loadTermStep();
             } else {
-              termInstruction.textContent = "🏆 Drill terminé avec succès ! Tu as la syntaxe en main.";
+              termInstruction.textContent = "Drill termine avec succes. Syntaxe maitrisee.";
               termFeedback.textContent = "";
               termInput.disabled = true;
             }
-          }, 800);
+          }, 700);
         } else {
           termFeedback.style.color = '#f87171';
-          termFeedback.textContent = "✖ Erreur de syntaxe. Vérifie les espaces, le namespace ou les drapeaux (-n ns-llaula).";
+          termFeedback.textContent = "Erreur de syntaxe. Verifie les arguments, le namespace (-n ns-llaula) ou les espaces.";
         }
       }
     });
 
-    // Initialisation
+    // Demarrage
     updateBadge();
     renderQuestion();
     loadTermStep();
