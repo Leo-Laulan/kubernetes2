@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>K8s Master Révision - BUT Info R5A-09</title>
+  <title>K8s Exam Trainer Pro - R5A-09 VIRT5</title>
   <style>
     :root {
-      --bg: #0f172a;
-      --card-bg: #1e293b;
-      --card-border: #334155;
-      --text: #f8fafc;
+      --bg: #090d16;
+      --surface: #131b2e;
+      --surface-border: #23314d;
+      --text: #f1f5f9;
       --text-muted: #94a3b8;
       --primary: #38bdf8;
       --primary-hover: #0284c7;
@@ -17,49 +17,55 @@
       --warning: #f59e0b;
       --danger: #ef4444;
       --purple: #a855f7;
-      --code-bg: #090d16;
+      --code-bg: #05080f;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     body {
       background-color: var(--bg);
       color: var(--text);
       line-height: 1.5;
-      padding-bottom: 60px;
+      padding-bottom: 80px;
     }
 
     header {
-      background: linear-gradient(135deg, #1e293b, #0f172a);
-      border-bottom: 2px solid var(--card-border);
-      padding: 20px;
+      background: rgba(19, 27, 46, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--surface-border);
       position: sticky;
       top: 0;
       z-index: 100;
+      padding: 14px 20px;
     }
 
-    .header-content {
-      max-width: 1100px;
+    .header-container {
+      max-width: 1200px;
       margin: 0 auto;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
     }
 
-    h1 {
-      font-size: 1.4rem;
+    .title-group h1 {
+      font-size: 1.25rem;
       font-weight: 800;
       color: var(--primary);
       display: flex;
       align-items: center;
       gap: 8px;
+    }
+
+    .title-group p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
     }
 
     nav {
@@ -69,34 +75,34 @@
     }
 
     .nav-btn {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
       color: var(--text-muted);
-      padding: 8px 16px;
+      padding: 8px 14px;
       border-radius: 8px;
       cursor: pointer;
       font-weight: 600;
       font-size: 0.85rem;
-      transition: all 0.2s ease;
+      transition: all 0.15s ease;
     }
 
     .nav-btn.active, .nav-btn:hover {
-      color: var(--text);
+      color: #fff;
       background: var(--primary-hover);
       border-color: var(--primary);
     }
 
-    .badge-alert {
+    .badge-count {
       background: var(--danger);
-      color: white;
-      padding: 2px 7px;
-      border-radius: 12px;
+      color: #fff;
+      padding: 2px 6px;
+      border-radius: 10px;
       font-size: 0.75rem;
-      margin-left: 5px;
+      margin-left: 6px;
     }
 
     main {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 24px auto;
       padding: 0 16px;
     }
@@ -109,70 +115,69 @@
       display: block;
     }
 
-    /* Cards & Grids */
-    .grid-2 {
+    /* Grids & Cards */
+    .grid-cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
       gap: 16px;
-      margin-bottom: 20px;
     }
 
     .card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
       border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+      padding: 18px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);
     }
 
-    .card-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 12px;
+    .card-header {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 8px;
-      color: var(--primary);
-      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--surface-border);
       padding-bottom: 8px;
     }
 
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
     .tag {
-      font-size: 0.75rem;
-      padding: 3px 8px;
-      border-radius: 6px;
+      font-size: 0.7rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      padding: 2px 6px;
+      border-radius: 4px;
     }
-    .tag-must { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
-    .tag-core { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid #0284c7; }
+    .tag-tp1 { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid #0284c7; }
     .tag-tp2 { background: rgba(168, 85, 247, 0.2); color: #c084fc; border: 1px solid #a855f7; }
+    .tag-trap { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
 
-    ul.summary-list {
-      list-style-type: none;
+    ul.clean-list {
+      list-style: none;
     }
-
-    ul.summary-list li {
-      margin-bottom: 10px;
+    ul.clean-list li {
+      margin-bottom: 8px;
       position: relative;
-      padding-left: 20px;
-      font-size: 0.92rem;
+      padding-left: 18px;
+      font-size: 0.88rem;
     }
-
-    ul.summary-list li::before {
+    ul.clean-list li::before {
       content: "▪";
       color: var(--primary);
       position: absolute;
       left: 0;
-      font-size: 1.2rem;
       top: -2px;
+      font-size: 1.1rem;
     }
 
-    .highlight {
+    .hl {
       background: rgba(245, 158, 11, 0.15);
       color: #fbbf24;
-      padding: 2px 5px;
+      padding: 1px 4px;
       border-radius: 4px;
       font-weight: 600;
     }
@@ -180,332 +185,361 @@
     pre code {
       display: block;
       background: var(--code-bg);
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #1e293b;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.85rem;
+      border: 1px solid var(--surface-border);
+      padding: 10px;
+      border-radius: 6px;
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      font-size: 0.8rem;
       color: #38bdf8;
       overflow-x: auto;
-      margin: 8px 0;
+      margin: 6px 0;
     }
 
-    /* QCM System */
-    .quiz-container {
-      max-width: 760px;
+    /* QCM Styles */
+    .quiz-layout {
+      max-width: 800px;
       margin: 0 auto;
     }
 
-    .quiz-header {
+    .quiz-status-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
-      background: var(--card-bg);
-      padding: 16px 20px;
-      border-radius: 12px;
-      border: 1px solid var(--card-border);
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      padding: 12px 18px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
     }
 
-    .question-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 24px;
-      margin-bottom: 20px;
+    .progress-bar-bg {
+      width: 100%;
+      height: 6px;
+      background: var(--surface-border);
+      border-radius: 3px;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--primary);
+      width: 0%;
+      transition: width 0.2s ease;
     }
 
-    .question-text {
-      font-size: 1.15rem;
+    .question-panel {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: 12px;
+      padding: 22px;
+      margin-bottom: 16px;
+    }
+
+    .q-cat {
+      font-size: 0.75rem;
+      color: var(--primary);
       font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .q-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .options-list {
+      display: grid;
+      gap: 10px;
       margin-bottom: 18px;
     }
 
-    .options-grid {
-      display: grid;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .option-btn {
-      background: #0f172a;
-      border: 2px solid var(--card-border);
+    .opt-btn {
+      background: #0b111e;
+      border: 1.5px solid var(--surface-border);
       color: var(--text);
-      padding: 14px 18px;
-      border-radius: 10px;
+      padding: 12px 16px;
+      border-radius: 8px;
       text-align: left;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       cursor: pointer;
       transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    .option-btn:hover {
+    .opt-btn:hover {
       border-color: var(--primary);
-      background: #172554;
+      background: #101c33;
     }
 
-    .option-btn.selected {
+    .opt-btn.active {
       border-color: var(--primary);
-      background: rgba(56, 189, 248, 0.2);
+      background: rgba(56, 189, 248, 0.15);
     }
 
-    .option-btn.correct {
+    .opt-btn.correct {
       border-color: var(--success) !important;
-      background: rgba(16, 185, 129, 0.2) !important;
+      background: rgba(16, 185, 129, 0.18) !important;
       color: #6ee7b7;
     }
 
-    .option-btn.wrong {
+    .opt-btn.wrong {
       border-color: var(--danger) !important;
-      background: rgba(239, 68, 68, 0.2) !important;
+      background: rgba(239, 68, 68, 0.18) !important;
       color: #fca5a5;
     }
 
-    /* Confidence / Anti-Luck Component */
-    .confidence-box {
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px dashed var(--card-border);
-      padding: 16px;
-      border-radius: 10px;
-      margin-bottom: 20px;
+    /* Confidence Selector */
+    .conf-panel {
+      background: rgba(5, 8, 15, 0.6);
+      border: 1px dashed var(--surface-border);
+      padding: 14px;
+      border-radius: 8px;
+      margin-bottom: 18px;
     }
-
-    .confidence-title {
-      font-size: 0.88rem;
+    .conf-label {
+      font-size: 0.8rem;
       font-weight: 700;
       color: var(--text-muted);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       text-align: center;
     }
-
-    .confidence-buttons {
+    .conf-options {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       justify-content: center;
       flex-wrap: wrap;
     }
-
     .conf-btn {
       flex: 1;
-      min-width: 120px;
-      padding: 10px;
-      border-radius: 8px;
-      border: 2px solid transparent;
+      min-width: 130px;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1.5px solid transparent;
       cursor: pointer;
       font-weight: 600;
-      font-size: 0.85rem;
-      background: #1e293b;
+      font-size: 0.8rem;
+      background: var(--surface);
       color: var(--text);
     }
+    .conf-btn[data-lvl="sure"].active { border-color: var(--success); background: rgba(16, 185, 129, 0.2); }
+    .conf-btn[data-lvl="hesitant"].active { border-color: var(--warning); background: rgba(245, 158, 11, 0.2); }
+    .conf-btn[data-lvl="luck"].active { border-color: var(--purple); background: rgba(168, 85, 247, 0.2); }
 
-    .conf-btn[data-level="sure"]:hover, .conf-btn[data-level="sure"].active {
-      border-color: var(--success);
-      background: rgba(16, 185, 129, 0.2);
-    }
-    .conf-btn[data-level="hesitant"]:hover, .conf-btn[data-level="hesitant"].active {
-      border-color: var(--warning);
-      background: rgba(245, 158, 11, 0.2);
-    }
-    .conf-btn[data-level="luck"]:hover, .conf-btn[data-level="luck"].active {
-      border-color: var(--purple);
-      background: rgba(168, 85, 247, 0.2);
-    }
-
-    .action-btn {
+    .btn-main {
       width: 100%;
       background: var(--primary);
-      color: #0f172a;
+      color: #05080f;
       border: none;
-      padding: 14px;
-      border-radius: 10px;
+      padding: 12px;
+      border-radius: 8px;
       font-weight: 700;
-      font-size: 1rem;
+      font-size: 0.95rem;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: background 0.15s;
     }
-    .action-btn:hover { background: var(--primary-hover); }
-    .action-btn:disabled { background: var(--card-border); color: var(--text-muted); cursor: not-allowed; }
+    .btn-main:hover { background: var(--primary-hover); }
+    .btn-main:disabled { background: var(--surface-border); color: var(--text-muted); cursor: not-allowed; }
 
-    .explanation-card {
-      background: rgba(15, 23, 42, 0.9);
-      border-left: 4px solid var(--primary);
-      padding: 16px;
-      border-radius: 0 8px 8px 0;
+    .feedback-box {
       margin-top: 16px;
-      font-size: 0.9rem;
+      padding: 14px;
+      border-radius: 8px;
+      background: #090d16;
+      border-left: 4px solid var(--primary);
       display: none;
+      font-size: 0.88rem;
     }
-
-    .diagnostic-badge {
+    .diag-tag {
       display: inline-block;
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.8rem;
+      padding: 3px 8px;
+      border-radius: 4px;
       font-weight: 700;
-      margin-bottom: 8px;
+      font-size: 0.75rem;
+      margin-bottom: 6px;
     }
-    .diag-mastered { background: rgba(16, 185, 129, 0.2); color: #34d399; }
-    .diag-lucky { background: rgba(168, 85, 247, 0.2); color: #c084fc; border: 1px solid var(--purple); }
-    .diag-weak { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid var(--danger); }
 
-    /* Interactive Terminal Simulator */
-    .terminal-box {
+    /* Terminal Simulator */
+    .terminal-window {
       background: var(--code-bg);
-      border: 1px solid #334155;
-      border-radius: 10px;
+      border: 1px solid var(--surface-border);
+      border-radius: 8px;
       padding: 16px;
-      margin-top: 15px;
+      margin-top: 12px;
     }
-    .terminal-prompt {
-      color: #34d399;
-      font-family: monospace;
+    .term-header {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .term-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .term-dot.r { background: #ef4444; }
+    .term-dot.y { background: #f59e0b; }
+    .term-dot.g { background: #10b981; }
+    .term-desc {
       font-size: 0.9rem;
-      margin-bottom: 8px;
+      color: #e2e8f0;
+      margin-bottom: 10px;
     }
-    .terminal-input {
-      width: 100%;
+    .term-input-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #0e1524;
+      border: 1px solid var(--surface-border);
+      border-radius: 6px;
+      padding: 8px 12px;
+    }
+    .term-prefix {
+      color: var(--primary);
+      font-family: monospace;
+      font-weight: 700;
+      user-select: none;
+    }
+    .term-input {
+      flex: 1;
       background: transparent;
-      border: 1px solid #334155;
+      border: none;
+      outline: none;
       color: #38bdf8;
       font-family: monospace;
-      padding: 10px;
-      border-radius: 6px;
       font-size: 0.9rem;
     }
-    .terminal-feedback {
-      margin-top: 8px;
+    .term-status {
+      margin-top: 10px;
       font-family: monospace;
       font-size: 0.85rem;
+      min-height: 20px;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="header-content">
-      <h1>☸️ K8s Exam Prep <span>R5A-09</span></h1>
+    <div class="header-container">
+      <div class="title-group">
+        <h1>☸️ K8s Trainer Pro <span>R5A-09</span></h1>
+        <p>IUT La Rochelle • Préparation Évaluation Virt5</p>
+      </div>
       <nav>
-        <button class="nav-btn active" onclick="switchTab('cours')">📖 L'Essentiel Cours</button>
-        <button class="nav-btn" onclick="switchTab('commands')">⌨️ Commandes & YAML</button>
-        <button class="nav-btn" onclick="switchTab('quiz')">🎯 QCM Anti-Hasard</button>
-        <button class="nav-btn" onclick="switchTab('lacunes')">
-          🛡️ Faiblesses & Hasard <span id="lacunes-count" class="badge-alert">0</span>
+        <button class="nav-btn active" onclick="showTab('cours', this)">📖 Synthèse Cours</button>
+        <button class="nav-btn" onclick="showTab('terminal', this)">⌨️ Terminal Drill (12)</button>
+        <button class="nav-btn" onclick="showTab('quiz', this)">🎯 QCM Anti-Hasard (30)</button>
+        <button class="nav-btn" onclick="showTab('lacunes', this)">
+          🛡️ Mes Lacunes <span id="lacunes-badge" class="badge-count">0</span>
         </button>
       </nav>
     </div>
   </header>
 
   <main>
-    <!-- ONGLET 1 : L'ESSENTIEL DU COURS (Format concis & structuré) -->
+
+    <!-- SECTION 1 : SYNTHÈSE COURS VISUELLE (TDAH-FRIENDLY) -->
     <section id="tab-cours" class="tab-content active">
-      <div class="grid-2">
+      <div class="grid-cards">
         
-        <!-- CARD 1 : ARCHITECTURE GLOBALE -->
         <div class="card">
-          <div class="card-title">
-            <span>🧠 Architecture Kubernetes</span>
-            <span class="tag tag-must">Indispensable</span>
+          <div class="card-header">
+            <span class="card-title">Linux & Conteneurs Bas Niveau</span>
+            <span class="tag tag-tp1">Fondamental</span>
           </div>
-          <ul class="summary-list">
-            <li><strong>Control Plane (Cerveau) :</strong>
-              <br>• <span class="highlight">etcd</span> : Base clé-valeur distribuée (consensus <strong>RAFT</strong>), source unique de vérité.
-              <br>• <span class="highlight">API Server</span> : Point d'entrée unique (REST CRUD), seul composant parlant à etcd.
-              <br>• <span class="highlight">Scheduler</span> : Affecte les pods non liés à des nœuds selon ressources/affinités.
-              <br>• <span class="highlight">Controller Manager</span> : Boucle de réconciliation (état actuel = état souhaité).
+          <ul class="clean-list">
+            <li><strong>Namespaces (Isolation) :</strong>
+              <br>• <span class="hl">UTS</span> : nodename / hostname indépendant.
+              <br>• <span class="hl">PID</span> : PID 1 propre à chaque conteneur.
+              <br>• <span class="hl">Mount</span> : vue hiérarchique racine isolée.
+              <br>• <span class="hl">IPC</span> : mémoire partagée et sémaphores isolés.
             </li>
-            <li><strong>Worker Nodes (Exécution) :</strong>
-              <br>• <span class="highlight">Kubelet</span> : Agent du nœud, communique avec l'API Server et le container runtime.
-              <br>• <span class="highlight">Kube-proxy</span> : Gère les règles réseau et le routage des services.
-            </li>
+            <li><strong>Cgroups :</strong> Limitation matérielle stricte (CPU, RAM, I/O disque, bande passante réseau).</li>
+            <li><strong>Sécurité :</strong> SELinux (Mandatory Access Control) + Seccomp (filtre et bloque les appels système risqués).</li>
+            <li><strong>Podman vs Docker :</strong> Podman est <strong>daemonless</strong> (pas de processus centralisé `dockerd`), exécute directement via <strong>runC</strong> et supporte le mode rootless.</li>
           </ul>
         </div>
 
-        <!-- CARD 2 : CONTENEURS & LINUX -->
         <div class="card">
-          <div class="card-title">
-            <span>📦 Conteneurs sous le capot</span>
-            <span class="tag tag-core">Concept</span>
+          <div class="card-header">
+            <span class="card-title">Architecture du Control Plane</span>
+            <span class="tag tag-tp1">Cœur K8s</span>
           </div>
-          <ul class="summary-list">
-            <li><strong>Piliers Linux :</strong>
-              <br>• <strong>Namespaces</strong> : Isolation (PID, Mount, UTS=hostname, IPC).
-              <br>• <strong>Cgroups</strong> : Limitation et allocation des ressources (CPU, RAM, I/O).
-              <br>• <strong>SELinux / Seccomp</strong> : Sécurité et filtrage des appels système autorisés.
-            </li>
-            <li><strong>Docker vs Podman :</strong>
-              <br>• Docker s'appuie sur un démon centralisé (`dockerd`).
-              <br>• Podman est <strong>daemonless</strong> (sans démon), les conteneurs sont lancés directement par <strong>runC</strong> (compatible rootless).
-            </li>
-            <li><strong>Déclaratif vs Impératif :</strong> En déclaratif, on décrit <em>l'état final souhaité</em> dans un fichier YAML ; Kubernetes s'occupe de l'auto-réparation.</li>
+          <ul class="clean-list">
+            <li><strong>etcd :</strong> Magasin clé-valeur distribué, unique source de vérité. Algorithme de consensus <strong>RAFT</strong> (Leader, Follower, Candidat).</li>
+            <li><strong>API Server (kube-apiserver) :</strong> Point central d'accès REST (CRUD). <strong>Seul composant à communiquer avec etcd</strong>. Pipeline : Authentification ➔ Autorisation ➔ Contrôle d'admission.</li>
+            <li><strong>Scheduler :</strong> Associe les pods « non liés » aux worker nodes selon les ressources demandées, affinités et contraintes.</li>
+            <li><strong>Controller Manager :</strong> Boucle infinie de réconciliation : compare en continu <em>l'état réel</em> à <em>l'état désiré</em> et émet des ordres à l'API Server.</li>
+            <li><strong>Kubelet :</strong> Tourne sur chaque <strong>Worker Node</strong>, reçoit les instructions de l'API Server et pilote le runtime (CRI / runC).</li>
           </ul>
         </div>
 
-        <!-- CARD 3 : PODS & REPLICASET (TP1) -->
         <div class="card">
-          <div class="card-title">
-            <span>🔄 Pods & ReplicaSets</span>
-            <span class="tag tag-must">TP1 Majeur</span>
+          <div class="card-header">
+            <span class="card-title">Pods & ReplicaSets (TP1)</span>
+            <span class="tag tag-trap">Pièges Examen</span>
           </div>
-          <ul class="summary-list">
+          <ul class="clean-list">
             <li><strong>Cycle de vie du Pod :</strong>
-              <br><span class="highlight">Pending</span> (téléchargement image / non assigné) ➔ <span class="highlight">Running</span> (au moins 1 conteneur tourne) ➔ <span class="highlight">Succeeded</span> (fini avec code 0) ou <span class="highlight">Failed</span> (erreur).
+              <br>• <span class="hl">Pending</span> : pod accepté mais image en cours de pull ou en attente d'assignation nœud.
+              <br>• <span class="hl">Running</span> : assigné à un nœud et au moins un conteneur tourne.
+              <br>• <span class="hl">Succeeded</span> / <span class="hl">Failed</span> : terminé avec code 0 ou erreur/kill.
             </li>
-            <li><strong>Nature du Pod :</strong> Entité <strong>éphémère</strong> dotée d'un UID unique. S'il meurt, il n'est pas ressuscité, mais remplacé avec un nouvel UID.</li>
-            <li><strong>ReplicaSet :</strong> Garantit qu'un nombre précis de réplicas tourne en permanence. Il ne filtre <strong>que par labels</strong> (`matchLabels`). Si un pod tiers a le même label, le RS en tue un pour respecter la consigne !</li>
+            <li><strong>Éphémérité :</strong> Un pod mort <strong>n'est jamais re-ordonnancé</strong> avec le même UID. Il est remplacé par un nouveau pod doté d'un UID neuf.</li>
+            <li><strong>ReplicaSet & Sélecteurs :</strong> Le RS compte les pods UNIQUEMENT par leurs <strong>labels</strong> (`matchLabels`). Si un pod tiers a le même label, le RS détecte un surplus et tue un pod !</li>
           </ul>
         </div>
 
-        <!-- CARD 4 : DEPLOYMENTS & STRATÉGIES -->
         <div class="card">
-          <div class="card-title">
-            <span>🚀 Deployments & Mises à jour</span>
-            <span class="tag tag-must">TP1 Majeur</span>
+          <div class="card-header">
+            <span class="card-title">Deployments & Stratégies (TP1)</span>
+            <span class="tag tag-tp1">TP1 Majeur</span>
           </div>
-          <ul class="summary-list">
-            <li><strong>Rôle :</strong> Objet de plus haut niveau gérant les <strong>ReplicaSets</strong> de façon déclarative (permet rollouts, rollbacks et révisions).</li>
-            <li><strong>Stratégies natives :</strong>
-              <br>• <span class="highlight">RollingUpdate</span> (Par défaut) : Remplacement progressif sans coupure. Réglé par <strong>maxSurge</strong> (dépassement autorisé) et <strong>maxUnavailable</strong> (indisponibles autorisés).
-              <br>• <span class="highlight">Recreate</span> : Tue tous les anciens pods avant de lancer les nouveaux (provoque une coupure de service).
+          <ul class="clean-list">
+            <li><strong>Deployment :</strong> Pilote déclarativement les ReplicaSets pour gérer l'historique et les révisions.</li>
+            <li><strong>RollingUpdate (défaut) :</strong> Remplacement progressif sans rupture de service.
+              <br>• <span class="hl">maxSurge</span> (défaut 25%) : pods tolérés au-dessus du quota.
+              <br>• <span class="hl">maxUnavailable</span> (défaut 25%) : pods tolérés indisponibles.
             </li>
-            <li><strong>Stratégies avancées :</strong>
-              <br>• <strong>Blue/Green</strong> : Deux environnements identiques complets. Bascule instantanée du trafic mais coûte le double de ressources.
-              <br>• <strong>Canary</strong> : Achemine une petite fraction du trafic réel vers la nouvelle version pour tester la stabilité avant déploiement total.
-            </li>
+            <li><strong>Recreate :</strong> Tue brutalement l'ensemble des anciens pods avant de lancer les nouveaux (coupure de service).</li>
+            <li><strong>Blue/Green :</strong> 2 environnements complets en parallèle. Bascule instantanée du trafic mais double le coût matériel.</li>
+            <li><strong>Canary :</strong> Route un pourcentage minime d'utilisateurs réels sur la nouvelle version avant d'étendre le déploiement.</li>
           </ul>
         </div>
 
-        <!-- CARD 5 : SERVICES RÉSEAU (TP2) -->
         <div class="card">
-          <div class="card-title">
-            <span>🌐 Services Réseau K8s</span>
-            <span class="tag tag-core">Concepts</span>
+          <div class="card-header">
+            <span class="card-title">Services Réseau (TP2)</span>
+            <span class="tag tag-tp2">Concepts Clés</span>
           </div>
-          <ul class="summary-list">
-            <li><strong>Problème résolu :</strong> Les pods meurent et changent d'IP. Le service offre une IP stable et un nom DNS interne.</li>
-            <li><strong>Types de Services :</strong>
-              <br>• <span class="highlight">ClusterIP</span> (Défaut) : Uniquement accessible <em>à l'intérieur</em> du cluster (ex: Base de données Redis).
-              <br>• <span class="highlight">NodePort</span> : Ouvre un port fixe sur chaque worker node (plage <strong>30000-32767</strong>). Inconvénient : IP statique de nœud requise et ports limités.
-              <br>• <span class="highlight">LoadBalancer</span> : Crée un équilibreur chez un fournisseur cloud externe (L4 ou L7).
+          <ul class="clean-list">
+            <li><strong>Les 3 Ports d'un Service :</strong>
+              <br>• <span class="hl">port</span> : port d'écoute interne du service.
+              <br>• <span class="hl">targetPort</span> : port cible sur le conteneur du Pod.
+              <br>• <span class="hl">nodePort</span> : port externe ouvert sur TOUS les nœuds (plage <strong>30000-32767</strong>).
             </li>
+            <li><strong>ClusterIP (Défaut) :</strong> IP virtuelle interne au cluster. Inaccessible de l'extérieur. Indispensable pour sécuriser le backend (Redis).</li>
+            <li><strong>Endpoints :</strong> Objet auto-généré listant les adresses IP réelles des pods correspondant aux labels du sélecteur.</li>
           </ul>
         </div>
 
-        <!-- CARD 6 : GATEWAY API & HTTPROUTE (TP2 FOCUS) -->
         <div class="card">
-          <div class="card-title">
-            <span>🚪 Gateway API & HTTPRoute</span>
-            <span class="tag tag-tp2">TP2 Focus</span>
+          <div class="card-header">
+            <span class="card-title">Gateway API & HTTPRoute (TP2)</span>
+            <span class="tag tag-tp2">Focus TP2</span>
           </div>
-          <ul class="summary-list">
-            <li><strong>Modèle orienté rôles :</strong>
-              <br>• <strong>GatewayClass</strong> : Géré par le projet d'infrastructure (ex: `kgateway.dev/kgateway`).
-              <br>• <strong>Gateway</strong> : Géré par les admins (ex: `main-gateway` dans `infra-gateway`).
-              <br>• <strong>HTTPRoute</strong> : Géré par le <strong>développeur/étudiant</strong> dans son propre namespace.
+          <ul class="clean-list">
+            <li><strong>Architecture par Rôles :</strong>
+              <br>• <span class="hl">GatewayClass</span> (Infra/kgateway) ➔ <span class="hl">Gateway</span> (Admin/infra-gateway) ➔ <span class="hl">HTTPRoute</span> (Toi/ns-llaula).
             </li>
-            <li><strong>Routage HTTP :</strong> Permet d'utiliser le port 80/443 standard et d'aiguiller le trafic selon le nom d'hôte (`hostnames`) vers un service frontend en <strong>ClusterIP</strong>.</li>
-            <li><strong>Diagnostics de Route :</strong>
-              <br>• `Accepted: True` = Syntaxe et liaison à la Gateway acceptées.
-              <br>• `ResolvedRefs: False` (Reason: `BackendNotFound`) = Le service visé par la route n'existe pas (erreur 500/503 retournée par Envoy).
+            <li><strong>Composants kgateway :</strong>
+              <br>• Control Plane : déploiement `kgateway` dans `kgateway-system`.
+              <br>• Data Plane : proxy <strong>Envoy</strong> déployé dans `infra-gateway`.
+            </li>
+            <li><strong>Diagnostic HTTPRoute :</strong>
+              <br>• `Accepted: True` : route acceptée par la Gateway parente.
+              <br>• `ResolvedRefs: False` (Reason: `BackendNotFound`) : le service pointé dans `backendRefs` est introuvable ➔ Envoy retourne une erreur 500/503.
             </li>
           </ul>
         </div>
@@ -513,634 +547,826 @@
       </div>
     </section>
 
-    <!-- ONGLET 2 : CHEAT-SHEET COMMANDES & FORMAT YAML -->
-    <section id="tab-commands" class="tab-content">
-      <div class="grid-2">
-        
+    <!-- SECTION 2 : TERMINAL DRILL (12 COMMANDES OBLIGATOIRES) -->
+    <section id="tab-terminal" class="tab-content">
+      <div style="max-width: 800px; margin: 0 auto;">
         <div class="card">
-          <div class="card-title">⚡ Commandes Vitales pour l'Évaluation</div>
-          <ul class="summary-list">
-            <li><strong>Initialisation obligatoire du lab :</strong>
-              <code>source labs-config.sh</code>
-            </li>
-            <li><strong>Créer / Mettre à jour depuis un fichier :</strong>
-              <code>kubectl apply -f mon-fichier.yaml -n ns-login</code>
-            </li>
-            <li><strong>Inspecter en détail / Événements d'un objet :</strong>
-              <code>kubectl describe &lt;pod|rs|deploy|svc|httproute&gt; &lt;nom&gt; -n ns-login</code>
-            </li>
-            <li><strong>Modifier l'échelle (Scale UP / DOWN) :</strong>
-              <code>kubectl scale deployment &lt;nom&gt; --replicas=4 -n ns-login</code>
-            </li>
-            <li><strong>Changer l'image d'un déploiement :</strong>
-              <code>kubectl set image deployment/&lt;nom&gt; &lt;conteneur&gt;=&lt;image:tag&gt; -n ns-login</code>
-            </li>
-            <li><strong>Annuler une mise à jour (Rollback) :</strong>
-              <code>kubectl rollout undo deployment/&lt;nom&gt; --to-revision=1 -n ns-login</code>
-            </li>
-            <li><strong>Tester en local sans IP publique :</strong>
-              <code>kubectl port-forward svc/&lt;nom-svc&gt; 9999:80 -n ns-login</code>
-            </li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <div class="card-title">📄 Squelette Standard YAML à Reconnaître</div>
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">
-            Les 4 blocs obligatoires : <strong>apiVersion</strong>, <strong>kind</strong>, <strong>metadata</strong>, <strong>spec</strong>.
+          <div class="card-header">
+            <span class="card-title">⌨️ Entraînement de saisie : Commandes de TP</span>
+            <span id="term-counter" style="font-size: 0.85rem; color: var(--primary);">Épreuve 1 / 12</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+            Tape la commande exacte attendue pour réussir l'examen pratique sans hésitation :
           </p>
-          <pre><code>apiVersion: apps/v1          # v1 pour Pod/Service/Namespace, apps/v1 pour Deploy/RS
-kind: Deployment             # Type de l'objet
-metadata:
-  name: dep-app              # Nom de la ressource
-  namespace: ns-llaula       # Espace d'isolation
-  labels:
-    app: web
-spec:
-  replicas: 3                # Nombre souhaité
-  selector:
-    matchLabels:
-      app: web               # Cible les pods avec ce label
-  template:                  # Modèle pour fabriquer les pods
-    metadata:
-      labels:
-        app: web
-    spec:
-      containers:
-      - name: mon-conteneur
-        image: nginx:1.16.1
-        ports:
-        - containerPort: 80</code></pre>
-        </div>
 
-      </div>
-
-      <!-- Test interactif de saisie de commandes -->
-      <div class="card">
-        <div class="card-title">✍️ Entraînement : Saisie de commandes type DS</div>
-        <p style="font-size: 0.9rem; color: var(--text-muted);">
-          Tape la commande exacte demandée ci-dessous pour vérifier tes réflexes d'écriture :
-        </p>
-        <div class="terminal-box">
-          <div id="sim-prompt" class="terminal-prompt">Exercice 1/3 : Charge le script de config d'environnement dans le shell courant</div>
-          <input type="text" id="sim-input" class="terminal-input" placeholder="Tape ta commande ici..." autocomplete="off">
-          <div id="sim-feedback" class="terminal-feedback"></div>
+          <div class="terminal-window">
+            <div class="term-header">
+              <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+            </div>
+            <div id="term-instruction" class="term-desc">Instruction ici...</div>
+            <div class="term-input-group">
+              <span class="term-prefix">llaula01@radar21:~$</span>
+              <input type="text" id="terminal-cli" class="term-input" placeholder="Tape ici et appuie sur Entrée..." autocomplete="off" spellcheck="false">
+            </div>
+            <div id="term-feedback" class="term-status"></div>
+          </div>
+          <button class="btn-main" style="margin-top: 14px;" onclick="skipTerminalStep()">Passer cette commande ➔</button>
         </div>
       </div>
     </section>
 
-    <!-- ONGLET 3 : QCM INTELLIGENT ANTI-HASARD -->
+    <!-- SECTION 3 : QCM INTELLIGENT ANTI-HASARD (30 QUESTIONS) -->
     <section id="tab-quiz" class="tab-content">
-      <div class="quiz-container">
+      <div class="quiz-layout">
         
-        <div class="quiz-header">
-          <div>
-            <span style="font-size: 0.85rem; color: var(--text-muted);">Progression :</span>
-            <strong id="quiz-progress">Question 1 / 15</strong>
-          </div>
-          <div>
-            <span style="font-size: 0.85rem; color: var(--text-muted);">Score Réel :</span>
-            <strong id="quiz-score" style="color: var(--primary);">0 pts</strong>
-          </div>
+        <div class="quiz-status-bar">
+          <div>Question : <strong id="quiz-idx">1 / 30</strong></div>
+          <div>Score Réel : <strong id="quiz-score" style="color: var(--primary);">0 pts</strong></div>
+        </div>
+        <div class="progress-bar-bg">
+          <div id="quiz-pbar" class="progress-bar-fill"></div>
         </div>
 
-        <div id="quiz-box" class="question-card">
-          <div id="q-category" style="font-size: 0.75rem; color: var(--primary); font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">Catégorie</div>
-          <div id="q-text" class="question-text">Intitulé de la question ici ?</div>
+        <div id="quiz-card" class="question-panel" style="margin-top: 16px;">
+          <div id="q-category" class="q-cat">Catégorie</div>
+          <div id="q-text" class="q-title">Énoncé de la question ?</div>
           
-          <div id="q-options" class="options-grid">
-            <!-- Boutons de réponses injectés en JS -->
-          </div>
+          <div id="q-options" class="options-list"></div>
 
-          <!-- Évaluation de la certitude pour éliminer le biais du coup de chance -->
-          <div class="confidence-box">
-            <div class="confidence-title">Niveau de certitude avant de valider :</div>
-            <div class="confidence-buttons">
-              <button class="conf-btn active" data-level="sure" onclick="setConfidence('sure')">🟢 Sûr à 100%</button>
-              <button class="conf-btn" data-level="hesitant" onclick="setConfidence('hesitant')">🟡 Hésitant (50/50)</button>
-              <button class="conf-btn" data-level="luck" onclick="setConfidence('luck')">🎲 Au pif (Hasard)</button>
+          <div class="conf-panel">
+            <div class="conf-label">Ton niveau d'assurance sur cette réponse :</div>
+            <div class="conf-options">
+              <button class="conf-btn active" data-lvl="sure" onclick="setConfidence('sure')">🟢 Sûr (Maîtrisé)</button>
+              <button class="conf-btn" data-lvl="hesitant" onclick="setConfidence('hesitant')">🟡 Hésitant (50/50)</button>
+              <button class="conf-btn" data-lvl="luck" onclick="setConfidence('luck')">🎲 Au pif (Hasard)</button>
             </div>
           </div>
 
-          <button id="validate-btn" class="action-btn" onclick="validateAnswer()" disabled>Valider la réponse</button>
+          <button id="btn-validate" class="btn-main" onclick="checkAnswer()" disabled>Valider la réponse</button>
 
-          <div id="q-explanation" class="explanation-card">
-            <div id="q-diagnostic" class="diagnostic-badge"></div>
-            <div id="q-exp-text"></div>
-            <button class="action-btn" style="margin-top: 14px;" onclick="nextQuestion()">Passer à la suite ➔</button>
+          <div id="q-feedback" class="feedback-box">
+            <div id="q-diag" class="diag-tag"></div>
+            <div id="q-explanation">Explication...</div>
+            <button class="btn-main" style="margin-top: 12px;" onclick="nextQuestion()">Question suivante ➔</button>
           </div>
         </div>
 
-        <div id="quiz-end" class="question-card" style="display: none; text-align: center;">
-          <h2 style="color: var(--primary); margin-bottom: 12px;">Session terminée !</h2>
-          <p id="quiz-end-summary" style="margin-bottom: 20px; font-size: 1.05rem;"></p>
+        <div id="quiz-summary" class="question-panel" style="display: none; text-align: center;">
+          <h2 style="color: var(--primary); margin-bottom: 10px;">Évaluation Terminée !</h2>
+          <p id="quiz-final-stats" style="font-size: 1.05rem; margin-bottom: 20px;"></p>
           <div style="display: flex; gap: 10px; justify-content: center;">
-            <button class="action-btn" style="max-width: 250px;" onclick="restartQuiz(false)">Recommencer le QCM</button>
-            <button class="action-btn" style="max-width: 250px; background: var(--purple);" onclick="switchTab('lacunes')">Voir mes faiblesses</button>
+            <button class="btn-main" style="max-width: 220px;" onclick="resetQuiz(false)">Recommencer tout le QCM</button>
+            <button class="btn-main" style="max-width: 220px; background: var(--purple);" onclick="showTab('lacunes', null)">Examiner mes faiblesses</button>
           </div>
         </div>
 
       </div>
     </section>
 
-    <!-- ONGLET 4 : TRAVAIL DES LACUNES & COUPS DE CHANCE -->
+    <!-- SECTION 4 : BOUCLIER ANTI-LACUNES & TRAVAIL CIBLÉ -->
     <section id="tab-lacunes" class="tab-content">
-      <div style="margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
         <div>
           <h2>Bouclier Anti-Lacunes & Coups de Chance</h2>
           <p style="font-size: 0.85rem; color: var(--text-muted);">
-            Cette section regroupe les questions échouées ainsi que celles réussies <em>par pur hasard</em>.
+            Questions ratées ou réussies au hasard. Tu dois les valider avec l'assurance « 🟢 Sûr » pour les éliminer.
           </p>
         </div>
-        <button class="action-btn" style="max-width: 220px;" onclick="startWeaknessQuiz()" id="btn-run-lacunes" disabled>
-          S'entraîner sur ces points
+        <button id="btn-drill-lacunes" class="btn-main" style="max-width: 240px;" onclick="startLacunesDrill()" disabled>
+          Lancer le Quiz des Lacunes
         </button>
       </div>
 
-      <div id="lacunes-list" class="grid-2">
-        <!-- Cartes des lacunes injectées en JS -->
-      </div>
+      <div id="lacunes-deck" class="grid-cards"></div>
     </section>
+
   </main>
 
   <script>
     /* =========================================================================
-       BANQUE DE QUESTIONS STRATÉGIQUES (Concepts, YAML, Commandes, TP1 & TP2)
+       1. BANQUE DE 30 QUESTIONS (DISTRACTEURS RÉALISTES & PIÈGES D'EXAMEN)
        ========================================================================= */
-    const questionsPool = [
+    const masterQuestions = [
       {
         id: 1,
-        cat: "Commandes Fondamentales",
+        cat: "Commandes de TP",
         q: "Quelle commande préliminaire devez-vous exécuter dans chaque terminal ouvert avant d'utiliser le cluster labs de l'IUT ?",
         options: [
-          "kubectl init-cluster",
+          "./labs-config.sh",
           "source labs-config.sh",
-          "systemctl start kubelet",
-          "chmod 777 kubectl"
+          "kubectl config use-context labs",
+          "systemctl restart kubelet"
         ],
         answer: 1,
-        exp: "Le fichier 'labs-config.sh' configure les variables d'environnement indispensables (dont KUBECONFIG) pour dialoguer avec le cluster de TP."
+        exp: "L'instruction 'source' (ou '.') exécute le script dans le shell courant pour charger les variables d'environnement (KUBECONFIG). Lancer './labs-config.sh' créerait un sous-shell dont les variables disparaissent à la fin."
       },
       {
         id: 2,
-        cat: "Architecture K8s",
-        q: "Quel composant du Control Plane est l'UNIQUE intermédiaire habilité à lire et écrire dans la base de données etcd ?",
+        cat: "Linux & Conteneurs",
+        q: "Quel namespace du noyau Linux permet d'isoler le nom d'hôte (nodename) renvoyé par la commande 'hostname' dans un conteneur ?",
         options: [
-          "Le Kube-Scheduler",
-          "Le Controller Manager",
-          "L'API Server (kube-apiserver)",
-          "Le Kubelet"
+          "Le namespace PID",
+          "Le namespace Mount",
+          "Le namespace UTS",
+          "Le namespace IPC"
         ],
         answer: 2,
-        exp: "L'API Server est le point focal. Tous les composants du Control Plane communiquent avec lui, et lui seul dialogue directement avec etcd en lecture/écriture CRUD."
+        exp: "Le namespace UTS (UNIX Timesharing System) isole les identifiants système nodename et domainname. C'est grâce à lui que le pod a son propre hostname sans modifier celui de la machine hôte."
       },
       {
         id: 3,
-        cat: "Architecture K8s",
-        q: "Quel rôle précis est attribué au 'Kube-Scheduler' ?",
+        cat: "Linux & Conteneurs",
+        q: "Quelle est la différence fondamentale d'architecture entre Podman et Docker ?",
         options: [
-          "Gérer les certificats SSL du cluster",
-          "Affecter un nœud d'exécution aux pods nouvellement créés ou non liés",
-          "Redémarrer les conteneurs qui ont crashé",
-          "Exposer les services sur Internet"
+          "Podman ne gère pas les formats d'images OCI",
+          "Podman est daemonless et lance directement les conteneurs via runC sans dépendre d'un démon unique",
+          "Docker utilise les cgroups alors que Podman utilise uniquement SELinux",
+          "Podman requiert obligatoirement des privilèges root pour exécuter des conteneurs"
         ],
         answer: 1,
-        exp: "Le Scheduler détecte les pods sans assignation et choisit sur quel nœud (worker) les exécuter en tenant compte des ressources et affinités."
+        exp: "Docker repose sur un démon centralisé tournant en tâche de fond (dockerd). Podman n'a aucun démon (daemonless) : il dialogue directement avec le runtime OCI runC."
       },
       {
         id: 4,
-        cat: "Conteneurs & Linux",
-        q: "Quelle différence architecturale majeure distingue Podman de Docker ?",
+        cat: "Architecture K8s",
+        q: "Dans le Control Plane, quel composant est le SEUL autorisé à communiquer directement en lecture/écriture avec etcd ?",
         options: [
-          "Podman ne sait exécuter que des images Ubuntu",
-          "Podman ne possède pas de démon centralisé (daemonless) et lance les conteneurs via runC",
-          "Docker n'utilise ni namespaces ni cgroups",
-          "Podman ne fonctionne que sur MacOS"
+          "Kube-Controller-Manager",
+          "Kube-Scheduler",
+          "Kube-apiserver (API Server)",
+          "Le Kubelet du nœud Master"
         ],
-        answer: 1,
-        exp: "Podman n'a pas de démon permanent tournant en tâche de fond (contrairement au dockerd de Docker). Chaque conteneur est lancé directement par le runtime OCI runC."
+        answer: 2,
+        exp: "Tous les composants sans exception passent par l'API Server en REST. Aucun composant ni client ne discute directement avec etcd."
       },
       {
         id: 5,
-        cat: "Gestion des Pods",
-        q: "Si un nœud physique tombe en panne, que devient un Pod ordonnancé sur ce nœud ?",
+        cat: "Architecture K8s",
+        q: "Sur quel algorithme de consensus repose la base de données distribuée etcd pour assurer la cohérence de l'état du cluster ?",
         options: [
-          "Le pod est automatiquement migré avec son UID d'origine sur un autre nœud",
-          "Le pod est détruit ; s'il est managé par un contrôleur, un nouveau pod avec un UID différent est instancié",
-          "Le pod passe en état 'Paused' indéfiniment",
-          "Le pod reboot instantanément dans etcd"
+          "Paxos",
+          "RAFT",
+          "Gossip protocol",
+          "Round-Robin"
         ],
         answer: 1,
-        exp: "Un pod est une entité éphémère. Il n'est JAMAIS re-ordonnancé avec le même UID. Le contrôleur (ReplicaSet/Deployment) en instancie simplement un nouveau identique."
+        exp: "etcd implémente l'algorithme RAFT pour élire un nœud Leader et garantir une cohérence stricte des données entre réplicas."
       },
       {
         id: 6,
-        cat: "ReplicaSet (TP1)",
-        q: "Un ReplicaSet surveille 3 réplicas avec le sélecteur 'app: nginx'. Vous créez manuellement un pod isolé portant le label 'app: nginx'. Que se passe-t-il ?",
+        cat: "Architecture K8s",
+        q: "Quel composant du Control Plane surveille en permanence la différence entre l'état actuel et l'état souhaité décrit dans le cluster ?",
         options: [
-          "Le ReplicaSet ignore ce pod car il n'en est pas le créateur direct",
-          "Kubernetes refuse la création du pod manuel pour conflit de nom",
-          "Le nombre total passe à 4, le ReplicaSet détruit immédiatement l'un des pods pour revenir à 3",
-          "Le ReplicaSet augmente automatiquement son nombre de réplicas à 4"
+          "Kube-Scheduler",
+          "Kube-proxy",
+          "Kubelet",
+          "Kube-Controller-Manager"
         ],
-        answer: 2,
-        exp: "Le ReplicaSet gère les pods uniquement en se basant sur ses 'labels' sélecteurs. S'il compte 4 pods correspondant à sa règle alors que la consigne est 3, il supprime l'excédent."
+        answer: 3,
+        exp: "Le Controller Manager exécute des boucles de réconciliation continues (Deployment controller, ReplicaSet controller...) pour réajuster l'état réel sur l'état désiré."
       },
       {
         id: 7,
-        cat: "Deployments (TP1)",
-        q: "Par défaut dans Kubernetes, quelle stratégie de mise à jour est appliquée lors d'une modification du template d'un Deployment ?",
+        cat: "Architecture K8s",
+        q: "Où s'exécute l'agent 'Kubelet' et quelle est sa fonction essentielle ?",
         options: [
-          "Recreate (arrêt total puis création)",
-          "Blue/Green (création d'un second cluster)",
-          "RollingUpdate (mise à jour progressive sans coupure)",
-          "Canary deployment (10% par défaut)"
+          "Sur le Master : il calcule le placement optimal des pods",
+          "Sur chaque Worker Node : il écoute l'API Server et ordonne au container runtime de démarrer les conteneurs",
+          "Dans etcd : il gère le stockage des secrets",
+          "Sur le poste client : il convertit le YAML en JSON"
         ],
-        answer: 2,
-        exp: "La stratégie native par défaut est 'RollingUpdate'. Elle remplace les pods un par un au rythme dicté par maxSurge et maxUnavailable afin d'éviter toute rupture de service."
+        answer: 1,
+        exp: "Kubelet s'exécute sur chaque nœud de travail. Il reçoit les PodSpecs assignés par le Scheduler et pilote le runtime local (ex. containerd/runC)."
       },
       {
         id: 8,
-        cat: "Deployments (TP1)",
-        q: "Vous effectuez un déploiement avec une image inexistante (faute de frappe). Dans quel état se retrouvent les nouveaux pods ?",
+        cat: "Pods & Cycle de vie",
+        q: "Dans quel état précis se trouve un Pod lorsqu'il a été assigné à un nœud mais que son conteneur télécharge encore l'image Docker sur le réseau ?",
         options: [
-          "Terminating",
-          "Completed",
-          "ImagePullBackOff ou ErrImagePull",
-          "ContainerActive"
+          "ContainerCreating",
+          "Running",
+          "Pending",
+          "Unknown"
         ],
         answer: 2,
-        exp: "Le runtime ne parvient pas à télécharger l'image depuis le registre. Le pod bascule en ErrImagePull puis ImagePullBackOff (attente exponentielle). Les anciens pods restent en ligne."
+        exp: "Selon la documentation officielle du cours, la phase 'Pending' englobe le temps avant l'assignation ainsi que le téléchargement des images des conteneurs."
       },
       {
         id: 9,
-        cat: "Stratégies Avancées",
-        q: "Quel inconvénient majeur caractérise la stratégie de déploiement Blue/Green ?",
+        cat: "Pods & Cycle de vie",
+        q: "Si un nœud worker subit un crash matériel irréversible, que deviennent les Pods qui y tournaient ?",
         options: [
-          "Elle provoque obligatoirement une interruption de service de plusieurs minutes",
-          "Elle est très coûteuse car elle requiert le doublement complet des ressources matérielles",
-          "Elle ne fonctionne pas avec le protocole HTTP",
-          "Elle supprime les bases de données automatiquement"
+          "Ils sont re-ordonnancés sur un autre nœud en conservant strictement leur UID",
+          "Ils sont déclarés terminés ; un contrôleur de niveau supérieur instanciera de nouveaux pods identiques avec de nouveaux UID",
+          "Ils restent actifs en mémoire tampon dans etcd jusqu'au redémarrage du nœud",
+          "Leur statut passe immédiatement à Succeeded"
         ],
         answer: 1,
-        exp: "Le déploiement Blue/Green nécessite deux environnements complets (anciens pods + nouveaux pods tournant en parallèle), ce qui double la consommation de ressources jusqu'à la bascule."
+        exp: "Un pod est une entité éphémère. Il n'est JAMAIS ressuscité ou re-ordonnancé avec le même UID. Le Deployment ou ReplicaSet en recrée un neuf avec un nouvel UID."
       },
       {
         id: 10,
-        cat: "Services Réseau (TP2)",
-        q: "Quelle est la plage de ports statiques réservée par défaut pour un service de type NodePort ?",
+        cat: "Pods & Cycle de vie",
+        q: "Deux conteneurs distincts s'exécutent au sein d'un MÊME Pod. Comment peuvent-ils communiquer entre eux sur le réseau ?",
         options: [
-          "80 à 443",
-          "1024 à 49151",
-          "30000 à 32767",
-          "8000 à 8999"
+          "En utilisant leurs adresses IP respectives différentes",
+          "En utilisant localhost et en partageant le même espace de ports",
+          "Uniquement via des fichiers montés sur /tmp",
+          "Ils ne peuvent pas communiquer sans service NodePort"
         ],
-        answer: 2,
-        exp: "Dans Kubernetes, les services NodePort allouent obligatoirement un port réservé dans la plage 30000-32767 sur l'ensemble des nœuds du cluster."
+        answer: 1,
+        exp: "Tous les conteneurs d'un même pod partagent le même Network Namespace : ils ont la même adresse IP et communiquent entre eux via localhost."
       },
       {
         id: 11,
-        cat: "Services Réseau (TP2)",
-        q: "Pourquoi le service de base de données Redis d'une application multi-tiers doit-il être configuré en 'ClusterIP' ?",
+        cat: "ReplicaSet (TP1)",
+        q: "Un ReplicaSet est configuré avec 'replicas: 3' et 'matchLabels: { app: nginx }'. Vous appliquez le fichier d'un pod isolé portant 'app: nginx'. Que se passe-t-il ?",
         options: [
-          "Pour forcer son exposition sur le réseau Internet",
-          "Pour lui donner une IP interne accessible uniquement depuis l'intérieur du cluster et sécuriser l'accès",
-          "Parce que Redis ne supporte pas le protocole TCP",
-          "Pour permettre aux étudiants de s'y connecter depuis leur smartphone"
+          "Le pod est rejeté par l'API Server pour doublon de label",
+          "Le ReplicaSet adopte le pod et augmente automatiquement sa consigne à 4 réplicas",
+          "Le pod passe en Running, mais le ReplicaSet détecte 4 pods pour une consigne de 3 et supprime l'excédent immédiatement",
+          "Le ReplicaSet est mis en pause de sécurité"
         ],
-        answer: 1,
-        exp: "ClusterIP est le type par défaut. Il offre une IP et un nom DNS joignables uniquement par les conteneurs du cluster, empêchant toute intrusion directe depuis l'extérieur."
+        answer: 2,
+        exp: "Le ReplicaSet surveille uniquement les labels. Constatant que 4 pods répondent à sa consigne alors que 3 sont demandés, il envoie un signal Terminating à un pod pour respecter l'état désiré."
       },
       {
         id: 12,
-        cat: "Gateway API (TP2)",
-        q: "Dans l'architecture Gateway API mise en place à l'IUT, quel composant déclarez-vous personnellement dans votre propre namespace ?",
+        cat: "Deployments (TP1)",
+        q: "Quelle relation déclarative exacte existe-t-il entre un Deployment et un ReplicaSet ?",
         options: [
-          "La GatewayClass",
-          "La Gateway d'infrastructure partagée",
-          "La HTTPRoute",
-          "Le contrôleur kgateway"
+          "Le ReplicaSet pilote et met à jour le Deployment",
+          "Le Deployment possède et orchestre un ou plusieurs ReplicaSets sous-jacents",
+          "Le Deployment et le ReplicaSet sont des synonymes stricts",
+          "Le ReplicaSet ne peut contenir qu'un seul Pod tandis que le Deployment en gère plusieurs"
         ],
-        answer: 2,
-        exp: "Gateway API est orienté rôles : l'infra fournit la GatewayClass, les admins gèrent la Gateway partagée, et chaque développeur déclare uniquement ses propres 'HTTPRoute'."
+        answer: 1,
+        exp: "Le Deployment est un objet de niveau d'abstraction supérieur. Pour chaque mise à jour ou version, il crée un nouveau ReplicaSet et gère la transition des pods."
       },
       {
         id: 13,
-        cat: "Gateway API (TP2)",
-        q: "Dans une ressource HTTPRoute, que signifie la condition de statut 'ResolvedRefs: False' avec Reason 'BackendNotFound' ?",
+        cat: "Deployments (TP1)",
+        q: "Quelle stratégie de déploiement native à Kubernetes coupe d'abord TOUS les anciens pods avant de démarrer les nouveaux pods ?",
         options: [
-          "Le nom de domaine de la route est déjà pris",
-          "Le service de destination spécifié dans 'backendRefs' est introuvable dans le namespace",
-          "Le proxy Envoy est en panne générale",
-          "La syntaxe YAML de la Gateway est invalide"
+          "RollingUpdate",
+          "Canary",
+          "Recreate",
+          "Blue/Green"
         ],
-        answer: 1,
-        exp: "ResolvedRefs vérifie que les ressources cibles (les services backends) existent bien. Si le nom du service est erroné ou inexistant, la résolution échoue et Envoy retourne une erreur 500/503."
+        answer: 2,
+        exp: "La stratégie 'Recreate' termine simultanément tous les pods existants avant d'instancier la nouvelle version, provoquant une interruption de service."
       },
       {
         id: 14,
-        cat: "Syntaxe YAML",
-        q: "Quelles sont les 4 sections obligatoires de premier niveau dans tout manifeste de ressource Kubernetes standard ?",
+        cat: "Deployments (TP1)",
+        q: "Dans la stratégie 'RollingUpdate', que signifie le paramètre 'maxSurge: 2' ?",
         options: [
-          "apiVersion, kind, metadata, spec",
-          "name, version, containers, network",
-          "header, body, config, status",
-          "protocol, selector, template, endpoints"
+          "Qu'au maximum 2 pods peuvent être indisponibles pendant la mise à jour",
+          "Que 2 pods au-dessus du nombre de réplicas souhaité peuvent être créés pendant la mise à jour",
+          "Que la mise à jour échoue au bout de 2 minutes",
+          "Que le déploiement sera testé par 2 utilisateurs externes"
         ],
-        answer: 0,
-        exp: "Tout fichier de configuration déclaratif standard Kubernetes comporte au premier niveau : apiVersion, kind, metadata et spec."
+        answer: 1,
+        exp: "maxSurge définit le nombre maximal de pods autorisés au-delà de la consigne nominale (ex. consigne à 3 + maxSurge 2 = pic temporaire à 5 pods possibles)."
       },
       {
         id: 15,
-        cat: "Commandes de TP",
-        q: "Quelle commande kubectl permet de revenir à la révision 2 d'un déploiement nommé 'dep-nginx' ?",
+        cat: "Deployments (TP1)",
+        q: "Lors d'une mise à jour vers une image dont le nom est mal orthographié (ex: 'nginx:1.161'), quel état prennent les nouveaux pods ?",
         options: [
-          "kubectl delete deployment dep-nginx --revision=2",
-          "kubectl rollout undo deployment/dep-nginx --to-revision=2",
-          "kubectl rollback dep-nginx -v 2",
-          "kubectl scale deployment dep-nginx --undo=2"
+          "CrashLoopBackOff",
+          "ImagePullBackOff (ou ErrImagePull)",
+          "Terminating",
+          "Unknown"
         ],
         answer: 1,
-        exp: "La commande de retour arrière officielle est 'kubectl rollout undo deployment/<nom> --to-revision=<numéro>'."
+        exp: "L'image n'existant pas sur le registre, le runtime échoue à la récupérer (ErrImagePull puis ImagePullBackOff avec attente exponentielle)."
+      },
+      {
+        id: 16,
+        cat: "Deployments (TP1)",
+        q: "Face à une mise à jour bloquée par une image erronée, pourquoi l'application des utilisateurs continue-t-elle généralement de fonctionner ?",
+        options: [
+          "Kubernetes télécharge automatiquement la version précédente depuis etcd",
+          "Le Deployment ne détruit les anciens pods qu'au fur et à mesure que les nouveaux passent à l'état Ready (RollingUpdate)",
+          "Le service NodePort met les requêtes en file d'attente indéfiniment",
+          "L'API Server applique automatiquement un rollback au bout de 30 secondes"
+        ],
+        answer: 1,
+        exp: "En RollingUpdate, un ancien pod n'est supprimé que si un nouveau pod a validé son démarrage et son état Ready. L'ancien ReplicaSet reste donc actif."
+      },
+      {
+        id: 17,
+        cat: "Deployments (TP1)",
+        q: "Quelle commande permet d'annuler un déploiement défectueux pour revenir précisément à la révision 2 ?",
+        options: [
+          "kubectl rollback deployment dep-nginx --revision=2 -n ns-llaula",
+          "kubectl rollout undo deployment/dep-nginx --to-revision=2 -n ns-llaula",
+          "kubectl delete rs dep-nginx-revision-2 -n ns-llaula",
+          "kubectl set image deployment/dep-nginx --undo=2 -n ns-llaula"
+        ],
+        answer: 1,
+        exp: "La syntaxe officielle est 'kubectl rollout undo deployment/<nom> --to-revision=<N>'."
+      },
+      {
+        id: 18,
+        cat: "Stratégies Avancées",
+        q: "Quel est le principe d'un déploiement 'Canary' ?",
+        options: [
+          "Déployer deux infrastructures complètes et basculer 100% du trafic d'un coup",
+          "Arrêter le cluster la nuit pour déployer sans utilisateurs",
+          "Acheminer une petite fraction du trafic réel vers la nouvelle version pour évaluer sa stabilité avant déploiement généralisé",
+          "Dupliquer la base de données sur chaque nœud du cluster"
+        ],
+        answer: 2,
+        exp: "Le déploiement Canary teste la nouvelle version sur un échantillon réel d'utilisateurs tout en conservant la majorité sur la version stable."
+      },
+      {
+        id: 19,
+        cat: "Services Réseau (TP2)",
+        q: "Dans la définition d'un Service Kubernetes, à quoi correspond le champ 'targetPort' ?",
+        options: [
+          "Au port exposé sur l'IP publique de chaque worker node",
+          "Au port d'écoute interne virtuel attribué au Service",
+          "Au port d'écoute sur lequel l'application s'exécute dans le conteneur du Pod",
+          "Au port de management de l'API Server"
+        ],
+        answer: 2,
+        exp: "'port' est le port du service, tandis que 'targetPort' est le port réel sur lequel écoute le conteneur dans le Pod."
+      },
+      {
+        id: 20,
+        cat: "Services Réseau (TP2)",
+        q: "Quelle est la plage standard de ports allouée pour les services de type 'NodePort' dans Kubernetes ?",
+        options: [
+          "1024 à 49151",
+          "80 à 8080",
+          "30000 à 32767",
+          "40000 à 45000"
+        ],
+        answer: 2,
+        exp: "Kubernetes réserve nativement la plage 30000-32767 pour l'exposition NodePort sur chaque nœud du cluster."
+      },
+      {
+        id: 21,
+        cat: "Services Réseau (TP2)",
+        q: "Dans l'architecture Guestbook du TP2, quel type de service associe-t-on au déploiement de la base Redis (backend) ?",
+        options: [
+          "NodePort (port 31111)",
+          "LoadBalancer",
+          "ClusterIP",
+          "ExternalName"
+        ],
+        answer: 2,
+        exp: "Redis ne doit jamais être exposé hors du cluster : le type ClusterIP lui fournit une IP interne et un nom DNS joignable uniquement par le frontend."
+      },
+      {
+        id: 22,
+        cat: "Services Réseau (TP2)",
+        q: "Qu'affiche la commande 'kubectl get endpoints <nom-service>' ?",
+        options: [
+          "La liste des routes HTTP configurées dans Envoy",
+          "Les adresses IP et ports réels des pods sains actuellement ciblés par le sélecteur du service",
+          "L'adresse MAC de la carte réseau du nœud Master",
+          "Le certificat SSL du service"
+        ],
+        answer: 1,
+        exp: "L'objet Endpoints associe dynamiquement le Service aux adresses IP directes des pods validés par les labels."
+      },
+      {
+        id: 23,
+        cat: "Services Réseau (TP2)",
+        q: "Pourquoi la commande 'kubectl get nodes -o wide' dans le cluster labs de l'IUT montre-t-elle l'impossibilité d'accéder directement au NodePort depuis Internet ?",
+        options: [
+          "Les nœuds sont éteints",
+          "La colonne EXTERNAL-IP indique '<none>' et les INTERNAL-IP sont des adresses privées non routables",
+          "Le port 80 est saturé par le master",
+          "Le protocole TCP est interdit par l'IUT"
+        ],
+        answer: 1,
+        exp: "Les nœuds du cluster ne disposent pas d'IP publiques externes. Pour tester depuis un navigateur distant, on passe par 'kubectl port-forward' ou par la Gateway partagée."
+      },
+      {
+        id: 24,
+        cat: "Gateway API (TP2)",
+        q: "Dans le modèle de responsabilités Gateway API, qui gère la ressource 'Gateway' (ex: main-gateway dans infra-gateway) ?",
+        options: [
+          "Le développeur de l'application dans son propre namespace",
+          "L'opérateur / administrateur du cluster",
+          "Le projet de standardisation Kubernetes SIG Network",
+          "Le conteneur Redis en tâche de fond"
+        ],
+        answer: 1,
+        exp: "Le modèle sépare les rôles : Fournisseur = GatewayClass, Opérateur de cluster = Gateway, Développeur applicatif = HTTPRoute."
+      },
+      {
+        id: 25,
+        cat: "Gateway API (TP2)",
+        q: "Quelle implémentation logicielle de Gateway API est installée sur le cluster labs de l'IUT et quel proxy réseau fait office de Data Plane ?",
+        options: [
+          "Istio avec HAProxy",
+          "Traefik avec NGINX",
+          "kgateway avec Envoy",
+          "MetalLB avec Apache"
+        ],
+        answer: 2,
+        exp: "Le cluster utilise kgateway (control plane dans kgateway-system) qui configure dynamiquement le proxy Envoy (data plane dans infra-gateway)."
+      },
+      {
+        id: 26,
+        cat: "Gateway API (TP2)",
+        q: "Dans le fichier 'hr-app-guestbook.yaml', pourquoi doit-on obligatoirement spécifier 'namespace: infra-gateway' dans la section 'parentRefs' ?",
+        options: [
+          "Car le proxy Envoy refuse les routes locales",
+          "Parce que la ressource Gateway ciblée ('main-gateway') réside dans un namespace différent de la route",
+          "Pour forcer le trafic en mode HTTP non sécurisé",
+          "C'est une obligation imposée par le format YAML"
+        ],
+        answer: 1,
+        exp: "Si on omet 'namespace: infra-gateway', Kubernetes cherche la passerelle dans le namespace local de l'étudiant (ns-llaula) où elle n'existe pas."
+      },
+      {
+        id: 27,
+        cat: "Gateway API (TP2)",
+        q: "Pourquoi le service frontend Guestbook n'a-t-il plus besoin d'être un 'NodePort' lorsqu'on utilise une HTTPRoute ?",
+        options: [
+          "Parce qu'Envoy ne sait pas communiquer avec les services NodePort",
+          "Parce que le proxy Envoy est déjà dans le réseau du cluster et joint directement le frontend via son service ClusterIP",
+          "Parce que le port 80 est réservé au Master",
+          "Parce que les NodePorts sont incompatibles avec Linux"
+        ],
+        answer: 1,
+        exp: "Envoy reçoit le trafic externe sur la Gateway et achemine la requête en interne vers le ClusterIP du service frontend, rendant le NodePort obsolète."
+      },
+      {
+        id: 28,
+        cat: "Gateway API (TP2)",
+        q: "Vous déclarez une HTTPRoute pointant vers 'name: svc-inexistant'. Dans 'kubectl describe httproute', quel statut observez-vous ?",
+        options: [
+          "Accepted: False et ResolvedRefs: False",
+          "Accepted: True, mais ResolvedRefs: False avec Reason: BackendNotFound",
+          "La route est automatiquement supprimée par kgateway",
+          "Le statut reste vide car l'API Server plante"
+        ],
+        answer: 1,
+        exp: "La syntaxe et l'attachement à la Gateway sont valides (Accepted: True), mais la référence vers le service n'est pas résolue (ResolvedRefs: False, BackendNotFound). Envoy répond 500 ou 503."
+      },
+      {
+        id: 29,
+        cat: "Format YAML",
+        q: "Quelle version d'API ('apiVersion') doit obligatoirement figurer en en-tête d'un fichier déclarant un Deployment Kubernetes standard ?",
+        options: [
+          "apiVersion: v1",
+          "apiVersion: apps/v1",
+          "apiVersion: extensions/v2",
+          "apiVersion: gateway.networking.k8s.io/v1"
+        ],
+        answer: 1,
+        exp: "Les Deployments et ReplicaSets sont sous le groupe 'apps/v1'. Les Pods et Services fondamentaux sont en 'v1'."
+      },
+      {
+        id: 30,
+        cat: "Format YAML",
+        q: "Quelles sont les 4 clés fondamentales de premier niveau obligatoires dans la description d'une ressource Kubernetes (Pod, Deployment, Service) ?",
+        options: [
+          "apiVersion, kind, metadata, spec",
+          "name, type, containers, network",
+          "version, header, config, status",
+          "group, class, selector, template"
+        ],
+        answer: 0,
+        exp: "Tout manifeste déclaratif standard comprend : apiVersion (version d'API), kind (type d'objet), metadata (nom, namespace, labels) et spec (spécification technique)."
       }
     ];
 
     /* =========================================================================
-       ÉTAT DE L'APPLICATION & LOGIQUE ANTI-HASARD
+       2. DRILL DE COMMANDES TP (12 COMMANDES EXACTES À TAPER)
        ========================================================================= */
-    let currentQuestions = [...questionsPool];
-    let currentIndex = 0;
-    let selectedOption = null;
-    let currentConfidence = 'sure';
+    const terminalDrillSteps = [
+      {
+        desc: "1. Charge le script d'environnement 'labs-config.sh' dans ton shell courant :",
+        valid: ["source labs-config.sh", ". labs-config.sh"]
+      },
+      {
+        desc: "2. Donne les droits d'exécution au binaire 'kubectl' :",
+        valid: ["chmod u+x kubectl", "chmod +x kubectl"]
+      },
+      {
+        desc: "3. Affiche les informations sur le Control Plane et le DNS du cluster :",
+        valid: ["kubectl cluster-info"]
+      },
+      {
+        desc: "4. Applique le fichier 'dep-nginx.yaml' dans le namespace 'ns-llaula' :",
+        valid: [
+          "kubectl apply -f dep-nginx.yaml -n ns-llaula",
+          "kubectl apply -n ns-llaula -f dep-nginx.yaml"
+        ]
+      },
+      {
+        desc: "5. Surveille en continu (-w) l'état des pods dans le namespace 'ns-llaula' :",
+        valid: [
+          "kubectl get pods -n ns-llaula -w",
+          "kubectl get pods -w -n ns-llaula"
+        ]
+      },
+      {
+        desc: "6. Affiche la description complète du ReplicaSet 'rs-nginx' dans 'ns-llaula' :",
+        valid: [
+          "kubectl describe rs rs-nginx -n ns-llaula",
+          "kubectl describe replicaset rs-nginx -n ns-llaula"
+        ]
+      },
+      {
+        desc: "7. Fais passer le nombre de réplicas du déploiement 'dep-nginx' à 4 dans 'ns-llaula' :",
+        valid: [
+          "kubectl scale deployment dep-nginx --replicas=4 -n ns-llaula",
+          "kubectl scale deploy dep-nginx --replicas=4 -n ns-llaula",
+          "kubectl scale deployment/dep-nginx --replicas=4 -n ns-llaula"
+        ]
+      },
+      {
+        desc: "8. Mets à jour l'image du conteneur 'nginx' vers 'nginx:1.16.1' pour le déploiement 'dep-nginx' :",
+        valid: [
+          "kubectl set image deployment/dep-nginx nginx=nginx:1.16.1 -n ns-llaula",
+          "kubectl set image deploy/dep-nginx nginx=nginx:1.16.1 -n ns-llaula",
+          "kubectl set image deployment dep-nginx nginx=nginx:1.16.1 -n ns-llaula"
+        ]
+      },
+      {
+        desc: "9. Effectue un rollback du déploiement 'dep-nginx' vers la révision 2 dans 'ns-llaula' :",
+        valid: [
+          "kubectl rollout undo deployment/dep-nginx --to-revision=2 -n ns-llaula",
+          "kubectl rollout undo deploy/dep-nginx --to-revision=2 -n ns-llaula"
+        ]
+      },
+      {
+        desc: "10. Crée une redirection de port du port local 9999 vers le port 80 du service 'svc-nodeport-dep-app-guestbook' dans 'ns-llaula' :",
+        valid: [
+          "kubectl port-forward svc/svc-nodeport-dep-app-guestbook 9999:80 -n ns-llaula",
+          "kubectl port-forward service/svc-nodeport-dep-app-guestbook 9999:80 -n ns-llaula"
+        ]
+      },
+      {
+        desc: "11. Ouvre un shell interactif ('sh') dans le pod 'dep-redis-mn8tz' du namespace 'ns-llaula' :",
+        valid: [
+          "kubectl exec -it dep-redis-mn8tz -n ns-llaula -- sh",
+          "kubectl exec -it dep-redis-mn8tz -n ns-llaula -- /bin/sh"
+        ]
+      },
+      {
+        desc: "12. Affiche la description détaillée de la route 'hr-app-guestbook' dans 'ns-llaula' :",
+        valid: [
+          "kubectl describe httproute hr-app-guestbook -n ns-llaula"
+        ]
+      }
+    ];
+
+    /* =========================================================================
+       3. LOGIQUE GLOBALE DE L'APPLICATION
+       ========================================================================= */
+    let currentQuizPool = [...masterQuestions];
+    let qIndex = 0;
+    let selectedOpt = null;
+    let confidenceLvl = 'sure';
     let realScore = 0;
-    let weaknessPool = JSON.parse(localStorage.getItem('k8s_weaknesses') || '[]');
+    let weaknessList = JSON.parse(localStorage.getItem('k8s_user_lacunes') || '[]');
 
     function updateBadge() {
-      const badge = document.getElementById('lacunes-count');
-      badge.textContent = weaknessPool.length;
-      document.getElementById('btn-run-lacunes').disabled = weaknessPool.length === 0;
+      const badge = document.getElementById('lacunes-badge');
+      badge.textContent = weaknessList.length;
+      document.getElementById('btn-drill-lacunes').disabled = (weaknessList.length === 0);
     }
 
-    function switchTab(tabId) {
+    function showTab(tabName, btnElem) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
       
-      document.getElementById(`tab-${tabId}`).classList.add('active');
-      event.target.classList.add('active');
-
-      if (tabId === 'lacunes') {
-        renderLacunesList();
+      document.getElementById(`tab-${tabName}`).classList.add('active');
+      if (btnElem) {
+        btnElem.classList.add('active');
+      } else {
+        const navBtns = document.querySelectorAll('.nav-btn');
+        if (tabName === 'quiz') navBtns[2].classList.add('active');
+        if (tabName === 'lacunes') navBtns[3].classList.add('active');
       }
+
+      if (tabName === 'lacunes') renderLacunes();
     }
 
-    function setConfidence(level) {
-      currentConfidence = level;
-      document.querySelectorAll('.conf-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.level === level);
+    /* Gestion QCM */
+    function setConfidence(lvl) {
+      confidenceLvl = lvl;
+      document.querySelectorAll('.conf-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.lvl === lvl);
       });
     }
 
-    function loadQuestion() {
-      const q = currentQuestions[currentIndex];
-      document.getElementById('quiz-progress').textContent = `Question ${currentIndex + 1} / ${currentQuestions.length}`;
+    function renderQuestion() {
+      const q = currentQuizPool[qIndex];
+      document.getElementById('quiz-idx').textContent = `${qIndex + 1} / ${currentQuizPool.length}`;
+      document.getElementById('quiz-pbar').style.width = `${((qIndex) / currentQuizPool.length) * 100}%`;
       document.getElementById('q-category').textContent = q.cat;
       document.getElementById('q-text').textContent = q.q;
 
-      const optsContainer = document.getElementById('q-options');
-      optsContainer.innerHTML = '';
+      const optsBox = document.getElementById('q-options');
+      optsBox.innerHTML = '';
 
-      q.options.forEach((optText, idx) => {
-        const btn = document.createElement('button');
-        btn.className = 'option-btn';
-        btn.textContent = `${['A', 'B', 'C', 'D'][idx]}. ${optText}`;
-        btn.onclick = () => selectOption(idx);
-        optsContainer.appendChild(btn);
+      q.options.forEach((txt, idx) => {
+        const b = document.createElement('button');
+        b.className = 'opt-btn';
+        b.innerHTML = `<strong>${['A', 'B', 'C', 'D'][idx]}.</strong> ${txt}`;
+        b.onclick = () => selectOpt(idx);
+        optsBox.appendChild(b);
       });
 
-      selectedOption = null;
-      document.getElementById('validate-btn').disabled = true;
-      document.getElementById('q-explanation').style.display = 'none';
-      document.getElementById('validate-btn').style.display = 'block';
+      selectedOpt = null;
+      document.getElementById('btn-validate').disabled = true;
+      document.getElementById('btn-validate').style.display = 'block';
+      document.getElementById('q-feedback').style.display = 'none';
       setConfidence('sure');
     }
 
-    function selectOption(index) {
-      selectedOption = index;
-      document.querySelectorAll('.option-btn').forEach((btn, idx) => {
-        btn.classList.toggle('selected', idx === index);
+    function selectOpt(idx) {
+      selectedOpt = idx;
+      document.querySelectorAll('.opt-btn').forEach((b, i) => {
+        b.classList.toggle('active', i === idx);
       });
-      document.getElementById('validate-btn').disabled = false;
+      document.getElementById('btn-validate').disabled = false;
     }
 
-    function validateAnswer() {
-      const q = currentQuestions[currentIndex];
-      const isCorrect = (selectedOption === q.answer);
-      const optButtons = document.querySelectorAll('.option-btn');
+    function checkAnswer() {
+      const q = currentQuizPool[qIndex];
+      const isCorrect = (selectedOpt === q.answer);
+      const buttons = document.querySelectorAll('.opt-btn');
 
-      optButtons[q.answer].classList.add('correct');
+      buttons[q.answer].classList.add('correct');
       if (!isCorrect) {
-        optButtons[selectedOption].classList.add('wrong');
+        buttons[selectedOpt].classList.add('wrong');
       }
+      buttons.forEach(b => b.onclick = null);
 
-      optButtons.forEach(btn => btn.onclick = null);
-
-      // Algorithme de diagnostic : chance vs lacune vs maîtrise
-      const diagBadge = document.getElementById('q-diagnostic');
-      let statusType = '';
-
+      const diag = document.getElementById('q-diag');
       if (!isCorrect) {
-        // Erreur avérée
-        statusType = 'weak';
-        diagBadge.className = 'diagnostic-badge diag-weak';
-        diagBadge.textContent = '❌ Erreur : Notion non comprise';
-        saveWeakness(q, 'Erreur de réponse');
+        diag.className = 'diag-tag tag-trap';
+        diag.textContent = '❌ Erreur de concept';
+        addWeakness(q, 'Erreur de réponse');
       } else {
-        if (currentConfidence === 'luck') {
-          // Bonne réponse mais coup de chance pur !
-          statusType = 'lucky';
-          diagBadge.className = 'diagnostic-badge diag-lucky';
-          diagBadge.textContent = '🎲 Coup de Chance ! Notion à revoir';
-          realScore += 0.25; // Récompense minimale mais pas complète
-          saveWeakness(q, 'Réponse trouvée par élimination ou pur hasard');
-        } else if (currentConfidence === 'hesitant') {
-          statusType = 'hesitant';
-          diagBadge.className = 'diagnostic-badge diag-lucky';
-          diagBadge.textContent = '🟡 Bonne réponse mais hésitation';
-          realScore += 0.75;
-          saveWeakness(q, 'Notion encore fragile (hésitation 50/50)');
+        if (confidenceLvl === 'luck') {
+          diag.className = 'diag-tag tag-tp2';
+          diag.textContent = '🎲 Coup de chance détecté ! (À retravailler)';
+          realScore += 0.2;
+          addWeakness(q, 'Réussi par hasard ou élimination');
+        } else if (confidenceLvl === 'hesitant') {
+          diag.className = 'diag-tag tag-tp1';
+          diag.textContent = '🟡 Bonne réponse mais hésitation (50/50)';
+          realScore += 0.7;
+          addWeakness(q, 'Hésitation lors du choix');
         } else {
-          // Maîtrise parfaite
-          statusType = 'mastered';
-          diagBadge.className = 'diagnostic-badge diag-mastered';
-          diagBadge.textContent = '✅ Parfaitement Maîtrisé !';
+          diag.className = 'diag-tag tag-tp1';
+          diag.textContent = '✅ Validé & Maîtrisé !';
           realScore += 1;
-          removeWeakness(q.id); // Si elle était dans les faiblesses, elle est validée !
+          removeWeakness(q.id);
         }
       }
 
-      document.getElementById('quiz-score').textContent = `${realScore} pts`;
-      document.getElementById('q-exp-text').textContent = q.exp;
-      document.getElementById('q-explanation').style.display = 'block';
-      document.getElementById('validate-btn').style.display = 'none';
-
+      document.getElementById('quiz-score').textContent = `${Math.round(realScore * 10) / 10} pts`;
+      document.getElementById('q-explanation').textContent = q.exp;
+      document.getElementById('q-feedback').style.display = 'block';
+      document.getElementById('btn-validate').style.display = 'none';
       updateBadge();
     }
 
-    function saveWeakness(q, reason) {
-      if (!weaknessPool.some(item => item.id === q.id)) {
-        weaknessPool.push({ ...q, reason: reason });
-        localStorage.setItem('k8s_weaknesses', JSON.stringify(weaknessPool));
+    function nextQuestion() {
+      qIndex++;
+      if (qIndex < currentQuizPool.length) {
+        renderQuestion();
+      } else {
+        document.getElementById('quiz-card').style.display = 'none';
+        document.getElementById('quiz-summary').style.display = 'block';
+        document.getElementById('quiz-pbar').style.width = '100%';
+        document.getElementById('quiz-final-stats').innerHTML = `
+          Score final réel : <strong>${Math.round(realScore * 10) / 10} / ${currentQuizPool.length} pts</strong><br>
+          Points à consolider : <strong>${weaknessList.length}</strong>
+        `;
+      }
+    }
+
+    function resetQuiz(onlyLacunes = false) {
+      currentQuizPool = onlyLacunes ? [...weaknessList] : [...masterQuestions];
+      qIndex = 0;
+      realScore = 0;
+      document.getElementById('quiz-score').textContent = '0 pts';
+      document.getElementById('quiz-card').style.display = 'block';
+      document.getElementById('quiz-summary').style.display = 'none';
+      renderQuestion();
+    }
+
+    function startLacunesDrill() {
+      if (weaknessList.length === 0) return;
+      resetQuiz(true);
+      showTab('quiz', null);
+    }
+
+    function addWeakness(q, reason) {
+      if (!weaknessList.some(item => item.id === q.id)) {
+        weaknessList.push({ ...q, reason });
+        localStorage.setItem('k8s_user_lacunes', JSON.stringify(weaknessList));
       }
     }
 
     function removeWeakness(id) {
-      weaknessPool = weaknessPool.filter(item => item.id !== id);
-      localStorage.setItem('k8s_weaknesses', JSON.stringify(weaknessPool));
+      weaknessList = weaknessList.filter(item => item.id !== id);
+      localStorage.setItem('k8s_user_lacunes', JSON.stringify(weaknessList));
     }
 
-    function nextQuestion() {
-      currentIndex++;
-      if (currentIndex < currentQuestions.length) {
-        loadQuestion();
-      } else {
-        showQuizEnd();
-      }
-    }
-
-    function showQuizEnd() {
-      document.getElementById('quiz-box').style.display = 'none';
-      const endBox = document.getElementById('quiz-end');
-      endBox.style.display = 'block';
-
-      const total = currentQuestions.length;
-      document.getElementById('quiz-end-summary').innerHTML = `
-        Score obtenu : <strong>${realScore} / ${total} points</strong>.<br>
-        Questions nécessitant consolidation : <strong>${weaknessPool.length}</strong>.
-      `;
-    }
-
-    function restartQuiz(onlyWeaknesses = false) {
-      if (onlyWeaknesses) {
-        currentQuestions = [...weaknessPool];
-      } else {
-        currentQuestions = [...questionsPool];
-      }
-      currentIndex = 0;
-      realScore = 0;
-      document.getElementById('quiz-score').textContent = '0 pts';
-      document.getElementById('quiz-box').style.display = 'block';
-      document.getElementById('quiz-end').style.display = 'none';
-      loadQuestion();
-    }
-
-    function startWeaknessQuiz() {
-      if (weaknessPool.length === 0) return;
-      restartQuiz(true);
-      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.nav-btn')[2].classList.add('active'); // active QCM
-      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-      document.getElementById('tab-quiz').classList.add('active');
-    }
-
-    function renderLacunesList() {
-      const container = document.getElementById('lacunes-list');
+    function renderLacunes() {
+      const container = document.getElementById('lacunes-deck');
       container.innerHTML = '';
 
-      if (weaknessPool.length === 0) {
+      if (weaknessList.length === 0) {
         container.innerHTML = `
-          <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
-            <h3 style="color: var(--success); margin-bottom: 8px;">🎉 Aucune faiblesse enregistrée !</h3>
-            <p style="color: var(--text-muted); font-size: 0.9rem;">
-              Toutes les questions passées ont été réussies avec une certitude absolue.
-            </p>
+          <div class="card" style="grid-column: 1/-1; text-align: center; padding: 40px;">
+            <h3 style="color: var(--success); margin-bottom: 6px;">🎉 Aucune lacune active !</h3>
+            <p style="color: var(--text-muted); font-size: 0.85rem;">Toutes les questions passées ont été validées avec l'option "🟢 Sûr".</p>
           </div>
         `;
         return;
       }
 
-      weaknessPool.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <div class="card-title">
-            <span>${item.cat}</span>
-            <span class="tag tag-must">À consolider</span>
+      weaknessList.forEach(item => {
+        const c = document.createElement('div');
+        c.className = 'card';
+        c.innerHTML = `
+          <div class="card-header">
+            <span class="card-title">${item.cat}</span>
+            <span class="tag tag-trap">À réviser</span>
           </div>
-          <p style="font-weight: 700; margin-bottom: 8px; font-size: 0.95rem;">${item.q}</p>
-          <div style="background: rgba(15, 23, 42, 0.6); padding: 10px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 10px;">
-            <strong>Diagnostic :</strong> ${item.reason}
+          <p style="font-weight: 700; margin-bottom: 8px; font-size: 0.9rem;">${item.q}</p>
+          <div style="background: rgba(5,8,15,0.7); padding: 8px; border-radius: 6px; font-size: 0.8rem; margin-bottom: 8px;">
+            <strong>Cause :</strong> ${item.reason}
           </div>
-          <p style="font-size: 0.85rem; color: #38bdf8;">💡 <em>${item.exp}</em></p>
+          <p style="font-size: 0.8rem; color: var(--primary);">💡 ${item.exp}</p>
         `;
-        container.appendChild(card);
+        container.appendChild(c);
       });
     }
 
-    /* =========================================================================
-       TERMINAL D'ENTRAÎNEMENT INTERACTIF (Saisie simple pour automatismes)
-       ========================================================================= */
-    const simSteps = [
-      {
-        prompt: "Exercice 1/3 : Charge le script de config d'environnement dans le shell courant",
-        expected: ["source labs-config.sh", ". labs-config.sh"],
-        tip: "Indispensable au début de chaque session."
-      },
-      {
-        prompt: "Exercice 2/3 : Applique le fichier 'dep-nginx.yaml' dans le namespace 'ns-llaula'",
-        expected: [
-          "kubectl apply -f dep-nginx.yaml -n ns-llaula",
-          "kubectl apply -n ns-llaula -f dep-nginx.yaml"
-        ],
-        tip: "Règle principale 1 : toujours cibler ton namespace."
-      },
-      {
-        prompt: "Exercice 3/3 : Fais passer le déploiement 'dep-nginx' à 4 réplicas dans 'ns-llaula'",
-        expected: [
-          "kubectl scale deployment dep-nginx --replicas=4 -n ns-llaula",
-          "kubectl scale deploy dep-nginx --replicas=4 -n ns-llaula",
-          "kubectl scale deployment/dep-nginx --replicas=4 -n ns-llaula"
-        ],
-        tip: "Utilise la sous-commande 'scale' avec le flag '--replicas'."
+    /* Terminal Simulator Engine */
+    let termIndex = 0;
+    const termInput = document.getElementById('terminal-cli');
+    const termInstruction = document.getElementById('term-instruction');
+    const termFeedback = document.getElementById('term-feedback');
+    const termCounter = document.getElementById('term-counter');
+
+    function loadTermStep() {
+      const step = terminalDrillSteps[termIndex];
+      termCounter.textContent = `Épreuve ${termIndex + 1} / ${terminalDrillSteps.length}`;
+      termInstruction.textContent = step.desc;
+      termFeedback.textContent = '';
+      termInput.value = '';
+      termInput.disabled = false;
+      termInput.focus();
+    }
+
+    function skipTerminalStep() {
+      termIndex++;
+      if (termIndex < terminalDrillSteps.length) {
+        loadTermStep();
+      } else {
+        termInstruction.textContent = "🏆 Drill terminé avec succès ! Tu as la syntaxe en main.";
+        termInput.disabled = true;
       }
-    ];
+    }
 
-    let currentSimStep = 0;
-    const simInput = document.getElementById('sim-input');
-    const simPrompt = document.getElementById('sim-prompt');
-    const simFeedback = document.getElementById('sim-feedback');
-
-    simInput.addEventListener('keydown', function(e) {
+    termInput.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') {
-        const val = this.value.trim();
-        const step = simSteps[currentSimStep];
+        const val = this.value.trim().replace(/\s+/g, ' ');
+        const step = terminalDrillSteps[termIndex];
 
-        if (step.expected.includes(val)) {
-          simFeedback.style.color = '#34d399';
-          simFeedback.textContent = "✔ Correct ! Commande exacte.";
-          this.value = '';
-          currentSimStep++;
-          if (currentSimStep < simSteps.length) {
-            setTimeout(() => {
-              simPrompt.textContent = simSteps[currentSimStep].prompt;
-              simFeedback.textContent = '';
-            }, 1000);
-          } else {
-            setTimeout(() => {
-              simPrompt.textContent = "🏆 Bravo ! Tous les réflexes de commande sont acquis.";
-              simFeedback.textContent = '';
-              simInput.disabled = true;
-            }, 1000);
-          }
+        if (step.valid.some(cmd => cmd === val)) {
+          termFeedback.style.color = '#34d399';
+          termFeedback.textContent = "✔ Commande exacte !";
+          setTimeout(() => {
+            termIndex++;
+            if (termIndex < terminalDrillSteps.length) {
+              loadTermStep();
+            } else {
+              termInstruction.textContent = "🏆 Drill terminé avec succès ! Tu as la syntaxe en main.";
+              termFeedback.textContent = "";
+              termInput.disabled = true;
+            }
+          }, 800);
         } else {
-          simFeedback.style.color = '#f87171';
-          simFeedback.textContent = `✖ Incorrect. Indice : ${step.tip}`;
+          termFeedback.style.color = '#f87171';
+          termFeedback.textContent = "✖ Erreur de syntaxe. Vérifie les espaces, le namespace ou les drapeaux (-n ns-llaula).";
         }
       }
     });
 
-    // Démarrage initial
+    // Initialisation
     updateBadge();
-    loadQuestion();
+    renderQuestion();
+    loadTermStep();
   </script>
 </body>
 </html>
